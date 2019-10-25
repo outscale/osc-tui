@@ -4,6 +4,13 @@ import threading
 import time
 import main
 
+def add_vm_browser(form, on_selection):
+    y, x = form.useable_space()
+    return form.add(VmGrid, name = 'Instances',value = 0,
+            additional_y_offset = 2, additional_x_offset = 2,# name = 'Instances',
+            max_height=int(y/2-2), column_width = 15, select_whole_line = True,
+            on_selection = on_selection, scroll_exit=True)
+
 class VmGrid(SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
@@ -11,8 +18,8 @@ class VmGrid(SelectableGrid):
         self.vms = self.next_vms
         self.col_titles, self.values = self.summarise()
         t = updater(self)
-        main.add_thread(t)
-        t.start()
+        #main.add_thread(t)
+        #t.start()
     def refresh(self):
         self.refreshing = True
         data = main.GATEWAY.ReadVms()["Vms"]

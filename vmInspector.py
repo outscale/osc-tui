@@ -4,7 +4,7 @@ inspector = None
 import sys
 import main
 
-def add_inspector(form):
+def add_vm_inspector(form):
     y, x = form.useable_space()
     a = form.add_widget(Textfield, rely = int(y/2+1), value="No instance selected",
             editable = False)
@@ -12,11 +12,11 @@ def add_inspector(form):
     restart = form.add_widget(ButtonPress, name="RESTART")
     force_stop = form.add_widget(ButtonPress, name="FORCE STOP")
     cp_ip = form.add_widget(ButtonPress, name="COPY IP")
-    exit = form.add_widget(ButtonPress, name="EXIT")
+    quit = form.add_widget(ButtonPress, name="EXIT")
     def stop():
         main.kill_threads()
         main.APP.switchForm('MAIN')
-    exit.whenPressed = stop
+    quit.whenPressed = stop
     i = Inspector(a, run_stop, restart, force_stop,cp_ip)
     return i
 

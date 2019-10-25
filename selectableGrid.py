@@ -8,7 +8,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         super().__init__(screen, *args, **keywords)
         self.scroll_exit=True
         self.on_selection = on_selection
-        self.selected_row = -1
+        self.selected_row = 0
         self.t1 = int(round(time.time() * 1000))
         self.t2 = int(round(time.time() * 1000))
         self.time_without_refreshing = 0

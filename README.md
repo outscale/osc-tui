@@ -1,1 +1,3 @@
 # osc-cli-curses
+
+Designed to be a POC of a Cockpit inside the terminal (with less features: onle every-days ones such as boot, reboot...). Currently not compatible with python 3.7 because of the lib npyscreen used. The code is currently a bit dirty... Maybe big changes are coming! Feel free to suggest oher architectures, libs...

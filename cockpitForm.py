@@ -1,9 +1,6 @@
+import vmGrid
 import npyscreen
-from osc_sdk_python import Gateway
-from virtualMachine import *
-import random
-import vmLoader
-from vmInspector import *
+import vmInspector
 
 class CockpitForm(npyscreen.SplitForm):
     def __init__(self, *args, **keywords):
@@ -14,5 +11,6 @@ class CockpitForm(npyscreen.SplitForm):
         a = None
         def on_selection(line):
             a.set_value(line)
-        vmLoader.add_browser(self, on_selection)
-        a = add_inspector(self)
+        vmGrid.add_vm_browser(self, on_selection)
+        a = vmInspector.add_vm_inspector(self)
+        
