@@ -30,3 +30,6 @@ class SelectableGrid(npyscreen.GridColTitles):
                 cell.highlight_whole_widget = True
             else:
                 cell.color = 'DEFAULT'
+
+    def on_selection():
+        pass
