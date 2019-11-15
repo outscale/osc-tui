@@ -4,6 +4,7 @@ import json
 
 gw = Gateway()
 
+
 def getVms():
     vms = list()
     for vm in gw.ReadVms()["Vms"]:
@@ -12,6 +13,7 @@ def getVms():
        # for t in tags:
         vms.append(tags[0]['Value'])
     return vms
+
 
 screen = curses.initscr()
 curses.cbreak()
@@ -33,5 +35,5 @@ while chr(c) != 'q':
     c = my_window.getch()
 
 curses.endwin()
-#print(c)
+# print(c)
 print(getVms())

@@ -2,11 +2,12 @@ import npyscreen
 import time
 import threading
 
+
 class SelectableGrid(npyscreen.GridColTitles):
 
-    def __init__(self, screen, on_selection = None, *args, **keywords):
+    def __init__(self, screen, on_selection=None, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.scroll_exit=True
+        self.scroll_exit = True
         self.on_selection = on_selection
         self.selected_row = 0
         self.t1 = int(round(time.time() * 1000))
@@ -15,9 +16,9 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     def set_up_handlers(self):
         super().set_up_handlers()
-        self.add_handlers({10 : self.select})
+        self.add_handlers({10: self.select})
 
-    def select(self, inpt = None):
+    def select(self, inpt=None):
         self.selected_row = self.edit_cell[0]
         if self.on_selection != None:
             self.on_selection(self.values[self.selected_row])

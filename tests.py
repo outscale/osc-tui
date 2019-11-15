@@ -18,8 +18,8 @@ OcnWindow(num_cols, 5, 0, 0, "1245", True)
 c = o.getch()
 while chr(c) != 'q':
     c = o.getch()
-#screen.refresh()
+# screen.refresh()
 
 
 curses.endwin()
-#print(c)
+# print(c)

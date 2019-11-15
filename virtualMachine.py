@@ -22,6 +22,7 @@ class VirtualMachine():
         self.summary.append(self.priv_ip)
         self.summary.append(self.az)
         return self.summary
+
     def __str__(self):
         s = ''
         self.summarise()
@@ -29,6 +30,6 @@ class VirtualMachine():
             s += str(att) + ' '
         return s
 
+
 def summary_titles():
     return 'Status Name ID Type Keypair IP(Public) IP(Private) AZ'.split()
-
