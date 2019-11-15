@@ -48,7 +48,16 @@ class SelectableGrid(npyscreen.GridColTitles):
                 cell.color = 'LABELBOLD'
                 cell.highlight_whole_widget = True
             else:
-                cell.color = 'DEFAULT'
+                status = self.values[y][0]
+                cell.highlight_whole_widget = True
+                if status == 'running':
+                    cell.color = 'GOODHL'
+                elif status == 'pending':
+                    cell.color = 'RED_BLACK'
+                elif status == 'stopping':
+                    cell.color = 'RED_BLACK'
+                elif status == 'stopped':
+                    cell.color = 'CURSOR'
 
     def on_selection():
         pass
