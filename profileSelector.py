@@ -24,6 +24,8 @@ class ProfileSelector(npyscreen.ActionFormV2):
         configFile = open(home + '/.oapi_credentials')
         config = json.loads(configFile.read())
         configFile.close()
+        self.add_widget(npyscreen.Textfield, value="Please select a cockpit profile:",
+                        editable=False)
         btns = list()
         for c in config:
             bt = self.add_widget(npyscreen.ButtonPress, name=str(c))
