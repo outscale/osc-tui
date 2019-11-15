@@ -1,25 +1,46 @@
+from cockpitForm import CockpitForm
 import json
 import npyscreen
 from pathlib import Path
 from osc_sdk_python import Gateway
 import main
 home = str(Path.home())
-from cockpitForm import CockpitForm
-class ProfileSelector(npyscreen.ActionPopup):
+
+
+class CallbackFactory():
+    def __init__(self, form, name):
+        self.form = form
+        self.name = name
+
+    def __call__(self):
+        main.GATEWAY = Gateway(**{'profile': self.name})
+        self.form.parentApp.addForm(
+            "Cockpit", CockpitForm, name="osc-cli-curses")
+        self.form.parentApp.switchForm('Cockpit')
+
+
+class ProfileSelector(npyscreen.ActionFormV2):
     def create(self):
         configFile = open(home + '/.oapi_credentials')
         config = json.loads(configFile.read())
         configFile.close()
-        choices = list()
+        btns = list()
         for c in config:
-            choices.append(str(c))
-        self.picker = self.add(npyscreen.TitleSelectOne, center = True, max_height=4, value = [0,], name="Select a cockpit profile:",
-        values = choices, scroll_exit=True)
-    def on_ok(self):
-        profile = self.picker.get_selected_objects()[0]
-        main.GATEWAY = Gateway(**{'profile': profile})
-        self.parentApp.addForm("Cockpit", CockpitForm, name="osc-cli-curses")
-        self.parentApp.switchForm('Cockpit')
+            bt = self.add_widget(npyscreen.ButtonPress, name=str(c))
+            btns.append(bt)
+        for bt in btns:
+            bt.whenPressed = CallbackFactory(self, bt.name)
+
+    def create_control_buttons(self):
+        self._add_button('cancel_button',
+                         self.__class__.CANCELBUTTON_TYPE,
+                         'Exit',
+                         0 - self.__class__.CANCEL_BUTTON_BR_OFFSET[0],
+                         0 -
+                         self.__class__.CANCEL_BUTTON_BR_OFFSET[1] - len(
+                             self.__class__.CANCEL_BUTTON_TEXT),
+                         None
+                         )
 
     def on_cancel(self):
         main.exit()
