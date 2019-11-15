@@ -1,8 +1,9 @@
 import vmGrid
 import npyscreen
 import vmInspector
+import curses
 
-class CockpitForm(npyscreen.SplitForm):
+class CockpitForm(npyscreen. FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
     def create(self):
@@ -13,4 +14,8 @@ class CockpitForm(npyscreen.SplitForm):
             a.set_value(line)
         vmGrid.add_vm_browser(self, on_selection)
         a = vmInspector.add_vm_inspector(self)
+    def draw_form(self,):
+        MAXY, MAXX = self.curses_pad.getmaxyx()
+        super(CockpitForm, self).draw_form()
+        self.curses_pad.hline(self.draw_line_at, 1, curses.ACS_HLINE, MAXX-2)
         
