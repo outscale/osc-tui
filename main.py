@@ -7,7 +7,7 @@ from profileSelector import *
 #GLOBALS ATTRIBUTES
 RUNNING = True
 APP = None
-GATEWAY = False
+GATEWAY = None
 THREADS = list()
 
 #GLOBALS METHODS

@@ -18,29 +18,30 @@ class VmGrid(SelectableGrid):
         self.vms = self.next_vms
         self.col_titles, self.values = self.summarise()
         t = updater(self)
-        #main.add_thread(t)
-        #t.start()
+        main.add_thread(t)
+        t.start()
     def refresh(self):
-        self.refreshing = True
-        data = main.GATEWAY.ReadVms()["Vms"]
-        self.next_vms = list()
-        for vm in data:
-            _vm = VirtualMachine(vm)
-            if _vm.status == 'running':
-                self.next_vms.append(_vm)
-        for vm in data:
-            _vm = VirtualMachine(vm)
-            if _vm.status == 'pending':
-                self.next_vms.append(_vm)
-        for vm in data:
-            _vm = VirtualMachine(vm)
-            if _vm.status== 'stopping':
-                self.next_vms.append(_vm)
-        for vm in data:
-            _vm = VirtualMachine(vm)
-            if _vm.status== 'stopped':
-                self.next_vms.append(_vm)
-        self.refreshing = False
+        if main.GATEWAY:
+            self.refreshing = True
+            data = main.GATEWAY.ReadVms()["Vms"]
+            self.next_vms = list()
+            for vm in data:
+                _vm = VirtualMachine(vm)
+                if _vm.status == 'running':
+                    self.next_vms.append(_vm)
+            for vm in data:
+                _vm = VirtualMachine(vm)
+                if _vm.status == 'pending':
+                    self.next_vms.append(_vm)
+            for vm in data:
+                _vm = VirtualMachine(vm)
+                if _vm.status== 'stopping':
+                    self.next_vms.append(_vm)
+            for vm in data:
+                _vm = VirtualMachine(vm)
+                if _vm.status== 'stopped':
+                    self.next_vms.append(_vm)
+            self.refreshing = False
     def summarise(self):
         summary = list()
         for vm in self.vms:
