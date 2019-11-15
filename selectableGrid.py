@@ -34,6 +34,7 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     def h_exit_mouse(self, _input):
         super().h_exit_mouse(_input)
+        #Allow mouse selection.
         self.select(_input)
 
     def select(self, inpt=None):
@@ -44,6 +45,7 @@ class SelectableGrid(npyscreen.GridColTitles):
     def custom_print_cell(self, cell, cell_value):
         if not isinstance(cell.grid_current_value_index, int):
             y, x = cell.grid_current_value_index
+            #If the cell is in the selected row:
             if y == self.selected_row:
                 cell.color = 'LABELBOLD'
                 cell.highlight_whole_widget = True

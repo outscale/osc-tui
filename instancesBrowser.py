@@ -10,7 +10,6 @@ def getVms():
     for vm in gw.ReadVms()["Vms"]:
         tags = vm['Tags']
         print(tags)
-       # for t in tags:
         vms.append(tags[0]['Value'])
     return vms
 
@@ -22,7 +21,6 @@ screen.border()
 num_rows, num_cols = screen.getmaxyx()
 curses.noecho()
 
-#screen.addstr(0, 0, "This string gets printed at position (0, 0)")
 screen.addstr(num_rows-2, 0, "Press [q] to exit.", curses.A_STANDOUT)
 screen.refresh()
 my_window = curses.newwin(num_rows - 10, num_cols, 5, 0)
