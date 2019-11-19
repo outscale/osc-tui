@@ -1,5 +1,7 @@
-import json
+#!/usr/bin/python3.6
+# import json
 import os
+import json
 from pathlib import Path
 import npyscreen
 from osc_sdk_python import Gateway
