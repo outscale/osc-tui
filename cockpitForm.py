@@ -11,7 +11,7 @@ class CockpitForm(npyscreen. FormBaseNew):
         super().__init__(*args, **keywords)
 
     def create(self):
-        y, x = self.useable_space()
+        y, _ = self.useable_space()
         self.draw_line_at = int(y/2)
         a = None
 
@@ -21,6 +21,6 @@ class CockpitForm(npyscreen. FormBaseNew):
         a = vmInspector.add_vm_inspector(self)
 
     def draw_form(self,):
-        MAXY, MAXX = self.curses_pad.getmaxyx()
+        _, MAXX = self.curses_pad.getmaxyx()
         super(CockpitForm, self).draw_form()
         self.curses_pad.hline(self.draw_line_at, 1, curses.ACS_HLINE, MAXX-2)
