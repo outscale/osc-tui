@@ -1,10 +1,11 @@
-from cockpitForm import CockpitForm
 import json
-import npyscreen
+import os
 from pathlib import Path
+import npyscreen
 from osc_sdk_python import Gateway
 import main
-import os
+from cockpitForm import CockpitForm
+
 home = str(Path.home())
 
 
@@ -35,7 +36,7 @@ class ProfileSelector(npyscreen.ActionFormV2):
                 bt.whenPressed = CallbackFactory(self, str(c))
         else:
             self.add_widget(npyscreen.Textfield, value="Error, no file ~/.oapi_credentials found...",
-            editable=False)
+                            editable=False)
 
     def create_control_buttons(self):
         self._add_button('cancel_button',
