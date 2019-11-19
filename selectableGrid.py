@@ -45,21 +45,16 @@ class SelectableGrid(npyscreen.GridColTitles):
     def custom_print_cell(self, cell, cell_value):
         if not isinstance(cell.grid_current_value_index, int):
             y, x = cell.grid_current_value_index
-            #If the cell is in the selected row:
-            if y == self.selected_row:
-                cell.color = 'LABELBOLD'
-                cell.highlight_whole_widget = True
-            else:
-                status = self.values[y][0]
-                cell.highlight_whole_widget = True
-                if status == 'running':
-                    cell.color = 'GOODHL'
-                elif status == 'pending':
-                    cell.color = 'RED_BLACK'
-                elif status == 'stopping':
-                    cell.color = 'RED_BLACK'
-                elif status == 'stopped':
-                    cell.color = 'CURSOR'
+            status = self.values[y][0]
+            cell.highlight_whole_widget = True
+            if status == 'running':
+                cell.color = 'GOODHL'
+            elif status == 'pending':
+                cell.color = 'RED_BLACK'
+            elif status == 'stopping':
+                cell.color = 'RED_BLACK'
+            elif status == 'stopped':
+                cell.color = 'CURSOR'
 
     def on_selection():
         pass
