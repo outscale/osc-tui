@@ -1,10 +1,12 @@
 #!/usr/bin/python3.6
 # import json
-import os
 import json
+import os
 from pathlib import Path
+
 import npyscreen
 from osc_sdk_python import Gateway
+
 import main
 from cockpitForm import CockpitForm
 

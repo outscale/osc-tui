@@ -1,6 +1,7 @@
-import npyscreen
-import time
 import threading
+import time
+
+import npyscreen
 
 
 class SelectableGrid(npyscreen.GridColTitles):
@@ -18,7 +19,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         super().set_up_handlers()
         self.add_handlers({10: self.exit_enter})
 
-    #Each time we change the selected line, we select the new one.
+    # Each time we change the selected line, we select the new one.
     def h_move_line_down(self, inpt):
         super().h_move_line_down(inpt)
         self.select(inpt)
@@ -29,12 +30,12 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     def exit_enter(self, input):
         self.select(input)
-        #On Enter, we also exit the widget.
+        # On Enter, we also exit the widget.
         self.h_exit(input)
 
     def h_exit_mouse(self, _input):
         super().h_exit_mouse(_input)
-        #Allow mouse selection.
+        # Allow mouse selection.
         self.select(_input)
 
     def select(self, inpt=None):

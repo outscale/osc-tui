@@ -1,7 +1,9 @@
-import vmGrid
-import npyscreen
-import vmInspector
 import curses
+
+import npyscreen
+
+import vmGrid
+import vmInspector
 
 
 class CockpitForm(npyscreen. FormBaseNew):
