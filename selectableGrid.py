@@ -55,6 +55,3 @@ class SelectableGrid(npyscreen.GridColTitles):
                 cell.color = 'RED_BLACK'
             elif status == 'stopped':
                 cell.color = 'CURSOR'
-
-    def on_selection():
-        pass
