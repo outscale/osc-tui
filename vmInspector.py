@@ -20,7 +20,7 @@ def add_vm_inspector(form):
 
     def stop():
         main.kill_threads()
-        main.APP.switchForm('MAIN')
+        form.parentApp.switchForm('MAIN')
     quit.whenPressed = stop
     i = Inspector(a, run_stop, restart, force_stop, cp_ip)
     return i
