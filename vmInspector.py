@@ -4,6 +4,7 @@ import npyscreen
 import pyperclip
 
 import main
+import securityForm
 
 inspector = None
 
@@ -16,26 +17,30 @@ def add_vm_inspector(form):
     restart = form.add_widget(npyscreen.ButtonPress, name="RESTART")
     force_stop = form.add_widget(npyscreen.ButtonPress, name="FORCE STOP")
     cp_ip = form.add_widget(npyscreen.ButtonPress, name="COPY IP")
+    sg = form.add_widget(npyscreen.ButtonPress, name="SECURITY")
     quit = form.add_widget(npyscreen.ButtonPress, name="EXIT")
 
     def stop():
         main.kill_threads()
         form.parentApp.switchForm('MAIN')
     quit.whenPressed = stop
-    i = Inspector(a, run_stop, restart, force_stop, cp_ip)
+    i = Inspector(form, a, run_stop, restart, force_stop, cp_ip, sg)
     return i
 
 
 class Inspector():
-    def __init__(self, name_label, run_stop, restart,
-                 force_stop, cp_ip):
+    def __init__(self, form, name_label, run_stop, restart,
+                 force_stop, cp_ip, sg):
+        self.form = form
         self.copy_ip = cp_ip
         self.name_label = name_label
         self.run_stop = run_stop
         self.force_stop = force_stop
         self.restart = restart
+        self.sg = sg
 
     def set_value(self, vm):
+        main.VM = main.VMs[vm[2]]
         self.vm = vm
         self.name = vm[1]
         self.name_label.value = 'Instance selected: ' + self.name
@@ -58,10 +63,17 @@ class Inspector():
 
         def restart_vm():
             main.GATEWAY.RebootVms(VmIds=[vm[2]])
+
+        def security():
+            main.kill_threads()
+            self.form.parentApp.addForm("Security", securityForm.SecurityForm, name="osc-cli-curses")
+            self.form.parentApp.switchForm('Security')
         self.copy_ip.whenPressed = copy_ip
         self.run_stop.whenPressed = start_vm if vm[0] == 'stopped' else stop_vm
         self.force_stop.whenPressed = force_stop_vm
         self.restart.whenPressed = restart_vm
+        self.sg.whenPressed = security
+
         #self.restart.whenPressed = restart_vm
 
 

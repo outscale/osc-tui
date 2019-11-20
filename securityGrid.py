@@ -6,30 +6,37 @@ from selectableGrid import SelectableGrid
 from virtualMachine import *
 
 
-def add_vm_browser(form, on_selection):
+def add_security_grid(form, on_selection):
     y, _ = form.useable_space()
-    return form.add(VmGrid, name='Instances', value=0,
+    return form.add(SecurityGrid, name='Security', value=0,
                     additional_y_offset=2, additional_x_offset=2,  # name = 'Instances',
-                    max_height=int(y/2-2), column_width=17, select_whole_line=True,
+                    max_height=int(y/2-2), column_width=25, select_whole_line=True,
                     on_selection=on_selection, scroll_exit=True)
 
 
-class VmGrid(SelectableGrid):
+class SecurityGrid(SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
         self.vms = self.next_vms
-        self.col_titles, self.values = self.summarise()
-        t = updater(self)
-        main.add_thread(t)
-        t.start()
+        self.col_titles = ['SECURITY GROUPS ID', 'SECURITY GROUPS NAME']
+        def build_values():
+            groups = main.VM['SecurityGroups']
+            values = list()
+            for g in groups:
+                values.append([g['SecurityGroupId'],  g['SecurityGroupName']])
+            return values
+        self.values = build_values()
+        #self.values = [main.VM['SecurityGroups']['SecurityGroupId'], main.VM['SecurityGroups']['SecurityGroupName']]
+        #t = updater(self)
+        #main.add_thread(t)
+        #t.start()
 
     def refresh(self):
         if main.GATEWAY:
             self.refreshing = True
             data = main.GATEWAY.ReadVms()["Vms"]
             self.next_vms = list()
-            main.VMs = dict()
             for vm in data:
                 _vm = VirtualMachine(vm)
                 if _vm.status == 'running':
@@ -46,8 +53,6 @@ class VmGrid(SelectableGrid):
                 _vm = VirtualMachine(vm)
                 if _vm.status == 'stopped':
                     self.next_vms.append(_vm)
-            for vm in data:
-                main.VMs.update({vm['VmId'] : vm})
             self.refreshing = False
 
     def summarise(self):
@@ -57,7 +62,8 @@ class VmGrid(SelectableGrid):
         return summary_titles(), summary
 
     def updateContent(self, *args, **keywords):
-        self.col_titles, self.values = self.summarise()
+        self.col_titles = ['SECURITY GROUPS']
+        self.values = [main.VM['SecurityGroups']]
 
 
 class updater(threading.Thread):

@@ -3,9 +3,14 @@ import json
 if __name__ == '__main__':
     gw = Gateway()
 
-    print("your virtual machines:")
     #for vm in gw.ReadVms():
-    print(json.dumps(gw.ReadVms()))
+    #print(json.dumps(gw.ReadVms()['Vms'][0]["SecurityGroups"]))
+    vms = ((gw.ReadVms()['Vms']))
+    VMs = dict()
+    for vm in vms:
+        VMs.update({vm['VmId'] : vm})
+    print  (VMs)
+    #print(json.dumps(gw.ReadSecurityGroups()))
 
     #print("\nyour volumes:")
     #for volume in gw.ReadVolumes()["Volumes"]:

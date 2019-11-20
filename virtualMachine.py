@@ -10,6 +10,7 @@ class VirtualMachine():
             self.ext_ip = vm_dict['PublicIp']
         self.key_pair = vm_dict['KeypairName']
         self.az = vm_dict['Placement']['SubregionName']
+        self.security_group = vm_dict['SecurityGroups']
 
     def summarise(self):
         self.summary = list()

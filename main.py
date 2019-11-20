@@ -10,6 +10,8 @@ import profileSelector
 APP = None
 GATEWAY = None
 THREADS = list()
+VM = None
+VMs = None
 
 # GLOBALS METHODS
 
