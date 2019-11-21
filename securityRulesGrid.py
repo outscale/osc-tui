@@ -22,10 +22,9 @@ class SecurityRulesGrid(SelectableGrid):
         self.refresh()
         self.col_titles = ['PROTOCOL', 'FROM PORT', 'TO PORT', 'IP']
         self.refresh()
-        #self.values = [main.VM['SecurityGroups']['SecurityGroupId'], main.VM['SecurityGroups']['SecurityGroupName']]
-        #t = updater(self)
-        # main.add_thread(t)
-        # t.start()
+        t = updater(self)
+        main.add_thread(t)
+        t.start()
 
     def refresh(self):
         if main.GATEWAY:
@@ -40,21 +39,10 @@ class SecurityRulesGrid(SelectableGrid):
                     values.append([rule['IpProtocol'], rule['FromPortRange'], rule['ToPortRange'], ip])
             self.values = values
 
-    def summarise(self):
-        summary = list()
-        for vm in self.vms:
-            summary.append(vm.summarise())
-        return summary_titles(), summary
-
-    def updateContent(self, *args, **keywords):
-        self.col_titles = ['SECURITY GROUPS']
-        self.values = [main.VM['SecurityGroups']]
-
-
 class updater(threading.Thread):
-    def __init__(self, vmGrid):
+    def __init__(self, grid):
         threading.Thread.__init__(self)
-        self.vmGrid = vmGrid
+        self.grid = grid
         self.t1 = int(round(time.time() * 1000))
         self.t2 = int(round(time.time() * 1000))
         self.timeSinceLastRefresh = 0
@@ -69,12 +57,8 @@ class updater(threading.Thread):
             dt = self.t2 - self.t1
             self.timeSinceLastRefresh += dt
             if self.timeSinceLastRefresh > 2000:
-                self.vmGrid.refresh()
-                self.vmGrid.vms = self.vmGrid.next_vms
-                self.vmGrid.updateContent()
+                self.grid.refresh()
                 if self.running:
-                    self.vmGrid.display()
+                    self.grid.display()
                 self.timeSinceLastRefresh = 0
-                self.vmGrid.on_selection(
-                    self.vmGrid.values[self.vmGrid.selected_row])
             time.sleep(1)
