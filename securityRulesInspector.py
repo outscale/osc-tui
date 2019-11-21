@@ -14,6 +14,7 @@ def add_security_rules_inspector(form):
                         editable=False)
     delete = form.add_widget(npyscreen.ButtonPress, name="DELETE")
     new = form.add_widget(npyscreen.ButtonPress, name="NEW")
+    new_ssh_myip = form.add_widget(npyscreen.ButtonPress, name="NEW SSH FROM MY IP")
     quit = form.add_widget(npyscreen.ButtonPress, name="EXIT")
 
     def stop():

@@ -6,6 +6,8 @@ import npyscreen
 
 import profileSelector
 
+import inputForm
+
 # GLOBALS ATTRIBUTES
 APP = None
 GATEWAY = None
