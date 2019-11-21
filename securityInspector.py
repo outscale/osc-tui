@@ -10,9 +10,9 @@ inspector = None
 
 
 def add_security_inspector(form):
-    y, _ = form.useable_space()
-    a = form.add_widget(npyscreen.Textfield, rely=int(y/2+1), value="No security group selected",
+    a = form.add_widget(npyscreen.Textfield, rely = form.draw_line_at + 2, value="No security group selected",
                         editable=False)
+    edit = form.add_widget(npyscreen.ButtonPress, name="EDIT")
     quit = form.add_widget(npyscreen.ButtonPress, name="EXIT")
 
     def stop():
