@@ -12,6 +12,8 @@ inspector = None
 def add_security_rules_inspector(form):
     a = form.add_widget(npyscreen.Textfield, rely = form.draw_line_at + 2, value="No security rule selected",
                         editable=False)
+    delete = form.add_widget(npyscreen.ButtonPress, name="DELETE")
+    new = form.add_widget(npyscreen.ButtonPress, name="NEW")
     quit = form.add_widget(npyscreen.ButtonPress, name="EXIT")
 
     def stop():

@@ -12,7 +12,7 @@ class SecurityForm(npyscreen. FormBaseNew):
 
     def create(self):
         y, _ = self.useable_space()
-        self.draw_line_at = int(y-7)
+        self.draw_line_at = int(y-9)
         a = None
 
         def on_selection(line):

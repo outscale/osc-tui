@@ -14,6 +14,8 @@ def add_security_inspector(form):
     a = form.add_widget(npyscreen.Textfield, rely = form.draw_line_at + 2, value="No security group selected",
                         editable=False)
     edit = form.add_widget(npyscreen.ButtonPress, name="EDIT")
+    new = form.add_widget(npyscreen.ButtonPress, name="NEW")
+    delete = form.add_widget(npyscreen.ButtonPress, name="DELETE")
     quit = form.add_widget(npyscreen.ButtonPress, name="EXIT")
 
     def stop():
