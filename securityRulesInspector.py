@@ -19,6 +19,7 @@ def add_security_rules_inspector(form):
     def stop():
         main.kill_threads()
         form.parentApp.switchForm('Security')
+    form.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = stop
     quit.whenPressed = stop
     i = Inspector(form, a)
     return i

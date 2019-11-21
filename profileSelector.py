@@ -27,6 +27,7 @@ class CallbackFactory():
 
 class ProfileSelector(npyscreen.ActionFormV2):
     def create(self):
+        self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
         if os.path.isfile(home + '/.oapi_credentials'):
             configFile = open(home + '/.oapi_credentials')
             config = json.loads(configFile.read())

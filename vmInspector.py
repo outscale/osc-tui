@@ -23,6 +23,8 @@ def add_vm_inspector(form):
     def stop():
         main.kill_threads()
         form.parentApp.switchForm('MAIN')
+
+    form.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = stop
     quit.whenPressed = stop
     i = Inspector(form, a, run_stop, restart, force_stop, cp_ip, sg)
     return i
@@ -66,7 +68,8 @@ class Inspector():
 
         def security():
             main.kill_threads()
-            self.form.parentApp.addForm("Security", securityForm.SecurityForm, name="osc-cli-curses")
+            self.form.parentApp.addForm(
+                "Security", securityForm.SecurityForm, name="osc-cli-curses")
             self.form.parentApp.switchForm('Security')
         self.copy_ip.whenPressed = copy_ip
         self.run_stop.whenPressed = start_vm if vm[0] == 'stopped' else stop_vm
