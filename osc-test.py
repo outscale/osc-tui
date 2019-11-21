@@ -9,9 +9,13 @@ if __name__ == '__main__':
     VMs = dict()
     for vm in vms:
         VMs.update({vm['VmId'] : vm})
-    print  (VMs)
+    #print  (VMs)
     #print(json.dumps(gw.ReadSecurityGroups()))
 
     #print("\nyour volumes:")
     #for volume in gw.ReadVolumes()["Volumes"]:
         #print(volume["VolumeId"])
+    print(gw.ReadSecurityGroups(  Filters = {
+    "SecurityGroupIds": [
+      "sg-ceb6c7a7"
+    ]})['SecurityGroups'][0]['InboundRules'])

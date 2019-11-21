@@ -5,6 +5,7 @@ import pyperclip
 
 import main
 import securityForm
+import securityRulesForm
 
 inspector = None
 
@@ -19,15 +20,21 @@ def add_security_inspector(form):
         main.kill_threads()
         form.parentApp.switchForm('Cockpit')
     quit.whenPressed = stop
-    i = Inspector(form, a)
+    i = Inspector(form, a, edit)
     return i
 
 
 class Inspector():
-    def __init__(self, form, name_label):
+    def __init__(self, form, name_label, edit):
         self.form = form
         self.name_label = name_label
-        pass
+        self.edit = edit
     def set_value(self, value):
         self.name_label.value = 'Selected group: ' + value[1]
+        main.SECURITYGROUP = value[0]
+        def edit():
+            main.kill_threads()
+            self.form.parentApp.addForm("SecurityRules", securityRulesForm.SecurityRulesForm, name="osc-cli-curses")
+            self.form.parentApp.switchForm('SecurityRules')
+        self.edit.whenPressed = edit
 

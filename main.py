@@ -12,6 +12,7 @@ GATEWAY = None
 THREADS = list()
 VM = None
 VMs = None
+SECURITYGROUP = None
 
 # GLOBALS METHODS
 
