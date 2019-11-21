@@ -3,7 +3,7 @@ import time
 
 import main
 from selectableGrid import SelectableGrid
-from virtualMachine import *
+from virtualMachine import VirtualMachine
 
 
 def add_security_rules_grid(form, on_selection):
@@ -61,4 +61,4 @@ class updater(threading.Thread):
                 if self.running:
                     self.grid.display()
                 self.timeSinceLastRefresh = 0
-            time.sleep(1)
+            time.sleep(0.5)

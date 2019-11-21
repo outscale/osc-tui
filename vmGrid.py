@@ -86,4 +86,4 @@ class updater(threading.Thread):
                 self.timeSinceLastRefresh = 0
                 self.vmGrid.on_selection(
                     self.vmGrid.values[self.vmGrid.selected_row])
-            time.sleep(1)
+            time.sleep(0.5)
