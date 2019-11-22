@@ -47,6 +47,8 @@ class SecurityRulesGrid(SelectableGrid):
             cell.highlight_whole_widget = True
             if securityRulesInspector.ip in ip:
                 cell.color = 'GOODHL'
+            else:
+                cell.color = 'DEFAULT'
 
 class updater(threading.Thread):
     def __init__(self, grid):
