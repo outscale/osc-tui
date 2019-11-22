@@ -4,7 +4,6 @@ import npyscreen
 import pyperclip
 
 import main
-import securityForm
 import securityRulesForm
 import inputForm
 

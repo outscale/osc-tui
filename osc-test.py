@@ -27,3 +27,11 @@ if __name__ == '__main__':
         Flow= 'Inbound',
         #'SecurityGroupAccountIdToLink' :
         ))
+    print(gw.DeleteSecurityGroupRule(FromPortRange = 22,
+        IpProtocol= 'tcp',
+        IpRange= ip + '/32',
+        ToPortRange= 22,
+        SecurityGroupId= 'sg-4bac10fa',
+        Flow= 'Inbound',
+        #'SecurityGroupAccountIdToLink' :
+        ))

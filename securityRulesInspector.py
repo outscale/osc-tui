@@ -7,6 +7,7 @@ from requests import get
 import main
 import securityForm
 import securityRulesInspector
+import securityRuleInputForm
 
 ip = get('https://api.ipify.org').text
 
@@ -19,7 +20,7 @@ def add_security_rules_inspector(form):
     delete = form.add_widget(npyscreen.ButtonPress, name="DELETE")
 
     def new_sr():
-        pass
+        securityRuleInputForm.ask(inspector.form)
 
     def new_sr_ssh():
         main.GATEWAY.CreateSecurityGroupRule(FromPortRange = 22,
@@ -52,9 +53,20 @@ class Inspector():
         self.delete = delete
 
     def set_value(self, value):
+        self.protocol = value[0]
+        self.from_port = value[1]
+        self.to_port = value[2]
+        self.ip_range = value[3]
+
         self.name_label.value = 'Selected rule: ' + str(value[0] + ' from: ' + str(
             value[1]) + ' to: ' + str(value[2]) + ' with ip: ' + str(value[3]))
 
         def delete():
-            pass
+            main.GATEWAY.DeleteSecurityGroupRule(FromPortRange = self.from_port,
+                    IpProtocol= self.protocol,
+                    IpRange= self.ip_range,
+                    ToPortRange= self.to_port,
+                    SecurityGroupId= main.SECURITY_GROUP,
+                    Flow= 'Inbound',
+                    )
         self.delete.whenPressed = delete
