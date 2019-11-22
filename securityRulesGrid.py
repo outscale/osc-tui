@@ -31,7 +31,7 @@ class SecurityRulesGrid(SelectableGrid):
             self.refreshing = True
             data = main.GATEWAY.ReadSecurityGroups(Filters={
                 "SecurityGroupIds": [
-                    "sg-ceb6c7a7"
+                    main.SECURITY_GROUP
                 ]})['SecurityGroups'][0]['InboundRules']
             values = list()
             for rule in data:

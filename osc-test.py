@@ -15,7 +15,15 @@ if __name__ == '__main__':
     #print("\nyour volumes:")
     #for volume in gw.ReadVolumes()["Volumes"]:
         #print(volume["VolumeId"])
-    print(gw.ReadSecurityGroups(  Filters = {
-    "SecurityGroupIds": [
-      "sg-ceb6c7a7"
-    ]})['SecurityGroups'][0]['InboundRules'])
+    #print(gw.ReadSecurityGroups(  Filters = {    "SecurityGroupIds": [      "sg-ceb6c7a7"    ]})['SecurityGroups'][0]['InboundRules'])
+    from requests import get
+
+    ip = get('https://api.ipify.org').text
+    print(gw.CreateSecurityGroupRule(FromPortRange = 22,
+        IpProtocol= 'tcp',
+        IpRange= ip + '/32',
+        ToPortRange= 22,
+        SecurityGroupId= 'sg-4bac10fa',
+        Flow= 'Inbound',
+        #'SecurityGroupAccountIdToLink' :
+        ))

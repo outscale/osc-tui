@@ -36,7 +36,6 @@ class InputForm(npyscreen.ActionFormV2):
             CB(self.input.value)
         self.parentApp.switchFormPrevious()
 
-
 if __name__ == '__main__':
     class MyTestApp(npyscreen.NPSAppManaged):
         def onStart(self):

@@ -2,6 +2,7 @@ import curses
 
 import npyscreen
 
+import main
 import securityGrid
 import securityInspector
 
@@ -16,6 +17,7 @@ class SecurityForm(npyscreen. FormBaseNew):
         a = None
 
         def on_selection(line):
+            main.SECURITY_GROUP = line[0]
             a.set_value(line)
         securityGrid.add_security_grid(self, on_selection)
         a = securityInspector.add_security_inspector(self)
