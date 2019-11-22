@@ -7,7 +7,7 @@ import vmGrid
 import vmInspector
 
 
-class CockpitForm(npyscreen. FormBaseNew):
+class VmForm(npyscreen. FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -24,5 +24,5 @@ class CockpitForm(npyscreen. FormBaseNew):
 
     def draw_form(self,):
         _, MAXX = self.curses_pad.getmaxyx()
-        super(CockpitForm, self).draw_form()
+        super(VmForm, self).draw_form()
         self.curses_pad.hline(self.draw_line_at, 1, curses.ACS_HLINE, MAXX-2)
