@@ -42,7 +42,6 @@ class Inspector():
         self.sg = sg
 
     def set_value(self, vm):
-        main.VM = main.VMs[vm[2]]
         self.vm = vm
         self.name = vm[1]
         self.name_label.value = 'Instance selected: ' + self.name

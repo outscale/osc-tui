@@ -2,6 +2,7 @@ import curses
 
 import npyscreen
 
+import main
 import vmGrid
 import vmInspector
 
@@ -16,6 +17,7 @@ class CockpitForm(npyscreen. FormBaseNew):
         a = None
 
         def on_selection(line):
+            main.VM = main.VMs[line[2]]
             a.set_value(line)
         vmGrid.add_vm_browser(self, on_selection)
         a = vmInspector.add_vm_inspector(self)

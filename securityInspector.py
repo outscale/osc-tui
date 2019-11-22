@@ -37,7 +37,6 @@ class Inspector():
 
     def set_value(self, value):
         self.name_label.value = 'Selected group: ' + value[1]
-        main.SECURITYGROUP = value[0]
 
         def edit():
             main.kill_threads()
