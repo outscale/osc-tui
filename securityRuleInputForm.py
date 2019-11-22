@@ -1,5 +1,7 @@
 import npyscreen
 import main
+import securityRulesInspector
+import securityRulesForm
 
 QUESTION = 'Please, say something :)'
 DEFAULT_ANSWER = ''
@@ -31,17 +33,30 @@ class InputForm(npyscreen.ActionFormV2):
                         editable=False)
         self.to_port = self.add_widget(npyscreen.Textfield, value='22',
                         editable=True)
-        ms = self.add(npyscreen.TitleSelectOne, max_height=4, value = [1,], name="Protocol",
+        self.protocole = self.add(npyscreen.TitleSelectOne, max_height=4, value = [0,], name="Protocol",
                 values = ["tcp","udp","icmp"], scroll_exit=True)
+        self.add_widget(npyscreen.Textfield, value='IP:',
+                        editable=False)
+        self.ip = self.add_widget(npyscreen.Textfield, value=securityRulesInspector.ip + '/32',
+                        editable=True)
 
     def on_cancel(self):
-        self.parentApp.switchFormPrevious()
+        self.parentApp.addForm(
+            "SecurityRules", securityRulesForm.SecurityRulesForm, name="osc-cli-curses")
+        self.parentApp.switchForm('SecurityRules')
 
     def on_ok(self):
-        global CB
-        if CB:
-            CB(self.input.value)
-        self.parentApp.switchFormPrevious()
+        out = main.GATEWAY.CreateSecurityGroupRule(FromPortRange = int(self.from_port.value),
+                IpProtocol= self.protocole.get_selected_objects()[0],
+                IpRange= self.ip.value,
+                ToPortRange= int(self.to_port.value),
+                SecurityGroupId= main.SECURITY_GROUP,
+                Flow= 'Inbound',
+                )
+        self.parentApp.addForm(
+            "SecurityRules", securityRulesForm.SecurityRulesForm, name="osc-cli-curses")
+        self.parentApp.switchForm('SecurityRules')
+        #self.parentApp.switchFormPrevious()
 
 if __name__ == '__main__':
     class MyTestApp(npyscreen.NPSAppManaged):
