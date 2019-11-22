@@ -46,7 +46,7 @@ class InputForm(npyscreen.ActionFormV2):
         self.parentApp.switchForm('SecurityRules')
 
     def on_ok(self):
-        out = main.GATEWAY.CreateSecurityGroupRule(FromPortRange = int(self.from_port.value),
+        main.GATEWAY.CreateSecurityGroupRule(FromPortRange = int(self.from_port.value),
                 IpProtocol= self.protocole.get_selected_objects()[0],
                 IpRange= self.ip.value,
                 ToPortRange= int(self.to_port.value),
