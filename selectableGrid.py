@@ -42,18 +42,3 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.selected_row = self.edit_cell[0]
         if self.on_selection != None:
             self.on_selection(self.values[self.selected_row])
-
-    def custom_print_cell(self, cell, cell_value):
-        # Checking if we are in the table and not in the title's row.
-        if not isinstance(cell.grid_current_value_index, int):
-            y, _ = cell.grid_current_value_index
-            status = self.values[y][0]
-            cell.highlight_whole_widget = True
-            if status == 'running':
-                cell.color = 'GOODHL'
-            elif status == 'pending':
-                cell.color = 'RED_BLACK'
-            elif status == 'stopping':
-                cell.color = 'RED_BLACK'
-            elif status == 'stopped':
-                cell.color = 'CURSOR'

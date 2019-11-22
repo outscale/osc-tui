@@ -65,7 +65,6 @@ class SecurityGrid(SelectableGrid):
         self.col_titles = ['SECURITY GROUPS']
         self.values = [main.VM['SecurityGroups']]
 
-
 class updater(threading.Thread):
     def __init__(self, vmGrid):
         threading.Thread.__init__(self)

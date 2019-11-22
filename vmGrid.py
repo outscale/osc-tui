@@ -59,6 +59,21 @@ class VmGrid(SelectableGrid):
     def updateContent(self, *args, **keywords):
         self.col_titles, self.values = self.summarise()
 
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            status = self.values[y][0]
+            cell.highlight_whole_widget = True
+            if status == 'running':
+                cell.color = 'GOODHL'
+            elif status == 'pending':
+                cell.color = 'RED_BLACK'
+            elif status == 'stopping':
+                cell.color = 'RED_BLACK'
+            elif status == 'stopped':
+                cell.color = 'CURSOR'
+
 
 class updater(threading.Thread):
     def __init__(self, vmGrid):

@@ -4,6 +4,7 @@ import time
 import main
 from selectableGrid import SelectableGrid
 from virtualMachine import VirtualMachine
+import securityRulesInspector
 
 
 def add_security_rules_grid(form, on_selection):
@@ -38,6 +39,14 @@ class SecurityRulesGrid(SelectableGrid):
                 for ip in rule['IpRanges']:
                     values.append([rule['IpProtocol'], rule['FromPortRange'], rule['ToPortRange'], ip])
             self.values = values
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            ip = self.values[y][3]
+            cell.highlight_whole_widget = True
+            if securityRulesInspector.ip in ip:
+                cell.color = 'GOODHL'
 
 class updater(threading.Thread):
     def __init__(self, grid):

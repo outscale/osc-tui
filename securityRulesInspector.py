@@ -6,6 +6,7 @@ from requests import get
 
 import main
 import securityForm
+import securityRulesInspector
 
 ip = get('https://api.ipify.org').text
 
