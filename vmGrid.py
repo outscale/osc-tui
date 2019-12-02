@@ -20,9 +20,12 @@ class VmGrid(SelectableGrid):
         self.refresh()
         self.vms = self.next_vms
         self.col_titles, self.values = self.summarise()
-        t = updater(self)
-        main.add_thread(t)
-        t.start()
+        self.start_updater()
+
+    def start_updater(self):
+        self.updater = updater(self)
+        main.add_thread(self.updater)
+        self.updater.start()
 
     def refresh(self):
         if main.GATEWAY:
@@ -47,7 +50,7 @@ class VmGrid(SelectableGrid):
                 if _vm.status == 'stopped':
                     self.next_vms.append(_vm)
             for vm in data:
-                main.VMs.update({vm['VmId'] : vm})
+                main.VMs.update({vm['VmId']: vm})
             self.refreshing = False
 
     def summarise(self):
