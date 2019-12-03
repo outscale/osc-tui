@@ -3,10 +3,10 @@
 import sys
 
 import npyscreen
-
-import profileSelector
+from requests import get
 
 import inputForm
+import profileSelector
 
 # GLOBALS ATTRIBUTES
 APP = None
@@ -16,6 +16,7 @@ VM = None
 VMs = None
 SECURITY_GROUP = None
 SECURITY_RULE = None
+IP = get("https://api.ipify.org").text
 
 # GLOBALS METHODS
 
@@ -34,14 +35,14 @@ def exit():
     kill_threads()
     sys.exit(0)
 
+
 # APPLICATION CLASS
 
 
 class App(npyscreen.StandardApp):
     def onStart(self):
         npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
-        self.addForm("MAIN", profileSelector.ProfileSelector,
-                     name="osc-cli-curses")
+        self.addForm("MAIN", profileSelector.ProfileSelector, name="osc-cli-curses")
 
 
 # LET'S RUN
