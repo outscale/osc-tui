@@ -48,17 +48,17 @@ class SelectableGrid(npyscreen.GridColTitles):
                 self.selected_row = 0
             self.on_selection(self.values[self.selected_row])
 
+    # Call this func to enable self-refresh of the screen.
     def start_updater(self):
         self.updater = GridUpdater(self)
         main.add_thread(self.updater)
         self.updater.start()
 
+    # The func to override in order to refresh the screen.
     def refresh(self):
         pass
 
-
-
-
+# This is the component that will poll the server and refresh the grid once started.
 class GridUpdater(threading.Thread):
     def __init__(self, grid, period=2000):
         threading.Thread.__init__(self)

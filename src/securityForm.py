@@ -62,6 +62,7 @@ class SecurityGrid(selectableGrid.SelectableGrid):
                 values.append([g['SecurityGroupId'],  g['SecurityGroupName']])
             return values
         self.values = build_values()
+        # Currently real time refresh is disable for this form.
         #self.values = [main.VM['SecurityGroups']['SecurityGroupId'], main.VM['SecurityGroups']['SecurityGroupName']]
         #t = updater(self)
         # main.add_thread(t)

@@ -34,7 +34,7 @@ class InputForm(npyscreen.ActionFormV2):
             max_height=4,
             value=[0,],
             name="Protocol",
-            values=["tcp", "udp", "icmp"],
+            values=["tcp", "udp", "icmp", "all"],
             scroll_exit=True,
         )
         self.add_widget(npyscreen.Textfield, value="IP:", editable=False)
@@ -51,7 +51,7 @@ class InputForm(npyscreen.ActionFormV2):
     def on_ok(self):
         main.GATEWAY.CreateSecurityGroupRule(
             FromPortRange=int(self.from_port.value),
-            IpProtocol=self.protocole.get_selected_objects()[0],
+            IpProtocol='-1' if self.protocole.get_selected_objects()[0] == 'all' else self.protocole.get_selected_objects()[0],
             IpRange=self.ip.value,
             ToPortRange=int(self.to_port.value),
             SecurityGroupId=main.SECURITY_GROUP,

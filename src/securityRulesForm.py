@@ -98,9 +98,9 @@ class SecurityRulesGrid(SelectableGrid):
                 for ip in rule["IpRanges"]:
                     values.append(
                         [
-                            rule["IpProtocol"],
-                            rule["FromPortRange"],
-                            rule["ToPortRange"],
+                            'all' if rule["IpProtocol"] == '-1' else rule["IpProtocol"],
+                            rule["FromPortRange"] if "FromPortRange" in rule else 'X',
+                            rule["ToPortRange"] if "ToPortRange" in rule else 'X',
                             ip,
                         ]
                     )
