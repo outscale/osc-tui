@@ -125,9 +125,9 @@ class Inspector:
         self.delete = delete
 
     def set_value(self, value):
-        self.protocol = value[0]
-        self.from_port = value[1]
-        self.to_port = value[2]
+        self.protocol = '-1' if value[0] == 'all' else value[0]
+        self.from_port = None if value[1] == 'X' else value[1]
+        self.to_port = None if value[2] == 'X' else value[2]
         self.ip_range = value[3]
 
         self.name_label.value = "Selected rule: " + str(
@@ -141,13 +141,21 @@ class Inspector:
         )
 
         def delete():
-            main.GATEWAY.DeleteSecurityGroupRule(
-                FromPortRange=self.from_port,
-                IpProtocol=self.protocol,
-                IpRange=self.ip_range,
-                ToPortRange=self.to_port,
-                SecurityGroupId=main.SECURITY_GROUP,
-                Flow="Inbound",
-            )
+            if(self.from_port and self.to_port):
+                main.GATEWAY.DeleteSecurityGroupRule(
+                    FromPortRange=self.from_port,
+                    IpProtocol=self.protocol,
+                    IpRange=self.ip_range,
+                    ToPortRange=self.to_port,
+                    SecurityGroupId=main.SECURITY_GROUP,
+                    Flow="Inbound",
+                )
+            else:
+                main.GATEWAY.DeleteSecurityGroupRule(
+                    IpProtocol=self.protocol,
+                    IpRange=self.ip_range,
+                    SecurityGroupId=main.SECURITY_GROUP,
+                    Flow="Inbound",
+                )
 
         self.delete.whenPressed = delete
