@@ -12,13 +12,16 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.scroll_exit = True
         self.on_selection = on_selection
         self.selected_row = 0
-        self.t1 = int(round(time.time() * 1000))
-        self.t2 = int(round(time.time() * 1000))
+        self.t1 = self.time()
+        self.t2 = self.time()
         self.time_without_refreshing = 0
 
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({10: self.exit_enter})
+
+    def time(self):
+        return int(round(time.time() * 1000))
 
     # Each time we change the selected line, we select the new one.
     def h_move_line_down(self, inpt):
@@ -63,8 +66,8 @@ class GridUpdater(threading.Thread):
     def __init__(self, grid, period=2000):
         threading.Thread.__init__(self)
         self.grid = grid
-        self.t1 = self.time()
-        self.t2 = self.time()
+        self.t1 = self.grid.time()
+        self.t2 = self.grid.time()
         self.timeSinceLastRefresh = 0
         self.period = period
         self.running = True
@@ -74,7 +77,7 @@ class GridUpdater(threading.Thread):
 
     def run(self):
         while self.running == True:
-            self.t2 = self.time()
+            self.t2 = self.grid.time()
             dt = self.t2 - self.t1
             self.timeSinceLastRefresh += dt
             if self.timeSinceLastRefresh > self.period:
@@ -84,6 +87,3 @@ class GridUpdater(threading.Thread):
                 self.timeSinceLastRefresh = 0
                 self.grid.select()
             time.sleep(0.5)
-
-    def time(self):
-        return int(round(time.time() * 1000))
