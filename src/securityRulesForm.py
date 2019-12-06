@@ -83,7 +83,7 @@ class SecurityRulesGrid(SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.col_titles = ["PROTOCOL", "FROM PORT", "TO PORT", "IP"]
+        self.col_titles = ["DIRECTION", "PROTOCOL", "FROM PORT", "TO PORT", "IP"]
         self.refresh()
         self.start_updater()
 
@@ -92,15 +92,27 @@ class SecurityRulesGrid(SelectableGrid):
             self.refreshing = True
             data = main.GATEWAY.ReadSecurityGroups(
                 Filters={"SecurityGroupIds": [main.SECURITY_GROUP]}
-            )["SecurityGroups"][0]["InboundRules"]
+            )["SecurityGroups"][0]
             values = list()
-            for rule in data:
+            for rule in data["InboundRules"]:
                 for ip in rule["IpRanges"]:
                     values.append(
                         [
-                            'all' if rule["IpProtocol"] == '-1' else rule["IpProtocol"],
-                            rule["FromPortRange"] if "FromPortRange" in rule else 'X',
-                            rule["ToPortRange"] if "ToPortRange" in rule else 'X',
+                            "Inbound",
+                            "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
+                            rule["FromPortRange"] if "FromPortRange" in rule else "X",
+                            rule["ToPortRange"] if "ToPortRange" in rule else "X",
+                            ip,
+                        ]
+                    )
+            for rule in data["OutboundRules"]:
+                for ip in rule["IpRanges"]:
+                    values.append(
+                        [
+                            "Outbound",
+                            "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
+                            rule["FromPortRange"] if "FromPortRange" in rule else "X",
+                            rule["ToPortRange"] if "ToPortRange" in rule else "X",
                             ip,
                         ]
                     )
@@ -110,7 +122,7 @@ class SecurityRulesGrid(SelectableGrid):
         # Checking if we are in the table and not in the title's row.
         if not isinstance(cell.grid_current_value_index, int):
             y, _ = cell.grid_current_value_index
-            ip = self.values[y][3]
+            ip = self.values[y][4]
             cell.highlight_whole_widget = True
             if main.IP in ip:
                 cell.color = "GOODHL"
@@ -125,37 +137,38 @@ class Inspector:
         self.delete = delete
 
     def set_value(self, value):
-        self.protocol = '-1' if value[0] == 'all' else value[0]
-        self.from_port = None if value[1] == 'X' else value[1]
-        self.to_port = None if value[2] == 'X' else value[2]
-        self.ip_range = value[3]
+        self.dir = value[0]
+        self.protocol = "-1" if value[1] == "all" else value[1]
+        self.from_port = None if value[2] == "X" else value[2]
+        self.to_port = None if value[3] == "X" else value[3]
+        self.ip_range = value[4]
 
         self.name_label.value = "Selected rule: " + str(
-            value[0]
+            value[1]
             + " from: "
-            + str(value[1])
-            + " to: "
             + str(value[2])
-            + " with ip: "
+            + " to: "
             + str(value[3])
+            + " with ip: "
+            + str(value[4])
         )
 
         def delete():
-            if(self.from_port and self.to_port):
+            if self.from_port and self.to_port:
                 main.GATEWAY.DeleteSecurityGroupRule(
                     FromPortRange=self.from_port,
                     IpProtocol=self.protocol,
                     IpRange=self.ip_range,
                     ToPortRange=self.to_port,
                     SecurityGroupId=main.SECURITY_GROUP,
-                    Flow="Inbound",
+                    Flow=self.dir,
                 )
             else:
                 main.GATEWAY.DeleteSecurityGroupRule(
                     IpProtocol=self.protocol,
                     IpRange=self.ip_range,
                     SecurityGroupId=main.SECURITY_GROUP,
-                    Flow="Inbound",
+                    Flow=self.dir,
                 )
 
         self.delete.whenPressed = delete
