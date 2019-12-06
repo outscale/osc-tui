@@ -37,6 +37,16 @@ class InputForm(npyscreen.ActionFormV2):
             values=["tcp", "udp", "icmp", "all"],
             scroll_exit=True,
         )
+        '''
+        self.direction = self.add(
+            npyscreen.TitleSelectOne,
+            max_height=4,
+            value=[0,],
+            name="Direction",
+            values=["Inbound", "Outbound"],
+            scroll_exit=True,
+        )
+        '''
         self.add_widget(npyscreen.Textfield, value="IP:", editable=False)
         self.ip = self.add_widget(
             npyscreen.Textfield, value=main.IP + "/32", editable=True
@@ -55,7 +65,8 @@ class InputForm(npyscreen.ActionFormV2):
             IpRange=self.ip.value,
             ToPortRange=int(self.to_port.value),
             SecurityGroupId=main.SECURITY_GROUP,
-            Flow="Inbound",
+            Flow = 'Inbound'
+            #Flow=self.direction.get_selected_objects()[0],
         )
         self.parentApp.addForm(
             "SecurityRules", securityRulesForm.SecurityRulesForm, name="osc-cli-curses"
