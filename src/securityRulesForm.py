@@ -100,8 +100,8 @@ class SecurityRulesGrid(SelectableGrid):
                         [
                             "Inbound",
                             "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
-                            rule["FromPortRange"] if "FromPortRange" in rule else "X",
-                            rule["ToPortRange"] if "ToPortRange" in rule else "X",
+                            rule["FromPortRange"] if "FromPortRange" in rule else "all",
+                            rule["ToPortRange"] if "ToPortRange" in rule else "all",
                             ip,
                         ]
                     )
@@ -111,8 +111,8 @@ class SecurityRulesGrid(SelectableGrid):
                         [
                             "Outbound",
                             "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
-                            rule["FromPortRange"] if "FromPortRange" in rule else "X",
-                            rule["ToPortRange"] if "ToPortRange" in rule else "X",
+                            rule["FromPortRange"] if "FromPortRange" in rule else "all",
+                            rule["ToPortRange"] if "ToPortRange" in rule else "all",
                             ip,
                         ]
                     )
@@ -139,8 +139,8 @@ class Inspector:
     def set_value(self, value):
         self.dir = value[0]
         self.protocol = "-1" if value[1] == "all" else value[1]
-        self.from_port = None if value[2] == "X" else value[2]
-        self.to_port = None if value[3] == "X" else value[3]
+        self.from_port = None if value[2] == "all" else value[2]
+        self.to_port = None if value[3] == "all" else value[3]
         self.ip_range = value[4]
 
         self.name_label.value = "Selected rule: " + str(
