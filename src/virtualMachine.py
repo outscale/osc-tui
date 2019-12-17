@@ -1,7 +1,9 @@
 class VirtualMachine():
     def __init__(self, vm_dict):
         self.status = vm_dict['State']
-        self.name = vm_dict['Tags'][0]['Value']
+        self.name = "(nil)"
+        if len(vm_dict['Tags']) > 0:
+            self.name = vm_dict['Tags'][0]['Value']
         self.id = vm_dict['VmId']
         self.type = vm_dict['VmType']
         self.ext_ip = 'None'
