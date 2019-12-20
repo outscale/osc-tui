@@ -9,7 +9,7 @@ import main
 import securityForm
 import selectableGrid
 import virtualMachine
-
+import createVm
 
 class VmForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -48,6 +48,7 @@ class VmForm(npyscreen.FormBaseNew):
         btn_restart = self.add_widget(npyscreen.ButtonPress, name="RESTART")
         btn_force_stop = self.add_widget(npyscreen.ButtonPress, name="FORCE STOP")
         btn_copy_ip = self.add_widget(npyscreen.ButtonPress, name="COPY IP")
+        btn_create_vm = self.add_widget(npyscreen.ButtonPress, name="CREATE VM")
         btn_security = self.add_widget(npyscreen.ButtonPress, name="SECURITY")
         btn_quit = self.add_widget(npyscreen.ButtonPress, name="EXIT")
 
@@ -57,6 +58,15 @@ class VmForm(npyscreen.FormBaseNew):
 
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = cb_stop
         btn_quit.whenPressed = cb_stop
+
+        def cb_create_vm():
+            main.kill_threads()
+            self.parentApp.addForm(
+                "CREATE_VM", createVm.CreateVm, name="osc-cli-curses"
+            )
+            self.parentApp.switchForm("CREATE_VM")
+
+        btn_create_vm.whenPressed = cb_create_vm
         self.inspector = Inspector(
             self,
             lbl_status,
