@@ -1,7 +1,8 @@
 import npyscreen
 import main
 
-IMG = None
+TITLE_COMBO = None
+ID_LIST = None
 
 class ChooseImg(npyscreen. FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -16,7 +17,6 @@ class CreateVm(npyscreen. FormBaseNew):
         super().__init__(*args, **keywords)
 
     def create(self):
-        IMG = None
 
         def back():
             main.kill_threads()
@@ -31,7 +31,7 @@ class CreateVm(npyscreen. FormBaseNew):
             self.parentApp.switchForm("CHOOSE_IMG")
 
         def creat():
-            if IMG == None:
+            if TITLE_COMBO.get_value == None:
                 npyscreen.notify_wait('No image selected, please select one.',
                     title="Argument Missing",
                     form_color='STANDOUT',
@@ -39,14 +39,18 @@ class CreateVm(npyscreen. FormBaseNew):
                     wide=False)
                 self.display()
                 return
-            main.GATEWAY.CreateVms(ImageId=img)
+            else:
+                ID = ID_LIST[TITLE_COMBO.get_value()]
+                npyscreen.notify_wait(str(main.GATEWAY.CreateVms(ImageId=ID)))
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []
+        ID_LIST = []
         for img in imgs:
             account = img["AccountAlias"] if "AccountAlias" in img else "Unknow User"
             imgs_vals.append("creator: " + account + " id: " + img["ImageId"] + " name: " + img["ImageName"])
+            ID_LIST.append(img["ImageId"])
 
-        img_list = self.add_widget(npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals)
+        TITLE_COMBO = self.add_widget(npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals)
         self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = creat
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
