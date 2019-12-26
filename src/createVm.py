@@ -45,9 +45,10 @@ class CreateVm(npyscreen. FormBaseNew):
             else:
                 id = ID_LIST[TITLE_COMBO.get_value()]
                 keypair = KEYPAIRS[KEYPAIRS_COMBO.get_value()]
-                main.GATEWAY.CreateVms(ImageId=id,
-                    #FIXME! Need to set the instance's name!
+                res = main.GATEWAY.CreateVms(ImageId=id,
                     KeypairName=keypair)
+                vmId = res["Vms"][0]['VmId']
+                main.GATEWAY.CreateTags(ResourceIds = [vmId], Tags = [{"Key" : "Name", "Value" : NAME.get_value()}])
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []
