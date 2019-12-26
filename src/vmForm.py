@@ -47,6 +47,7 @@ class VmForm(npyscreen.FormBaseNew):
         btn_run_stop = self.add_widget(npyscreen.ButtonPress, name="RUN")
         btn_restart = self.add_widget(npyscreen.ButtonPress, name="RESTART")
         btn_force_stop = self.add_widget(npyscreen.ButtonPress, name="FORCE STOP")
+        btn_terminate = self.add_widget(npyscreen.ButtonPress, name="TERMINATE")
         btn_copy_ip = self.add_widget(npyscreen.ButtonPress, name="COPY IP")
         btn_create_vm = self.add_widget(npyscreen.ButtonPress, name="CREATE VM")
         btn_security = self.add_widget(npyscreen.ButtonPress, name="SECURITY")
@@ -75,6 +76,7 @@ class VmForm(npyscreen.FormBaseNew):
             btn_force_stop,
             btn_copy_ip,
             btn_security,
+            btn_terminate
         )
 
     def draw_form(self,):
@@ -118,6 +120,10 @@ class VmGrid(selectableGrid.SelectableGrid):
                     self.vms.append(_vm)
             for vm in data:
                 _vm = virtualMachine.VirtualMachine(vm)
+                if _vm.status == "shutting-down":
+                    self.vms.append(_vm)
+            for vm in data:
+                _vm = virtualMachine.VirtualMachine(vm)
                 if _vm.status == "terminated":
                     self.vms.append(_vm)
             for vm in data:
@@ -148,7 +154,7 @@ class VmGrid(selectableGrid.SelectableGrid):
 
 
 class Inspector:
-    def __init__(self, form, name_label, run_stop, restart, force_stop, cp_ip, sg):
+    def __init__(self, form, name_label, run_stop, restart, force_stop, cp_ip, sg, terminate):
         self.form = form
         self.copy_ip = cp_ip
         self.name_label = name_label
@@ -156,6 +162,7 @@ class Inspector:
         self.force_stop = force_stop
         self.restart = restart
         self.sg = sg
+        self.terminate = terminate
 
     def set_value(self, vm):
         self.vm = vm
@@ -171,6 +178,9 @@ class Inspector:
 
         def start_vm():
             main.GATEWAY.StartVms(VmIds=[vm[2]])
+
+        def terminate_vm():
+            main.GATEWAY.DeleteVms(VmIds=[vm[2]])
 
         def stop_vm():
             main.GATEWAY.StopVms(VmIds=[vm[2]])
@@ -193,3 +203,4 @@ class Inspector:
         self.force_stop.whenPressed = force_stop_vm
         self.restart.whenPressed = restart_vm
         self.sg.whenPressed = security
+        self.terminate.whenPressed = terminate_vm
