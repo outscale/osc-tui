@@ -11,6 +11,7 @@ import selectableGrid
 import virtualMachine
 import createVm
 
+
 class VmForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -76,7 +77,7 @@ class VmForm(npyscreen.FormBaseNew):
             btn_force_stop,
             btn_copy_ip,
             btn_security,
-            btn_terminate
+            btn_terminate,
         )
 
     def draw_form(self,):
@@ -154,7 +155,9 @@ class VmGrid(selectableGrid.SelectableGrid):
 
 
 class Inspector:
-    def __init__(self, form, name_label, run_stop, restart, force_stop, cp_ip, sg, terminate):
+    def __init__(
+        self, form, name_label, run_stop, restart, force_stop, cp_ip, sg, terminate
+    ):
         self.form = form
         self.copy_ip = cp_ip
         self.name_label = name_label
