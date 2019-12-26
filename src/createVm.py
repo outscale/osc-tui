@@ -7,14 +7,6 @@ NAME = None
 KEYPAIRS = None
 KEYPAIRS_COMBO = None
 
-class ChooseImg(npyscreen. FormBaseNew):
-    def __init__(self, *args, **keywords):
-        super().__init__(*args, **keywords)
-    def create(self):
-        def back():
-            self.parentApp.switchForm('CREATE_VM')
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
-
 class CreateVm(npyscreen. FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -25,13 +17,6 @@ class CreateVm(npyscreen. FormBaseNew):
             main.kill_threads()
             self.parentApp.switchForm('Cockpit')
         self.inspector = None
-
-        def choose_img():
-            main.kill_threads()
-            self.parentApp.addForm(
-                "CHOOSE_IMG", ChooseImg, name="osc-cli-curses"
-            )
-            self.parentApp.switchForm("CHOOSE_IMG")
 
         def create():
             if TITLE_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
