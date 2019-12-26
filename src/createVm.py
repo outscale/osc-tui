@@ -4,6 +4,8 @@ import main
 TITLE_COMBO = None
 ID_LIST = None
 NAME = None
+KEYPAIRS = None
+KEYPAIRS_COMBO = None
 
 class ChooseImg(npyscreen. FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -32,8 +34,8 @@ class CreateVm(npyscreen. FormBaseNew):
             self.parentApp.switchForm("CHOOSE_IMG")
 
         def create():
-            if TITLE_COMBO.get_value() == None:
-                npyscreen.notify_wait('No image selected, please select one.',
+            if TITLE_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
+                npyscreen.notify_wait('No image/keypair selected, please select one.',
                     title="Argument Missing",
                     form_color='STANDOUT',
                     wrap=True,
@@ -41,8 +43,11 @@ class CreateVm(npyscreen. FormBaseNew):
                 self.display()
                 return
             else:
-                ID = ID_LIST[TITLE_COMBO.get_value()]
-                main.GATEWAY.CreateVms(ImageId=ID, BlockDeviceMappings=[].append({'DeviceName' : NAME.get_value()}))
+                id = ID_LIST[TITLE_COMBO.get_value()]
+                keypair = KEYPAIRS[KEYPAIRS_COMBO.get_value()]
+                main.GATEWAY.CreateVms(ImageId=id,
+                    BlockDeviceMappings=[].append({'DeviceName' : NAME.get_value()}),
+                    KeypairName=keypair)
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []
@@ -53,11 +58,11 @@ class CreateVm(npyscreen. FormBaseNew):
             ID_LIST.append(img["ImageId"])
 
         keyPairs = main.GATEWAY.ReadKeypairs()["Keypairs"]
-        keyPairsNames = []
+        KEYPAIRS = []
         for keyPair in keyPairs:
-            keyPairsNames.append(keyPair["KeypairName"])
-        npyscreen.notify_confirm(str(keyPairsNames))
+            KEYPAIRS.append(keyPair["KeypairName"])
         NAME = self.add_widget(npyscreen.TitleText, name="VM name:")
         TITLE_COMBO = self.add_widget(npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals)
+        KEYPAIRS_COMBO = self.add_widget(npyscreen.TitleCombo, name="CHOOSE KEYPAIR", values=KEYPAIRS)
         self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
