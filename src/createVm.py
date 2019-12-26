@@ -42,7 +42,7 @@ class CreateVm(npyscreen. FormBaseNew):
                 return
             else:
                 ID = ID_LIST[TITLE_COMBO.get_value()]
-                npyscreen.notify_confirm(str(main.GATEWAY.CreateVms(ImageId=ID, BlockDeviceMappings=[].append({'DeviceName' : NAME.get_value()}))))
+                main.GATEWAY.CreateVms(ImageId=ID, BlockDeviceMappings=[].append({'DeviceName' : NAME.get_value()}))
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []
@@ -52,6 +52,11 @@ class CreateVm(npyscreen. FormBaseNew):
             imgs_vals.append("creator: " + account + " id: " + img["ImageId"] + " name: " + img["ImageName"])
             ID_LIST.append(img["ImageId"])
 
+        keyPairs = main.GATEWAY.ReadKeypairs()["Keypairs"]
+        keyPairsNames = []
+        for keyPair in keyPairs:
+            keyPairsNames.append(keyPair["KeypairName"])
+        npyscreen.notify_confirm(str(keyPairsNames))
         NAME = self.add_widget(npyscreen.TitleText, name="VM name:")
         TITLE_COMBO = self.add_widget(npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals)
         self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create

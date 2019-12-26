@@ -6,13 +6,11 @@ class VirtualMachine():
             self.name = vm_dict['Tags'][0]['Value']
         self.id = vm_dict['VmId']
         self.type = vm_dict['VmType']
-        self.ext_ip = 'None'
-        self.priv_ip = vm_dict['PrivateIp']
-        if self.status != 'stopped':
-            self.ext_ip = vm_dict['PublicIp']
+        self.priv_ip = vm_dict['PrivateIp'] if 'PrivateIp' in vm_dict else None
+        self.ext_ip = vm_dict['PublicIp'] if 'PublicIp' in vm_dict else None
         self.key_pair = vm_dict['KeypairName'] if 'KeypairName' in vm_dict else None
         self.az = vm_dict['Placement']['SubregionName']
-        self.security_group = vm_dict['SecurityGroups']
+        self.security_group = vm_dict['SecurityGroups'] if 'SecurityGroups' in vm_dict else None
 
     def summarise(self):
         self.summary = list()
