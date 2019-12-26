@@ -32,9 +32,11 @@ class CreateVm(npyscreen. FormBaseNew):
 
         def creat():
             if IMG == None:
-                self.add_widget(npyscreen.TitleText,
-                                name="Argument Missing:",
-                                value="Need an Image" + img_list.display_value(img_list.values[img_list.value]))
+                npyscreen.notify_wait('No image selected, please select one.',
+                    title="Argument Missing",
+                    form_color='STANDOUT',
+                    wrap=True,
+                    wide=False)
                 self.display()
                 return
             main.GATEWAY.CreateVms(ImageId=img)
