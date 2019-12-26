@@ -31,7 +31,7 @@ class CreateVm(npyscreen. FormBaseNew):
             self.parentApp.switchForm("CHOOSE_IMG")
 
         def creat():
-            if TITLE_COMBO.get_value == None:
+            if TITLE_COMBO.get_value() == None:
                 npyscreen.notify_wait('No image selected, please select one.',
                     title="Argument Missing",
                     form_color='STANDOUT',
