@@ -117,6 +117,10 @@ class VmGrid(selectableGrid.SelectableGrid):
                 if _vm.status == "stopped":
                     self.vms.append(_vm)
             for vm in data:
+                _vm = virtualMachine.VirtualMachine(vm)
+                if _vm.status == "terminated":
+                    self.vms.append(_vm)
+            for vm in data:
                 main.VMs.update({vm["VmId"]: vm})
             self.col_titles, self.values = self.summarise()
             self.refreshing = False

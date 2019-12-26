@@ -35,7 +35,7 @@ class CreateVm(npyscreen. FormBaseNew):
 
         def create():
             if TITLE_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
-                npyscreen.notify_wait('No image/keypair selected, please select one.',
+                npyscreen.notify_confirm('No image/keypair selected, please select one.',
                     title="Argument Missing",
                     form_color='STANDOUT',
                     wrap=True,
@@ -46,7 +46,7 @@ class CreateVm(npyscreen. FormBaseNew):
                 id = ID_LIST[TITLE_COMBO.get_value()]
                 keypair = KEYPAIRS[KEYPAIRS_COMBO.get_value()]
                 main.GATEWAY.CreateVms(ImageId=id,
-                    BlockDeviceMappings=[].append({'DeviceName' : NAME.get_value()}),
+                    #FIXME! Need to set the instance's name!
                     KeypairName=keypair)
 
         imgs = main.GATEWAY.ReadImages()["Images"]
