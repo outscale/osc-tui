@@ -3,6 +3,7 @@ import main
 
 TITLE_COMBO = None
 ID_LIST = None
+NAME = None
 
 class ChooseImg(npyscreen. FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -30,7 +31,7 @@ class CreateVm(npyscreen. FormBaseNew):
             )
             self.parentApp.switchForm("CHOOSE_IMG")
 
-        def creat():
+        def create():
             if TITLE_COMBO.get_value() == None:
                 npyscreen.notify_wait('No image selected, please select one.',
                     title="Argument Missing",
@@ -41,7 +42,7 @@ class CreateVm(npyscreen. FormBaseNew):
                 return
             else:
                 ID = ID_LIST[TITLE_COMBO.get_value()]
-                npyscreen.notify_confirm(str(main.GATEWAY.CreateVms(ImageId=ID)))
+                npyscreen.notify_confirm(str(main.GATEWAY.CreateVms(ImageId=ID, BlockDeviceMappings=[].append({'DeviceName' : NAME.get_value()}))))
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []
@@ -51,6 +52,7 @@ class CreateVm(npyscreen. FormBaseNew):
             imgs_vals.append("creator: " + account + " id: " + img["ImageId"] + " name: " + img["ImageName"])
             ID_LIST.append(img["ImageId"])
 
+        NAME = self.add_widget(npyscreen.TitleText, name="VM name:")
         TITLE_COMBO = self.add_widget(npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals)
-        self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = creat
+        self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
