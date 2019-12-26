@@ -41,7 +41,7 @@ class CreateVm(npyscreen. FormBaseNew):
                 return
             else:
                 ID = ID_LIST[TITLE_COMBO.get_value()]
-                npyscreen.notify_wait(str(main.GATEWAY.CreateVms(ImageId=ID)))
+                npyscreen.notify_confirm(str(main.GATEWAY.CreateVms(ImageId=ID)))
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []

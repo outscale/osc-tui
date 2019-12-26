@@ -10,7 +10,7 @@ class VirtualMachine():
         self.priv_ip = vm_dict['PrivateIp']
         if self.status != 'stopped':
             self.ext_ip = vm_dict['PublicIp']
-        self.key_pair = vm_dict['KeypairName']
+        self.key_pair = vm_dict['KeypairName'] if 'KeypairName' in vm_dict else None
         self.az = vm_dict['Placement']['SubregionName']
         self.security_group = vm_dict['SecurityGroups']
 
