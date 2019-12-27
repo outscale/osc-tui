@@ -1,12 +1,19 @@
 import npyscreen
 import main
 
-TITLE_COMBO = None
-ID_LIST = None
-NAME = None
-KEYPAIRS_COMBO = None
+# If advanced VM creation enabled.
 ADVANCED_MODE = False
+# All images combo box.
+IMG_COMBO = None
+# List of all IDs
+ID_LIST = None
+# Textbox for name inpur.
+NAME = None
+# Key pairs combo box.
+KEYPAIRS_COMBO = None
+# VM TYPE combo box.
 VM_COMBO = None
+# Action On Shutdown combo box.
 AOS_COMBO = None
 
 
@@ -38,7 +45,7 @@ class CreateVm(npyscreen.FormBaseNew):
 
         def create():
 
-            if TITLE_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
+            if IMG_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
                 npyscreen.notify_confirm(
                     "No image/keypair selected, please select one.",
                     title="Argument Missing",
@@ -49,7 +56,7 @@ class CreateVm(npyscreen.FormBaseNew):
                 self.display()
                 return
             else:
-                id = ID_LIST[TITLE_COMBO.get_value()]
+                id = ID_LIST[IMG_COMBO.get_value()]
                 keypair = KEYPAIRS_COMBO.get_values()[KEYPAIRS_COMBO.get_value()]
                 res = ""
                 if ADVANCED_MODE:
@@ -95,12 +102,12 @@ class CreateVm(npyscreen.FormBaseNew):
         NAME = self.add_widget(
             npyscreen.TitleText, name="VM name:", value=NAME.get_value() if NAME else ""
         )
-        global TITLE_COMBO
-        TITLE_COMBO = self.add_widget(
+        global IMG_COMBO
+        IMG_COMBO = self.add_widget(
             npyscreen.TitleCombo,
             name="CHOOSE IMG",
             values=imgs_vals,
-            value=TITLE_COMBO.get_value() if TITLE_COMBO else 0,
+            value=IMG_COMBO.get_value() if IMG_COMBO else 0,
         )
         global KEYPAIRS_COMBO
         KEYPAIRS_COMBO = self.add_widget(

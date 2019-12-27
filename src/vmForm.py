@@ -188,7 +188,7 @@ class Inspector:
             self.run_stop.hidden = False
         else:
             self.run_stop.hidden = True
-        if self.status == 'terminated':
+        if self.status == "terminated":
             self.sg.hidden = True
         else:
             self.sg.hidden = False
