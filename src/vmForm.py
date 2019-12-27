@@ -152,6 +152,8 @@ class VmGrid(selectableGrid.SelectableGrid):
                 cell.color = "RED_BLACK"
             elif status == "stopped":
                 cell.color = "CURSOR"
+            elif status == "terminated" or status == "shutting-down":
+                cell.color = "DANGER"
 
 
 class Inspector:
@@ -168,10 +170,28 @@ class Inspector:
         self.terminate = terminate
 
     def set_value(self, vm):
+        self.status = vm[0]
         self.vm = vm
         self.name = vm[1]
         self.name_label.value = "Instance selected: " + self.name
-        self.run_stop.name = "RUN" if vm[0] == "stopped" else "STOP"
+        self.force_stop.hidden = (
+            True if self.status == "stopped" or self.status == "terminated" else False
+        )
+        self.restart.hidden = False if self.status == "running" else True
+        self.sg.hidden = True if self.status == "terminated" else False
+        self.copy_ip.hidden = (
+            True if self.status == "terminated" or self.status == "stopped" else False
+        )
+        self.terminate.hidden = True if self.status == "terminated" else False
+        if self.status == "running" or self.status == "stopped":
+            self.run_stop.name = "RUN" if vm[0] == "stopped" else "STOP"
+            self.run_stop.hidden = False
+        else:
+            self.run_stop.hidden = True
+        if self.status == 'terminated':
+            self.sg.hidden = True
+        else:
+            self.sg.hidden = False
         self.name_label.update()
         self.run_stop.update()
         # Operations availables:
