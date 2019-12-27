@@ -53,9 +53,10 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     # Call this func to enable self-refresh of the screen.
     def start_updater(self):
-        self.updater = GridUpdater(self)
-        main.add_thread(self.updater)
-        self.updater.start()
+        if main.POLL_ENABLED:
+            self.updater = GridUpdater(self)
+            main.add_thread(self.updater)
+            self.updater.start()
 
     # The func to override in order to refresh the screen.
     def refresh(self):

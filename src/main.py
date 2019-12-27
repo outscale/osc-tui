@@ -17,6 +17,7 @@ VMs = None
 SECURITY_GROUP = None
 SECURITY_RULE = None
 IP = get("https://api.ipify.org").text
+POLL_ENABLED = True
 
 # GLOBALS METHODS
 
