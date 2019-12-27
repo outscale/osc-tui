@@ -7,6 +7,7 @@ NAME = None
 KEYPAIRS_COMBO = None
 ADVANCED_MODE = False
 VM_COMBO = None
+AOS_COMBO = None
 
 
 class CreateVm(npyscreen.FormBaseNew):
@@ -56,6 +57,9 @@ class CreateVm(npyscreen.FormBaseNew):
                         ImageId=id,
                         KeypairName=keypair,
                         VmType=VM_COMBO.get_values()[VM_COMBO.get_value()],
+                        VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
+                            AOS_COMBO.get_value()
+                        ],
                     )
                 else:
                     res = main.GATEWAY.CreateVms(ImageId=id, KeypairName=keypair)
@@ -109,8 +113,20 @@ class CreateVm(npyscreen.FormBaseNew):
             vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
                 " "
             )
+            global VM_COMBO
             VM_COMBO = self.add_widget(
-                npyscreen.TitleCombo, name="CHOOSE VM TYPE", values=vmTypes
+                npyscreen.TitleCombo,
+                name="CHOOSE VM TYPE",
+                values=vmTypes,
+                value=VM_COMBO.get_value() if VM_COMBO else 0,
+            )
+            actionOnShutdown = "stop restart terminate".split(" ")
+            global AOS_COMBO
+            AOS_COMBO = self.add_widget(
+                npyscreen.TitleCombo,
+                name="ACTION ON SHUTDOWN",
+                values=actionOnShutdown,
+                value=AOS_COMBO.get_value() if AOS_COMBO else 0,
             )
 
         self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create
