@@ -60,11 +60,14 @@ class CreateVm(npyscreen.FormBaseNew):
                     )
                 else:
                     res = main.GATEWAY.CreateVms(ImageId=id, KeypairName=keypair)
-                vmId = res["Vms"][0]["VmId"]
-                main.GATEWAY.CreateTags(
-                    ResourceIds=[vmId],
-                    Tags=[{"Key": "Name", "Value": NAME.get_value()}],
-                )
+                if "Errors" in res:
+                    npyscreen.notify_confirm(str(res["Errors"]))
+                else:
+                    vmId = res["Vms"][0]["VmId"]
+                    main.GATEWAY.CreateTags(
+                        ResourceIds=[vmId],
+                        Tags=[{"Key": "Name", "Value": NAME.get_value()}],
+                    )
 
         imgs = main.GATEWAY.ReadImages()["Images"]
         imgs_vals = []
