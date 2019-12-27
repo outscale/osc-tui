@@ -4,7 +4,6 @@ import main
 TITLE_COMBO = None
 ID_LIST = None
 NAME = None
-KEYPAIRS = None
 KEYPAIRS_COMBO = None
 ADVANCED_MODE = False
 VM_COMBO = None
@@ -50,7 +49,7 @@ class CreateVm(npyscreen.FormBaseNew):
                 return
             else:
                 id = ID_LIST[TITLE_COMBO.get_value()]
-                keypair = KEYPAIRS[KEYPAIRS_COMBO.get_value()]
+                keypair = KEYPAIRS_COMBO.get_values()[KEYPAIRS_COMBO.get_value()]
                 res = ""
                 if ADVANCED_MODE:
                     res = main.GATEWAY.CreateVms(
@@ -85,15 +84,15 @@ class CreateVm(npyscreen.FormBaseNew):
             ID_LIST.append(img["ImageId"])
 
         keyPairs = main.GATEWAY.ReadKeypairs()["Keypairs"]
-        KEYPAIRS = []
+        keyPairsNames = []
         for keyPair in keyPairs:
-            KEYPAIRS.append(keyPair["KeypairName"])
+            keyPairsNames.append(keyPair["KeypairName"])
         NAME = self.add_widget(npyscreen.TitleText, name="VM name:")
         TITLE_COMBO = self.add_widget(
             npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals
         )
         KEYPAIRS_COMBO = self.add_widget(
-            npyscreen.TitleCombo, name="CHOOSE KEYPAIR", values=KEYPAIRS
+            npyscreen.TitleCombo, name="CHOOSE KEYPAIR", values=keyPairsNames
         )
         if ADVANCED_MODE:
             vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
