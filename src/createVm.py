@@ -6,13 +6,29 @@ ID_LIST = None
 NAME = None
 KEYPAIRS = None
 KEYPAIRS_COMBO = None
+ADVANCED_MODE = False
 
 
 class CreateVm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
+    def reload(self):
+        main.kill_threads()
+        self.parentApp.addForm("CREATE_VM", CreateVm, name="osc-cli-curses")
+        self.parentApp.switchForm("CREATE_VM")
+
     def create(self):
+        def switchMode():
+            global ADVANCED_MODE
+            ADVANCED_MODE = not ADVANCED_MODE
+            self.reload()
+
+        self.add_widget(
+            npyscreen.ButtonPress,
+            name="SHOW " + ("ADVANCED" if not ADVANCED_MODE else "BASIC") + " SETTINGS",
+        ).whenPressed = switchMode
+
         def back():
             main.kill_threads()
             self.parentApp.switchForm("Cockpit")
@@ -20,6 +36,7 @@ class CreateVm(npyscreen.FormBaseNew):
         self.inspector = None
 
         def create():
+
             if TITLE_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
                 npyscreen.notify_confirm(
                     "No image/keypair selected, please select one.",
@@ -66,5 +83,6 @@ class CreateVm(npyscreen.FormBaseNew):
         KEYPAIRS_COMBO = self.add_widget(
             npyscreen.TitleCombo, name="CHOOSE KEYPAIR", values=KEYPAIRS
         )
+
         self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
