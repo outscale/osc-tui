@@ -12,6 +12,24 @@ from vmForm import VmForm
 
 home = str(Path.home())
 
+logo ="""
+                                        @@@ @@@                   &
+                                     @@@@@@ @@@@@@*               &
+                                 #@@@@@@@@@ @@@@@@@@@@            &
+                             @  @@@@@@@@@@@ @@@@@@@@@@@@@         &
+                             @@@@  @@@@@@@@ @@@@@@@@@             &
+                             @@@@@@@@ @@        @@                &         @@@@     @@@@       @@@@   @    @   @@@@@   @   @@@@@@
+                             @@@@@@@@@@                           &       @        @      @   @        @  @     @    @  @      @
+                             @@@@@@@@@@                           &       @        @      @   @        @@ @     @@@@@   @      @
+                             @@@@@@@@@@                           &         @@@@     @@@@       @@@@   @   @@   @       @      @
+                             @@@@@@  @@@@.    @@@@@*              &
+                             @@@ @@@@@@@@@@ @@@@@@@@@@@           &
+                              @@@@@@@@@@@@@ @@@@@@@@@@@@@@.       &
+                               @@@@@@@@@@@@ @@@@@@@@@@@@          &
+                                   @@@@@@@@ @@@@@@@@              &
+                                      @@@@@ @@@@@                 &
+                                          @ @@                    &  """
+
 
 class CallbackFactory():
     def __init__(self, form, name):
@@ -42,6 +60,8 @@ class ProfileSelector(npyscreen.ActionFormV2):
         else:
             self.add_widget(npyscreen.Textfield, value="Error, no file ~/.oapi_credentials found...",
                             editable=False)
+        self.add_widget(npyscreen.MultiLineEdit, value=logo,
+            editable=False, multiline = True)
 
     def create_control_buttons(self):
         self._add_button('cancel_button',
