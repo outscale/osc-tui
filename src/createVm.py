@@ -88,12 +88,22 @@ class CreateVm(npyscreen.FormBaseNew):
         for keyPair in keyPairs:
             keyPairsNames.append(keyPair["KeypairName"])
         global NAME
-        NAME = self.add_widget(npyscreen.TitleText, name="VM name:", value=NAME.get_value() if NAME else '' )
-        TITLE_COMBO = self.add_widget(
-            npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals
+        NAME = self.add_widget(
+            npyscreen.TitleText, name="VM name:", value=NAME.get_value() if NAME else ""
         )
+        global TITLE_COMBO
+        TITLE_COMBO = self.add_widget(
+            npyscreen.TitleCombo,
+            name="CHOOSE IMG",
+            values=imgs_vals,
+            value=TITLE_COMBO.get_value() if TITLE_COMBO else 0,
+        )
+        global KEYPAIRS_COMBO
         KEYPAIRS_COMBO = self.add_widget(
-            npyscreen.TitleCombo, name="CHOOSE KEYPAIR", values=keyPairsNames
+            npyscreen.TitleCombo,
+            name="CHOOSE KEYPAIR",
+            values=keyPairsNames,
+            value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
         )
         if ADVANCED_MODE:
             vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
