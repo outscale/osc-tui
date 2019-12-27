@@ -87,7 +87,8 @@ class CreateVm(npyscreen.FormBaseNew):
         keyPairsNames = []
         for keyPair in keyPairs:
             keyPairsNames.append(keyPair["KeypairName"])
-        NAME = self.add_widget(npyscreen.TitleText, name="VM name:")
+        global NAME
+        NAME = self.add_widget(npyscreen.TitleText, name="VM name:", value=NAME.get_value() if NAME else '' )
         TITLE_COMBO = self.add_widget(
             npyscreen.TitleCombo, name="CHOOSE IMG", values=imgs_vals
         )
