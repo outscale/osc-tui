@@ -7,6 +7,7 @@ NAME = None
 KEYPAIRS = None
 KEYPAIRS_COMBO = None
 ADVANCED_MODE = False
+VM_COMBO = None
 
 
 class CreateVm(npyscreen.FormBaseNew):
@@ -50,7 +51,15 @@ class CreateVm(npyscreen.FormBaseNew):
             else:
                 id = ID_LIST[TITLE_COMBO.get_value()]
                 keypair = KEYPAIRS[KEYPAIRS_COMBO.get_value()]
-                res = main.GATEWAY.CreateVms(ImageId=id, KeypairName=keypair)
+                res = ""
+                if ADVANCED_MODE:
+                    res = main.GATEWAY.CreateVms(
+                        ImageId=id,
+                        KeypairName=keypair,
+                        VmType=VM_COMBO.get_values()[VM_COMBO.get_value()],
+                    )
+                else:
+                    res = main.GATEWAY.CreateVms(ImageId=id, KeypairName=keypair)
                 vmId = res["Vms"][0]["VmId"]
                 main.GATEWAY.CreateTags(
                     ResourceIds=[vmId],
@@ -83,6 +92,13 @@ class CreateVm(npyscreen.FormBaseNew):
         KEYPAIRS_COMBO = self.add_widget(
             npyscreen.TitleCombo, name="CHOOSE KEYPAIR", values=KEYPAIRS
         )
+        if ADVANCED_MODE:
+            vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
+                " "
+            )
+            VM_COMBO = self.add_widget(
+                npyscreen.TitleCombo, name="CHOOSE VM TYPE", values=vmTypes
+            )
 
         self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
