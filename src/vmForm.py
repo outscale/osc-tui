@@ -171,6 +171,7 @@ class Inspector:
 
     def set_value(self, vm):
         self.status = vm[0]
+        self.id = vm[2]
         self.vm = vm
         self.name = vm[1]
         self.name_label.value = "Instance selected: " + self.name
@@ -203,7 +204,10 @@ class Inspector:
             main.GATEWAY.StartVms(VmIds=[vm[2]])
 
         def terminate_vm():
-            main.GATEWAY.DeleteVms(VmIds=[vm[2]])
+            main.kill_threads()
+            if npyscreen.notify_ok_cancel("Do you really want to terminate this vm:\nName: " + self.name + "\nID: " + self.id, "VM Termination"):
+                main.GATEWAY.DeleteVms(VmIds=[vm[2]])
+            self.form.vm_grid.start_updater()
 
         def stop_vm():
             main.GATEWAY.StopVms(VmIds=[vm[2]])
