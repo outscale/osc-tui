@@ -11,6 +11,8 @@ import selectableGrid
 import virtualMachine
 import createVm
 
+MODE = "INSTANCES"
+
 
 class VmForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -19,92 +21,141 @@ class VmForm(npyscreen.FormBaseNew):
     def create(self):
         y, _ = self.useable_space()
         self.draw_line_at = int(y / 2)
-        self.inspector = None
+        self.rowOffset = 16
 
-
-        #Buttons about global forms.
-        self.add_widget(npyscreen.ButtonPress, name="INSTANCES", relx=1, max_width = 13)
-        self.add_widget(npyscreen.ButtonPress, name="SECURITY", relx=1, max_width = 13)
-        self.add_widget(npyscreen.ButtonPress, name="VOLUMES", relx=1, max_width = 13)
-        self.add_widget(npyscreen.ButtonPress, name="SNAPSHOT", relx=1, max_width = 13)
-
-
-        def cb_on_selection(line):
-            main.VM = main.VMs[line[2]]
-            self.inspector.set_value(line)
-
-        y, _ = self.useable_space()
-        self.vm_grid = self.add(
-            VmGrid,
-            name="Instances",
-            value=0,
-            additional_y_offset=2,
-            additional_x_offset=2,
-            max_height=int(y / 2 - 2),
-            column_width=17,
-            select_whole_line=True,
-            on_selection=cb_on_selection,
-            scroll_exit=True,
-            relx=17,
-            rely=2
-        )
-        btn_x = 16
-        y, _ = self.useable_space()
-        lbl_status = self.add_widget(
-            npyscreen.Textfield,
-            rely=int(y / 2 + 1),
-            value="No instance selected",
-            editable=False,
-            relx=btn_x
-        )
-
-        # Buttons about VMs
-        btn_run_stop = self.add_widget(npyscreen.ButtonPress, name="RUN", relx=btn_x)
-        btn_restart = self.add_widget(npyscreen.ButtonPress, name="RESTART", relx=btn_x)
-        btn_force_stop = self.add_widget(npyscreen.ButtonPress, name="FORCE STOP", relx=btn_x)
-        btn_terminate = self.add_widget(npyscreen.ButtonPress, name="TERMINATE", relx=btn_x)
-        btn_copy_ip = self.add_widget(npyscreen.ButtonPress, name="COPY IP", relx=btn_x)
-        btn_create_vm = self.add_widget(npyscreen.ButtonPress, name="CREATE VM", relx=btn_x)
-        btn_security = self.add_widget(npyscreen.ButtonPress, name="SECURITY", relx=btn_x)
-        btn_quit = self.add_widget(npyscreen.ButtonPress, name="EXIT", relx=btn_x)
-
-        def cb_stop():
-            main.kill_threads()
-            self.parentApp.switchForm("MAIN")
-
-        self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = cb_stop
-        btn_quit.whenPressed = cb_stop
-
-        def cb_create_vm():
-            main.kill_threads()
-            self.parentApp.addForm(
-                "CREATE_VM", createVm.CreateVm, name="osc-cli-curses"
+        # Buttons about global forms.
+        btns = list()
+        btns.append(
+            self.add_widget(
+                npyscreen.ButtonPress, name="INSTANCES", relx=1, max_width=13
             )
-            self.parentApp.switchForm("CREATE_VM")
-
-        btn_create_vm.whenPressed = cb_create_vm
-        self.inspector = Inspector(
-            self,
-            lbl_status,
-            btn_run_stop,
-            btn_restart,
-            btn_force_stop,
-            btn_copy_ip,
-            btn_security,
-            btn_terminate,
+        )
+        btns.append(
+            self.add_widget(
+                npyscreen.ButtonPress, name="SECURITY", relx=1, max_width=13
+            )
+        )
+        btns.append(
+            self.add_widget(npyscreen.ButtonPress, name="VOLUMES", relx=1, max_width=13)
+        )
+        btns.append(
+            self.add_widget(
+                npyscreen.ButtonPress, name="SNAPSHOT", relx=1, max_width=13
+            )
         )
 
-    def draw_form(self,):
-        _, MAXX = self.curses_pad.getmaxyx()
-        super(VmForm, self).draw_form()
-        self.curses_pad.hline(self.draw_line_at, 14, curses.ACS_HLINE, MAXX - 2)
-        MAXX, _ = self.curses_pad.getmaxyx()
-        self.curses_pad.vline(1, 14, curses.ACS_VLINE, MAXX - 2)
+        def buildCB(name):
+            def cb():
+                global MODE
+                MODE = name
+                self.reload()
+                npyscreen.notify_confirm(MODE)
+
+            return cb
+
+        for bt in btns:
+            bt.whenPressed = buildCB(bt.name)
+        if MODE == "INSTANCES":
+            y, _ = self.useable_space()
+            self.inspector = None
+
+            def cb_on_selection(line):
+                main.VM = main.VMs[line[2]]
+                self.inspector.set_value(line)
+
+            y, _ = self.useable_space()
+            self.vm_grid = self.add(
+                VmGrid,
+                name="Instances",
+                value=0,
+                additional_y_offset=2,
+                additional_x_offset=2,
+                max_height=int(y / 2 - 2),
+                column_width=17,
+                select_whole_line=True,
+                on_selection=cb_on_selection,
+                scroll_exit=True,
+                relx=17,
+                rely=2,
+            )
+            y, _ = self.useable_space()
+            lbl_status = self.add_widget(
+                npyscreen.Textfield,
+                rely=int(y / 2 + 1),
+                value="No instance selected",
+                editable=False,
+                relx=self.rowOffset,
+            )
+
+            # Buttons about VMs
+            btn_run_stop = self.add_widget(
+                npyscreen.ButtonPress, name="RUN", relx=self.rowOffset
+            )
+            btn_restart = self.add_widget(
+                npyscreen.ButtonPress, name="RESTART", relx=self.rowOffset
+            )
+            btn_force_stop = self.add_widget(
+                npyscreen.ButtonPress, name="FORCE STOP", relx=self.rowOffset
+            )
+            btn_terminate = self.add_widget(
+                npyscreen.ButtonPress, name="TERMINATE", relx=self.rowOffset
+            )
+            btn_copy_ip = self.add_widget(
+                npyscreen.ButtonPress, name="COPY IP", relx=self.rowOffset
+            )
+            btn_create_vm = self.add_widget(
+                npyscreen.ButtonPress, name="CREATE VM", relx=self.rowOffset
+            )
+            btn_security = self.add_widget(
+                npyscreen.ButtonPress, name="SECURITY", relx=self.rowOffset
+            )
+            btn_quit = self.add_widget(
+                npyscreen.ButtonPress, name="EXIT", relx=self.rowOffset
+            )
+
+            def cb_stop():
+                main.kill_threads()
+                self.parentApp.switchForm("MAIN")
+
+            self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = cb_stop
+            btn_quit.whenPressed = cb_stop
+
+            def cb_create_vm():
+                main.kill_threads()
+                self.parentApp.addForm(
+                    "CREATE_VM", createVm.CreateVm, name="osc-cli-curses"
+                )
+                self.parentApp.switchForm("CREATE_VM")
+
+            btn_create_vm.whenPressed = cb_create_vm
+            self.inspector = Inspector(
+                self,
+                lbl_status,
+                btn_run_stop,
+                btn_restart,
+                btn_force_stop,
+                btn_copy_ip,
+                btn_security,
+                btn_terminate,
+            )
 
     def on_screen(self):
         super().on_screen()
-        if not self.vm_grid.updater.isAlive():
-            self.vm_grid.start_updater()
+        # if not self.vm_grid.updater.isAlive():
+        #   self.vm_grid.start_updater()
+
+    def draw_form(self,):
+        _, MAXX = self.curses_pad.getmaxyx()
+        super().draw_form()
+        if self.draw_line_at:
+            self.curses_pad.hline(self.draw_line_at, 14, curses.ACS_HLINE, MAXX - 15)
+        MAXX, _ = self.curses_pad.getmaxyx()
+        self.curses_pad.vline(1, 14, curses.ACS_VLINE, MAXX - 2)
+
+    def reload(self):
+        main.kill_threads()
+        self.parentApp.addForm("Cockpit", VmForm, name="osc-cli-curses")
+        self.parentApp.switchForm("Cockpit")
 
 
 class VmGrid(selectableGrid.SelectableGrid):
@@ -221,7 +272,13 @@ class Inspector:
 
         def terminate_vm():
             main.kill_threads()
-            if npyscreen.notify_ok_cancel("Do you really want to terminate this vm:\nName: " + self.name + "\nID: " + self.id, "VM Termination"):
+            if npyscreen.notify_ok_cancel(
+                "Do you really want to terminate this vm:\nName: "
+                + self.name
+                + "\nID: "
+                + self.id,
+                "VM Termination",
+            ):
                 main.GATEWAY.DeleteVms(VmIds=[vm[2]])
             self.form.vm_grid.start_updater()
 

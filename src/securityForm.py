@@ -10,6 +10,7 @@ import selectableGrid
 import securityRulesForm
 import inputForm
 
+MODE = 'DISPLAY SELECTED VM'
 
 class SecurityForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -17,7 +18,7 @@ class SecurityForm(npyscreen.FormBaseNew):
 
     def create(self):
         y, _ = self.useable_space()
-        self.draw_line_at = int(y - 9)
+        self.draw_line_at = int(y - 10)
         self.inspector = None
 
         def on_selection(line):
@@ -45,8 +46,19 @@ class SecurityForm(npyscreen.FormBaseNew):
         )
         edit = self.add_widget(npyscreen.ButtonPress, name="EDIT")
         new = self.add_widget(npyscreen.ButtonPress, name="ADD NEW")
+        add = self.add_widget(npyscreen.ButtonPress, name="ADD")
         delete = self.add_widget(npyscreen.ButtonPress, name="DELETE")
         quit = self.add_widget(npyscreen.ButtonPress, name="EXIT")
+
+        def reload():
+            main.kill_threads()
+            self.parentApp.addForm("Security", SecurityForm, name="Security")
+            self.parentApp.switchForm("Security")
+
+        def addSG():
+            global MODE
+            MODE = 'ADD SG'
+            reload()
 
         def stop():
             main.kill_threads()
@@ -55,6 +67,7 @@ class SecurityForm(npyscreen.FormBaseNew):
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = stop
         quit.whenPressed = stop
         self.inspector = Inspector(self, lbl_status, edit, new)
+        add.whenPressed = addSG
 
     def draw_form(self,):
         _, MAXX = self.curses_pad.getmaxyx()
