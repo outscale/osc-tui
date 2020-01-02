@@ -15,6 +15,8 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.t1 = self.time()
         self.t2 = self.time()
         self.time_without_refreshing = 0
+        self.exit_left = True
+        self.exit_right = True
 
     def set_up_handlers(self):
         super().set_up_handlers()
@@ -29,8 +31,13 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.select(inpt)
 
     def h_move_line_up(self, inpt):
+        selected_row = self.edit_cell[0]
         super().h_move_line_up(inpt)
         self.select(inpt)
+        selected_row += self.edit_cell[0]
+        # Means we are hitting the top of the widget.
+        if selected_row == 0:
+            self.h_exit_up(inpt)
 
     def exit_enter(self, input):
         self.select(input)
@@ -43,13 +50,14 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.select(_input)
 
     def select(self, inpt=None):
-        self.selected_row = self.edit_cell[0]
-        if self.on_selection != None:
-            if not self.selected_row < len(self.values):
-                self.selected_row = len(self.values) - 1
-            if self.selected_row < 0:
-                self.selected_row = 0
-            self.on_selection(self.values[self.selected_row])
+        if(self.edit_cell):
+            self.selected_row = self.edit_cell[0]
+            if self.on_selection != None:
+                if not self.selected_row < len(self.values):
+                    self.selected_row = len(self.values) - 1
+                if self.selected_row < 0:
+                    self.selected_row = 0
+                self.on_selection(self.values[self.selected_row])
 
     # Call this func to enable self-refresh of the screen.
     def start_updater(self):

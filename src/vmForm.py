@@ -21,6 +21,14 @@ class VmForm(npyscreen.FormBaseNew):
         self.draw_line_at = int(y / 2)
         self.inspector = None
 
+
+        #Buttons about global forms.
+        self.add_widget(npyscreen.ButtonPress, name="INSTANCES", relx=1, max_width = 13)
+        self.add_widget(npyscreen.ButtonPress, name="SECURITY", relx=1, max_width = 13)
+        self.add_widget(npyscreen.ButtonPress, name="VOLUMES", relx=1, max_width = 13)
+        self.add_widget(npyscreen.ButtonPress, name="SNAPSHOT", relx=1, max_width = 13)
+
+
         def cb_on_selection(line):
             main.VM = main.VMs[line[2]]
             self.inspector.set_value(line)
@@ -37,22 +45,28 @@ class VmForm(npyscreen.FormBaseNew):
             select_whole_line=True,
             on_selection=cb_on_selection,
             scroll_exit=True,
+            relx=17,
+            rely=2
         )
+        btn_x = 16
         y, _ = self.useable_space()
         lbl_status = self.add_widget(
             npyscreen.Textfield,
             rely=int(y / 2 + 1),
             value="No instance selected",
             editable=False,
+            relx=btn_x
         )
-        btn_run_stop = self.add_widget(npyscreen.ButtonPress, name="RUN")
-        btn_restart = self.add_widget(npyscreen.ButtonPress, name="RESTART")
-        btn_force_stop = self.add_widget(npyscreen.ButtonPress, name="FORCE STOP")
-        btn_terminate = self.add_widget(npyscreen.ButtonPress, name="TERMINATE")
-        btn_copy_ip = self.add_widget(npyscreen.ButtonPress, name="COPY IP")
-        btn_create_vm = self.add_widget(npyscreen.ButtonPress, name="CREATE VM")
-        btn_security = self.add_widget(npyscreen.ButtonPress, name="SECURITY")
-        btn_quit = self.add_widget(npyscreen.ButtonPress, name="EXIT")
+
+        # Buttons about VMs
+        btn_run_stop = self.add_widget(npyscreen.ButtonPress, name="RUN", relx=btn_x)
+        btn_restart = self.add_widget(npyscreen.ButtonPress, name="RESTART", relx=btn_x)
+        btn_force_stop = self.add_widget(npyscreen.ButtonPress, name="FORCE STOP", relx=btn_x)
+        btn_terminate = self.add_widget(npyscreen.ButtonPress, name="TERMINATE", relx=btn_x)
+        btn_copy_ip = self.add_widget(npyscreen.ButtonPress, name="COPY IP", relx=btn_x)
+        btn_create_vm = self.add_widget(npyscreen.ButtonPress, name="CREATE VM", relx=btn_x)
+        btn_security = self.add_widget(npyscreen.ButtonPress, name="SECURITY", relx=btn_x)
+        btn_quit = self.add_widget(npyscreen.ButtonPress, name="EXIT", relx=btn_x)
 
         def cb_stop():
             main.kill_threads()
@@ -83,7 +97,9 @@ class VmForm(npyscreen.FormBaseNew):
     def draw_form(self,):
         _, MAXX = self.curses_pad.getmaxyx()
         super(VmForm, self).draw_form()
-        self.curses_pad.hline(self.draw_line_at, 1, curses.ACS_HLINE, MAXX - 2)
+        self.curses_pad.hline(self.draw_line_at, 14, curses.ACS_HLINE, MAXX - 2)
+        MAXX, _ = self.curses_pad.getmaxyx()
+        self.curses_pad.vline(1, 14, curses.ACS_VLINE, MAXX - 2)
 
     def on_screen(self):
         super().on_screen()

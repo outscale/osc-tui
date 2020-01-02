@@ -9,7 +9,7 @@ if __name__ == '__main__':
     VMs = dict()
     for vm in vms:
         VMs.update({vm['VmId'] : vm})
-    print(json.dumps(VMs))
+    #print(json.dumps(VMs))
     #print  (VMs)
     #print(json.dumps(gw.ReadSecurityGroups()))
 
@@ -26,4 +26,5 @@ if __name__ == '__main__':
     #print(json.dumps(gw.ReadSecurityGroups(
     #            Filters={"SecurityGroupIds": ['sg-c387f0b7']}
     #        )["SecurityGroups"][0]["InboundRules"]))
+    print(gw.ReadClientGateways())
     from requests import get
