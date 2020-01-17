@@ -17,7 +17,9 @@ VMs = None
 SECURITY_GROUP = None
 SECURITY_RULE = None
 IP = get("https://api.ipify.org").text
-POLL_ENABLED = True
+#Because it's cool but also a DDOS attack :)
+#So let's be cool with the API --> No auto refresh!
+POLL_ENABLED = False
 
 # GLOBALS METHODS
 

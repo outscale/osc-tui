@@ -1,10 +1,10 @@
 import threading
 import time
+import curses
 
 import npyscreen
 
 import main
-
 
 class SelectableGrid(npyscreen.GridColTitles):
     def __init__(self, screen, on_selection=None, *args, **keywords):
@@ -21,9 +21,13 @@ class SelectableGrid(npyscreen.GridColTitles):
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({10: self.exit_enter})
+        self.add_handlers({curses.KEY_F5: self.h_refresh})
 
     def time(self):
         return int(round(time.time() * 1000))
+
+    def h_refresh(self, inpt):
+        self.refresh()
 
     # Each time we change the selected line, we select the new one.
     def h_move_line_down(self, inpt):
