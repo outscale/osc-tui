@@ -12,6 +12,23 @@ import virtualMachine
 import createVm
 
 MODE = "INSTANCES"
+SELECTED_BUTTON = 0
+
+class mainMenu(npyscreen.MultiLineAction):
+    def __init__(self,screen, vmform = None, *args, **keywords):
+        super().__init__(screen, *args, **keywords)
+        self.vmform = vmform
+        self.cursor_line = SELECTED_BUTTON
+    def actionHighlighted(self, act_on_this, key_press):
+        if key_press == 10:
+            #npyscreen.notify_confirm(act_on_this)
+            if self.vmform:
+                global MODE
+                MODE = act_on_this
+                global SELECTED_BUTTON
+                SELECTED_BUTTON = self.cursor_line
+                self.vmform.reload()
+
 
 
 class VmForm(npyscreen.FormBaseNew):
@@ -25,24 +42,7 @@ class VmForm(npyscreen.FormBaseNew):
 
         # Buttons about global forms.
         btns = list()
-        btns.append(
-            self.add_widget(
-                npyscreen.ButtonPress, name="INSTANCES", relx=1, max_width=13,exit_left = True, exit_right = True
-            )
-        )
-        btns.append(
-            self.add_widget(
-                npyscreen.ButtonPress, name="SECURITY", relx=1, max_width=13
-            )
-        )
-        btns.append(
-            self.add_widget(npyscreen.ButtonPress, name="VOLUMES", relx=1, max_width=13)
-        )
-        btns.append(
-            self.add_widget(
-                npyscreen.ButtonPress, name="SNAPSHOT", relx=1, max_width=13
-            )
-        )
+        self.add_widget(mainMenu, vmform = self, relx=1, max_width=13, max_height=10, values = "INSTANCES SECURITY VOLUMES SNAPSHOT".split())
 
         def buildCB(name):
             def cb():
@@ -53,8 +53,6 @@ class VmForm(npyscreen.FormBaseNew):
 
             return cb
 
-        for bt in btns:
-            bt.whenPressed = buildCB(bt.name)
         if MODE == "INSTANCES":
             y, _ = self.useable_space()
             self.inspector = None
