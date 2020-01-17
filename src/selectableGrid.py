@@ -28,6 +28,7 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     def h_refresh(self, inpt):
         self.refresh()
+        self.display()
 
     # Each time we change the selected line, we select the new one.
     def h_move_line_down(self, inpt):

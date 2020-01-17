@@ -31,7 +31,9 @@ class mainMenu(npyscreen.MultiLineAction):
                     self.vmform.parentApp.switchForm("MAIN")
                     return
                 if act_on_this == "REFRESH":
-                    self.vmform.current_grid.refresh()
+                    if self.vmform.current_grid:
+                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.display()
                     return
                 global MODE
                 MODE = act_on_this
