@@ -24,15 +24,21 @@ class mainMenu(npyscreen.MultiLineAction):
     def actionHighlighted(self, act_on_this, key_press):
         if key_press == 10:
             # npyscreen.notify_confirm(act_on_this)
+
             if self.vmform:
+                if act_on_this == "EXIT":
+                    main.kill_threads()
+                    self.vmform.parentApp.switchForm("MAIN")
+                    return
                 global MODE
                 MODE = act_on_this
                 global SELECTED_BUTTON
                 SELECTED_BUTTON = self.cursor_line
                 self.vmform.reload()
+
     def set_up_handlers(self):
         super().set_up_handlers()
-        self.add_handlers({curses.KEY_RIGHT:   self.h_exit_down})
+        self.add_handlers({curses.KEY_RIGHT: self.h_exit_down})
 
 
 class VmForm(npyscreen.FormBaseNew):
@@ -50,7 +56,7 @@ class VmForm(npyscreen.FormBaseNew):
             relx=1,
             max_width=13,
             max_height=10,
-            values="INSTANCES SECURITY VOLUMES SNAPSHOT".split(),
+            values="INSTANCES SECURITY VOLUMES SNAPSHOT EXIT".split(),
         )
 
         if MODE == "INSTANCES":
@@ -107,16 +113,6 @@ class VmForm(npyscreen.FormBaseNew):
             btn_security = self.add_widget(
                 npyscreen.ButtonPress, name="SECURITY", relx=self.rowOffset
             )
-            btn_quit = self.add_widget(
-                npyscreen.ButtonPress, name="EXIT", relx=self.rowOffset
-            )
-
-            def cb_stop():
-                main.kill_threads()
-                self.parentApp.switchForm("MAIN")
-
-            self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = cb_stop
-            btn_quit.whenPressed = cb_stop
 
             def cb_create_vm():
                 main.kill_threads()
