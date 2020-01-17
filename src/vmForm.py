@@ -14,21 +14,25 @@ import createVm
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0
 
+
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self,screen, vmform = None, *args, **keywords):
+    def __init__(self, screen, vmform=None, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.vmform = vmform
         self.cursor_line = SELECTED_BUTTON
+
     def actionHighlighted(self, act_on_this, key_press):
         if key_press == 10:
-            #npyscreen.notify_confirm(act_on_this)
+            # npyscreen.notify_confirm(act_on_this)
             if self.vmform:
                 global MODE
                 MODE = act_on_this
                 global SELECTED_BUTTON
                 SELECTED_BUTTON = self.cursor_line
                 self.vmform.reload()
-
+    def set_up_handlers(self):
+        super().set_up_handlers()
+        self.add_handlers({curses.KEY_RIGHT:   self.h_exit_down})
 
 
 class VmForm(npyscreen.FormBaseNew):
@@ -40,18 +44,14 @@ class VmForm(npyscreen.FormBaseNew):
         self.draw_line_at = int(y / 2)
         self.rowOffset = 16
 
-        # Buttons about global forms.
-        btns = list()
-        self.add_widget(mainMenu, vmform = self, relx=1, max_width=13, max_height=10, values = "INSTANCES SECURITY VOLUMES SNAPSHOT".split())
-
-        def buildCB(name):
-            def cb():
-                global MODE
-                MODE = name
-                self.reload()
-                npyscreen.notify_confirm(MODE)
-
-            return cb
+        self.add_widget(
+            mainMenu,
+            vmform=self,
+            relx=1,
+            max_width=13,
+            max_height=10,
+            values="INSTANCES SECURITY VOLUMES SNAPSHOT".split(),
+        )
 
         if MODE == "INSTANCES":
             y, _ = self.useable_space()
