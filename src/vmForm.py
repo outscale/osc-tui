@@ -30,6 +30,9 @@ class mainMenu(npyscreen.MultiLineAction):
                     main.kill_threads()
                     self.vmform.parentApp.switchForm("MAIN")
                     return
+                if act_on_this == "REFRESH":
+                    self.vmform.current_grid.refresh()
+                    return
                 global MODE
                 MODE = act_on_this
                 global SELECTED_BUTTON
@@ -56,7 +59,7 @@ class VmForm(npyscreen.FormBaseNew):
             relx=1,
             max_width=13,
             max_height=10,
-            values="INSTANCES SECURITY VOLUMES SNAPSHOT EXIT".split(),
+            values="INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT".split(),
         )
 
         if MODE == "INSTANCES":
@@ -68,7 +71,7 @@ class VmForm(npyscreen.FormBaseNew):
                 self.inspector.set_value(line)
 
             y, _ = self.useable_space()
-            self.vm_grid = self.add(
+            self.current_grid = self.add(
                 VmGrid,
                 name="Instances",
                 value=0,
@@ -135,8 +138,8 @@ class VmForm(npyscreen.FormBaseNew):
 
     def on_screen(self):
         super().on_screen()
-        # if not self.vm_grid.updater.isAlive():
-        #   self.vm_grid.start_updater()
+        # if not self.current_grid.updater.isAlive():
+        #   self.current_grid.start_updater()
 
     def draw_form(self,):
         _, MAXX = self.curses_pad.getmaxyx()
@@ -274,7 +277,7 @@ class Inspector:
                 "VM Termination",
             ):
                 main.GATEWAY.DeleteVms(VmIds=[vm[2]])
-            self.form.vm_grid.start_updater()
+            self.form.current_grid.start_updater()
 
         def stop_vm():
             main.GATEWAY.StopVms(VmIds=[vm[2]])
