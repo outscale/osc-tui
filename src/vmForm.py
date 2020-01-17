@@ -27,7 +27,7 @@ class VmForm(npyscreen.FormBaseNew):
         btns = list()
         btns.append(
             self.add_widget(
-                npyscreen.ButtonPress, name="INSTANCES", relx=1, max_width=13
+                npyscreen.ButtonPress, name="INSTANCES", relx=1, max_width=13,exit_left = True, exit_right = True
             )
         )
         btns.append(

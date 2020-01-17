@@ -39,6 +39,9 @@ class SelectableGrid(npyscreen.GridColTitles):
         if selected_row == 0:
             self.h_exit_up(inpt)
 
+    def h_move_cell_left(self, inpt):
+        self.h_exit_up(inpt)
+
     def exit_enter(self, input):
         self.select(input)
         # On Enter, we also exit the widget.
