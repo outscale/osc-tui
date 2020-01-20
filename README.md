@@ -22,7 +22,7 @@ as describe in osc-sdk-python's documentation.<br>
 Now you can clone the repository:
 <br>
 
-`https://github.com/outscale/osc-sdk-python.git`<br>
+`git clone https://github.com/outscale/osc-sdk-python.git`<br>
 
 And then open the project's folder: <br>
 
