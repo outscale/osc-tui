@@ -17,3 +17,11 @@ You will need to install:<br>
 <br>
 You will need to setup the file at `~/.oapi_credentials` as describe in osc-sdk-python's documentation.<br>
 <br>Later, we will automate this process :)
+<br><br>
+Now you can clone the repository:
+<br>
+`https://github.com/outscale/osc-sdk-python.git`<br>
+And then open the project's folder: <br>
+`cd osc-cli-curses`<br>
+Finally run it!<br>
+``./src/main.py``
