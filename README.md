@@ -15,9 +15,9 @@ You will need to install:<br>
 * OSC-SDK-Python (https://github.com/outscale/osc-sdk-python)<br>
 <br>
 <br>
-You will need to setup the file at
-`~/.oapi_credentials`
-as describe in osc-sdk-python's documentation.<br>
+You will need to setup this file:<br>
+`~/.oapi_credentials` <br>
+As described in osc-sdk-python's documentation.<br>
 <br>Later, we will automate this process :)
 <br><br>
 Now you can clone the repository:
