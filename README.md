@@ -6,7 +6,8 @@ Only the menu `INSTANCES` is currently implemented.<br>
 
 It is currently not compatible with python 3.7 because of the lib npyscreen used.<br/> The code is currently a bit dirty... Maybe big changes are coming!<br>To refresh any table, press [F5].<br>Feel free to suggest oher architectures, libs...<br/>The `src/` folder contains the project's sources.<br/>The `tests/` folder contain some crappy code used to test API calls or any other things...
 
-#Installation
+# Installation
+
 You will need to install:<br>
 Python3.6 (https://www.python.org/downloads/release/python-360/)<br>
 `pip install npyscreen`<br>
