@@ -24,4 +24,4 @@ Now you can clone the repository:
 And then open the project's folder: <br>
 `cd osc-cli-curses`<br>
 Finally run it!<br>
-``./src/main.py``
+`./src/main.py`
