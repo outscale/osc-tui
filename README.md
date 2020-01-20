@@ -9,10 +9,11 @@ It is currently not compatible with python 3.7 because of the lib npyscreen used
 # Installation
 
 You will need to install:<br>
-Python3.6 (https://www.python.org/downloads/release/python-360/)<br>
-`pip install npyscreen`<br>
-`pip install pyperclip`<br>
-OSC-SDK-Python (https://github.com/outscale/osc-sdk-python)<br>
+* Python3.6 (https://www.python.org/downloads/release/python-360/)<br>
+* `pip install npyscreen`<br>
+* `pip install pyperclip`<br>
+* OSC-SDK-Python (https://github.com/outscale/osc-sdk-python)<br>
 <br>
 <br>
 You will need to setup the file at `~/.oapi_credentials` as describe in osc-sdk-python's documentation.<br>
+<br>Later, we will automate this process :)
