@@ -3,9 +3,11 @@
 import json
 import os
 from pathlib import Path
+import requests
 
 import npyscreen
 from osc_sdk_python import Gateway
+import inputBox
 
 import main
 from vmForm import VmForm
@@ -19,9 +21,13 @@ class CallbackFactory:
         self.name = name
 
     def __call__(self):
-        main.GATEWAY = Gateway(**{"profile": self.name})
-        self.form.parentApp.addForm("Cockpit", VmForm, name="osc-cli-curses")
-        self.form.parentApp.switchForm("Cockpit")
+        try:
+            main.GATEWAY = Gateway(**{"profile": self.name})
+            self.form.parentApp.addForm("Cockpit", VmForm, name="osc-cli-curses")
+            self.form.parentApp.switchForm("Cockpit")
+        except requests.ConnectionError:
+            npyscreen.notify_confirm("Please check your credentials or your internet connection.","ERROR")
+
 
 
 class ProfileSelector(npyscreen.ActionFormV2):
