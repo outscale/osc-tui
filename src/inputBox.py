@@ -28,7 +28,7 @@ def readAKSK(title="Please type your AKSK", form_color='STANDOUT'):
 
     F = ConfirmCancelPopup(name=title, color=form_color)
     F.preserve_selected_widget = True
-    tf = F.add(npyscreen.TitleText, name = "ACCESS KEY:")
+    ak = F.add(npyscreen.TitleText, name = "ACCESS KEY:")
     sk = F.add(npyscreen.TitleText, name = "SECRET KEY:")
     region = F.add_widget(
         npyscreen.TitleCombo,
@@ -36,9 +36,9 @@ def readAKSK(title="Please type your AKSK", form_color='STANDOUT'):
         values="eu-west-2 eu-west-1".split(),
         value=0,
         )
-    tf.width = tf.width - 1
+    #ak.width = ak.width - 1
     F.edit()
     if F.value is True:
-        return [tf.value, sk.value, region.values[region.value]]
+        return [ak.value, sk.value, region.values[region.value]]
     else:
         return None
