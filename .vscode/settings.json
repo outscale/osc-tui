@@ -1,6 +1,0 @@
-{
-    "python.formatting.provider": "black",
-    "python.pythonPath": "/usr/local/bin/python3",
-    "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
-}
