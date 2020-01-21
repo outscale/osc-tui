@@ -8,7 +8,7 @@ import npyscreen
 import requests
 from osc_sdk_python import Gateway
 
-import inputBox
+import popup
 import main
 from vmForm import VmForm
 
@@ -71,10 +71,19 @@ class ProfileSelector(npyscreen.ActionFormV2):
                 bt.whenPressed = CallbackFactory(self, str(c))
 
         def new():
-            aksk = inputBox.readAKSK()
+            aksk = popup.readAKSK()
+            ok = True
             if aksk:
+                for c in aksk:
+                    if c in OAPI_CREDENTIALS:
+                        ok = False
+                        if npyscreen.notify_yes_no("An existing profile has the same name.\nContinue and overwrite it?", ""):
+                            ok = True
+                        break
+            if ok:
                 OAPI_CREDENTIALS.update(aksk)
                 save_credentials(self)
+
 
         bt = self.add_widget(npyscreen.ButtonPress, name="NEW PROFILE")
         bt.whenPressed = new
