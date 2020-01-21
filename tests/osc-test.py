@@ -26,5 +26,5 @@ if __name__ == '__main__':
     #print(json.dumps(gw.ReadSecurityGroups(
     #            Filters={"SecurityGroupIds": ['sg-c387f0b7']}
     #        )["SecurityGroups"][0]["InboundRules"]))
-    print(gw.ReadClientGateways())
+    print(json.dumps(gw.ReadSecurityGroups()))
     from requests import get

@@ -80,7 +80,7 @@ class ProfileSelector(npyscreen.ActionFormV2):
                         if npyscreen.notify_yes_no("An existing profile has the same name.\nContinue and overwrite it?", ""):
                             ok = True
                         break
-            if ok:
+            if ok and aksk:
                 OAPI_CREDENTIALS.update(aksk)
                 save_credentials(self)
 

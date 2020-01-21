@@ -7,7 +7,6 @@ import npyscreen
 import pyperclip
 
 import main
-import securityForm
 import securityRuleInputForm
 from selectableGrid import SelectableGrid
 from virtualMachine import VirtualMachine
@@ -28,6 +27,7 @@ class SecurityRulesForm(npyscreen.FormBaseNew):
         y, _ = self.useable_space()
         self.add(
             SecurityRulesGrid,
+            form = self,
             name="SecurityRules",
             value=0,
             additional_y_offset=2,
@@ -67,7 +67,7 @@ class SecurityRulesForm(npyscreen.FormBaseNew):
 
         def stop():
             main.kill_threads()
-            self.parentApp.switchForm("Security")
+            self.parentApp.switchForm("Cockpit")
 
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = stop
         quit.whenPressed = stop

@@ -7,7 +7,7 @@ import npyscreen
 import main
 
 class SelectableGrid(npyscreen.GridColTitles):
-    def __init__(self, screen, on_selection=None, *args, **keywords):
+    def __init__(self, screen, form, on_selection=None, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.scroll_exit = True
         self.on_selection = on_selection
@@ -17,6 +17,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.time_without_refreshing = 0
         self.exit_left = True
         self.exit_right = True
+        self.form = form
 
     def set_up_handlers(self):
         super().set_up_handlers()
@@ -33,12 +34,12 @@ class SelectableGrid(npyscreen.GridColTitles):
     # Each time we change the selected line, we select the new one.
     def h_move_line_down(self, inpt):
         super().h_move_line_down(inpt)
-        self.select(inpt)
+        #self.select(inpt)
 
     def h_move_line_up(self, inpt):
         selected_row = self.edit_cell[0]
         super().h_move_line_up(inpt)
-        self.select(inpt)
+        #self.select(inpt)
         selected_row += self.edit_cell[0]
         # Means we are hitting the top of the widget.
         if selected_row == 0:
