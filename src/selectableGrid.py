@@ -1,10 +1,11 @@
+import curses
 import threading
 import time
-import curses
 
 import npyscreen
 
 import main
+
 
 class SelectableGrid(npyscreen.GridColTitles):
     def __init__(self, screen, form, on_selection=None, *args, **keywords):
@@ -34,12 +35,12 @@ class SelectableGrid(npyscreen.GridColTitles):
     # Each time we change the selected line, we select the new one.
     def h_move_line_down(self, inpt):
         super().h_move_line_down(inpt)
-        #self.select(inpt)
+        # self.select(inpt)
 
     def h_move_line_up(self, inpt):
         selected_row = self.edit_cell[0]
         super().h_move_line_up(inpt)
-        #self.select(inpt)
+        # self.select(inpt)
         selected_row += self.edit_cell[0]
         # Means we are hitting the top of the widget.
         if selected_row == 0:
@@ -80,6 +81,8 @@ class SelectableGrid(npyscreen.GridColTitles):
         pass
 
 # This is the component that will poll the server and refresh the grid once started.
+
+
 class GridUpdater(threading.Thread):
     def __init__(self, grid, period=2000):
         threading.Thread.__init__(self)

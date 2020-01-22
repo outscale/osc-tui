@@ -5,12 +5,12 @@ import time
 import npyscreen
 import pyperclip
 
-import main
-import selectableGrid
-import virtualMachine
 import createVm
 import instancesGrid
+import main
 import securityGroupsGrid
+import selectableGrid
+import virtualMachine
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0
@@ -18,7 +18,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, vmform=None, draw_line_at = 6, *args, **keywords):
+    def __init__(self, screen, vmform=None, draw_line_at=6, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.vmform = vmform
         self.cursor_line = SELECTED_BUTTON
@@ -33,8 +33,8 @@ class mainMenu(npyscreen.MultiLineAction):
                 if MODE == 'INSTANCES':
                     if act_on_this == "CREATE NEW":
                         self.vmform.parentApp.addForm("CREATE_VM",
-                                                    createVm.CreateVm,
-                                                    name="osc-cli-curses")
+                                                      createVm.CreateVm,
+                                                      name="osc-cli-curses")
                         self.vmform.parentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'SECURITY':
@@ -74,6 +74,7 @@ class mainMenu(npyscreen.MultiLineAction):
         if(self.draw_line_at == self.cursor_line):
             super().h_cursor_line_up(input)
 
+
 class MainForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -84,7 +85,8 @@ class MainForm(npyscreen.FormBaseNew):
             for i in range(0, size):
                 out = out + '─'
             return out
-        menu_desc = ("INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " + build_line(15)).split()
+        menu_desc = (
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " + build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = 16
@@ -123,8 +125,6 @@ class MainForm(npyscreen.FormBaseNew):
 
     def on_screen(self):
         super().on_screen()
-        # if not self.current_grid.updater.isAlive():
-        #   self.current_grid.start_updater()
 
     def draw_form(self, ):
         _, MAXX = self.curses_pad.getmaxyx()

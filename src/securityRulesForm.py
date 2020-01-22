@@ -27,7 +27,7 @@ class SecurityRulesForm(npyscreen.FormBaseNew):
         y, _ = self.useable_space()
         self.add(
             SecurityRulesGrid,
-            form = self,
+            form=self,
             name="SecurityRules",
             value=0,
             additional_y_offset=2,
@@ -61,7 +61,8 @@ class SecurityRulesForm(npyscreen.FormBaseNew):
 
         new = self.add_widget(npyscreen.ButtonPress, name="NEW")
         new.whenPressed = new_sr
-        new_ssh_myip = self.add_widget(npyscreen.ButtonPress, name="NEW SSH FROM MY IP")
+        new_ssh_myip = self.add_widget(
+            npyscreen.ButtonPress, name="NEW SSH FROM MY IP")
         new_ssh_myip.whenPressed = new_sr_ssh
         quit = self.add_widget(npyscreen.ButtonPress, name="EXIT")
 
@@ -83,7 +84,8 @@ class SecurityRulesGrid(SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.col_titles = ["DIRECTION", "PROTOCOL", "FROM PORT", "TO PORT", "IP"]
+        self.col_titles = ["DIRECTION", "PROTOCOL",
+                           "FROM PORT", "TO PORT", "IP"]
         self.refresh()
         self.start_updater()
 

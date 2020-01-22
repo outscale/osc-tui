@@ -5,12 +5,12 @@ import time
 import npyscreen
 import pyperclip
 
-import main
-import selectableGrid
-import securityRulesForm
-import virtualMachine
 import createVm
+import main
 import popup
+import securityRulesForm
+import selectableGrid
+import virtualMachine
 
 
 class SecurityGroupsGrid(selectableGrid.SelectableGrid):
@@ -29,6 +29,7 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
+
 class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords, column_width=20)
@@ -44,4 +45,3 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
             popup.manageSecurityGroup(self.form, line)
 
         self.on_selection = on_selection
-
