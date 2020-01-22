@@ -41,7 +41,7 @@ class mainMenu(npyscreen.MultiLineAction):
                         return
                 elif MODE == 'SECURITY':
                     if act_on_this == "CREATE NEW":
-                        npyscreen.notify_confirm("Not imlemented yet")
+                        popup.newSecurityGroup(self.vmform)
                         return
                 elif MODE == 'SECURITY-RULES':
                     if act_on_this == "CREATE NEW":
