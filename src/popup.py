@@ -7,7 +7,8 @@ import pyperclip
 
 import main
 import securityGroupsGrid
-import vmForm
+import mainForm
+import securityRulesForm
 
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
@@ -153,8 +154,8 @@ def editInstance(form, instance, form_color='STANDOUT'):
             exit()
             main.kill_threads()
             main.VM = main.VMs[id]
-            vmForm.CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
-            vmForm.MODE = 'SECURITY-VM'
+            mainForm.CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
+            mainForm.MODE = 'SECURITY-VM'
             form.reload()
 
 

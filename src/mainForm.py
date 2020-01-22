@@ -74,7 +74,7 @@ class mainMenu(npyscreen.MultiLineAction):
         if(self.draw_line_at == self.cursor_line):
             super().h_cursor_line_up(input)
 
-class VmForm(npyscreen.FormBaseNew):
+class MainForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -134,5 +134,5 @@ class VmForm(npyscreen.FormBaseNew):
 
     def reload(self):
         main.kill_threads()
-        self.parentApp.addForm("Cockpit", VmForm, name="osc-cli-curses")
+        self.parentApp.addForm("Cockpit", MainForm, name="osc-cli-curses")
         self.parentApp.switchForm("Cockpit")

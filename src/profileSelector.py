@@ -10,7 +10,7 @@ from osc_sdk_python import Gateway
 
 import popup
 import main
-from vmForm import VmForm
+from mainForm import MainForm
 
 home = str(Path.home())
 
@@ -35,7 +35,7 @@ class CallbackFactory:
             main.GATEWAY = Gateway(**{"profile": self.name})
             res = main.GATEWAY.ReadClientGateways()
             if not "Errors" in res:
-                self.form.parentApp.addForm("Cockpit", VmForm, name="osc-cli-curses")
+                self.form.parentApp.addForm("Cockpit", MainForm, name="osc-cli-curses")
                 self.form.parentApp.switchForm("Cockpit")
             else:
                 should_destroy_profile = npyscreen.notify_yes_no(
