@@ -9,8 +9,8 @@ import requests
 from osc_sdk_python import Gateway
 
 import main
+import mainForm
 import popup
-from mainForm import MainForm
 
 home = str(Path.home())
 
@@ -35,8 +35,9 @@ class CallbackFactory:
             main.GATEWAY = Gateway(**{"profile": self.name})
             res = main.GATEWAY.ReadClientGateways()
             if not "Errors" in res:
+                mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
-                    "Cockpit", MainForm, name="osc-cli-curses")
+                    "Cockpit", mainForm.MainForm, name="osc-cli-curses")
                 self.form.parentApp.switchForm("Cockpit")
             else:
                 should_destroy_profile = npyscreen.notify_yes_no(

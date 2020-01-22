@@ -11,6 +11,8 @@ import main
 import securityGroupsGrid
 import selectableGrid
 import virtualMachine
+import securityRulesGrid
+import popup
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0
@@ -39,13 +41,29 @@ class mainMenu(npyscreen.MultiLineAction):
                         return
                 elif MODE == 'SECURITY':
                     if act_on_this == "CREATE NEW":
-                        npyscreen.notify("Not imlemented yet")
+                        npyscreen.notify_confirm("Not imlemented yet")
+                        return
+                elif MODE == 'SECURITY-RULES':
+                    if act_on_this == "CREATE NEW":
+                        popup.newSecurityGroupRule(self.vmform)
+                        return
+                    elif act_on_this == 'ADD SSH MY IP':
+                        main.GATEWAY.CreateSecurityGroupRule(
+                            FromPortRange=22,
+                            IpProtocol="tcp",
+                            IpRange=main.IP + "/32",
+                            ToPortRange=22,
+                            SecurityGroupId=main.SECURITY_GROUP,
+                            Flow="Inbound",
+                        )
+                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.display()
                         return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.vmform.parentApp.switchForm("MAIN")
                     return
-                if act_on_this == "REFRESH":
+                elif act_on_this == "REFRESH":
                     if hasattr(self.vmform, 'current_grid'):
                         self.vmform.current_grid.refresh()
                         self.vmform.current_grid.display()
@@ -98,6 +116,10 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == "SECURITY-VM":
             menu_desc.append('ADD SEC-GROUP')
+        elif MODE == 'SECURITY-RULES':
+            CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
+            menu_desc.append('CREATE NEW')
+            menu_desc.append('ADD SSH MY IP')
         self.add_widget(
             mainMenu,
             vmform=self,

@@ -4,11 +4,13 @@ import textwrap
 import npyscreen.fmPopup
 import npyscreen.wgmultiline
 import pyperclip
+import npyscreen
 
 import main
 import mainForm
 import securityGroupsGrid
 import securityRulesForm
+import securityRulesGrid
 
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
@@ -193,12 +195,8 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
 
     def edit_cb():
         exit()
-        form.parentApp.addForm(
-            "SecurityRules",
-            securityRulesForm.SecurityRulesForm,
-            name="osc-cli-curses",
-        )
-        form.parentApp.switchForm("SecurityRules")
+        mainForm.MODE = 'SECURITY-RULES'
+        form.reload()
 
     delete = F.add_widget(
         npyscreen.ButtonPress,
@@ -227,12 +225,8 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
 
     def edit_cb():
         exit()
-        form.parentApp.addForm(
-            "SecurityRules",
-            securityRulesForm.SecurityRulesForm,
-            name="osc-cli-curses",
-        )
-        form.parentApp.switchForm("SecurityRules")
+        mainForm.MODE = 'SECURITY-RULES'
+        form.reload()
 
     delete = F.add_widget(
         npyscreen.ButtonPress,
@@ -240,3 +234,89 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
     )
     edit.whenPressed = edit_cb
     F.edit()
+
+
+def editSecurityGroupRule(form, rule, form_color='STANDOUT'):
+    dir = rule[0]
+    protocol = "-1" if rule[1] == "all" else rule[1]
+    from_port = None if rule[2] == "all" else rule[2]
+    to_port = None if rule[3] == "all" else rule[3]
+    ip_range = rule[4]
+    main.SECURITY_RULE = id
+    title = "Rule: " + str(protocol) + " from: " + str(
+        from_port) + " to: " + str(to_port) + " with ip: " + str(ip_range)
+    F = displayPopup(name=title, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    btn_delete = F.add_widget(npyscreen.ButtonPress, name="DELETE")
+    def delete():
+        if from_port and to_port:
+            main.GATEWAY.DeleteSecurityGroupRule(
+                FromPortRange=from_port,
+                IpProtocol=protocol,
+                IpRange=ip_range,
+                ToPortRange=to_port,
+                SecurityGroupId=main.SECURITY_GROUP,
+                Flow=dir,
+            )
+        else:
+            main.GATEWAY.DeleteSecurityGroupRule(
+                IpProtocol=protocol,
+                IpRange=ip_range,
+                SecurityGroupId=main.SECURITY_GROUP,
+                Flow=dir,
+            )
+        exit()
+
+    btn_delete.whenPressed = delete
+    F.edit()
+    form.current_grid.ensure_cursor_on_display_down_right(None)
+    form.current_grid.ensure_cursor_on_display_up(None)
+    form.current_grid.refresh()
+    form.current_grid.display()
+
+def newSecurityGroupRule(form, form_color='STANDOUT'):
+    npyscreen.ActionPopup.DEFAULT_LINES = 15
+    F = ConfirmCancelPopup(name='', color=form_color)
+
+    F.preserve_selected_widget = True
+    F.add_widget(npyscreen.Textfield, value="From PORT:", editable=False)
+    from_port = F.add_widget(npyscreen.Textfield, value="22", editable=True)
+    F.add_widget(npyscreen.Textfield, value="To PORT:", editable=False)
+    to_port = F.add_widget(npyscreen.Textfield, value="22", editable=True)
+    protocole = F.add(
+        npyscreen.TitleSelectOne,
+        max_height=4,
+        value=[0,],
+        name="Protocol",
+        values=["tcp", "udp", "icmp", "all"],
+        scroll_exit=True,
+    )
+    F.add_widget(npyscreen.Textfield, value="IP:", editable=False)
+    ip = F.add_widget(
+        npyscreen.Textfield, value=main.IP + "/32", editable=True
+    )
+    def exit():
+        try:
+            main.GATEWAY.CreateSecurityGroupRule(
+                        FromPortRange=int(from_port.value),
+                        IpProtocol='-1' if protocole.get_selected_objects()[0] == 'all' else protocole.get_selected_objects()[0],
+                        IpRange=ip.value,
+                        ToPortRange=int(to_port.value),
+                        SecurityGroupId=main.SECURITY_GROUP,
+                        Flow = 'Inbound'
+                    )
+        except:
+            raise
+        F.editing = False
+        form.current_grid.refresh()
+        npyscreen.ActionPopup.DEFAULT_LINES = 12
+
+    F.on_ok = exit
+    F.edit()
+    form.current_grid.refresh()
+    form.current_grid.display()

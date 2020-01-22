@@ -17,7 +17,7 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.column_width=20
+        self.column_width = 20
         self.col_titles = ["SECURITY GROUPS ID", "SECURITY GROUPS NAME"]
         groups = main.GATEWAY.ReadSecurityGroups()["SecurityGroups"]
         values = list()
@@ -35,7 +35,7 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.column_width=20
+        self.column_width = 20
         self.col_titles = ["SECURITY GROUPS ID", "SECURITY GROUPS NAME"]
         groups = main.VM["SecurityGroups"]
         values = list()
