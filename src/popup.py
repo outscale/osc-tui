@@ -363,3 +363,37 @@ def newSecurityGroup(form, form_color='STANDOUT'):
     F.edit()
     form.current_grid.refresh()
     form.current_grid.display()
+
+def addSecurityGroupToVm(form,form_color='STANDOUT'):
+    id = main.SECURITY_GROUP
+    F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)
+    F.preserve_selected_widget = True
+    groups = main.VM["SecurityGroups"]
+    vm_sg = list()
+    for g in groups:
+        vm_sg.append(g["SecurityGroupId"])
+    groups = main.GATEWAY.ReadSecurityGroups()["SecurityGroups"]
+    values = list()
+    for g in groups:
+        if not g["SecurityGroupId"] in vm_sg:
+            values.append(g["SecurityGroupId"])
+    new_sg = F.add_widget(
+        npyscreen.TitleCombo,
+        name="CHOOSE SECURITY GROUP",
+        values=values,
+        value=0,
+    )
+
+    def exit():
+        groups = main.VM["SecurityGroups"]
+        values = list()
+        for g in groups:
+            values.append(g["SecurityGroupId"])
+        values.append(new_sg.values[new_sg.value])
+        res = main.GATEWAY.UpdateVm(VmId = main.VM["VmId"], SecurityGroupIds = values)
+        F.editing = False
+
+    F.on_ok = exit
+    F.edit()
+    form.current_grid.refresh()
+    form.current_grid.display()

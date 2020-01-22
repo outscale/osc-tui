@@ -42,6 +42,10 @@ class mainMenu(npyscreen.MultiLineAction):
                     if act_on_this == "CREATE NEW":
                         popup.newSecurityGroup(self.vmform)
                         return
+                elif MODE == 'SECURITY-VM':
+                    if act_on_this == "ADD SEC-GROUP":
+                        popup.addSecurityGroupToVm(self.vmform)
+                        return
                 elif MODE == 'SECURITY-RULES':
                     if act_on_this == "CREATE NEW":
                         popup.newSecurityGroupRule(self.vmform)
