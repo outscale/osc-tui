@@ -49,7 +49,24 @@ class SelectableGrid(npyscreen.GridColTitles):
             self.h_exit_up(inpt)
 
     def h_move_cell_left(self, inpt):
-        self.h_exit_up(inpt)
+        if self.edit_cell[1] > self.columns:
+            self.edit_cell[1] -= (self.columns + 1)
+            self.edit_cell[1] = self.edit_cell[1] if self.edit_cell[1]>0 else 0
+            if self.edit_cell[1] < self.begin_col_display_at:
+                self.h_scroll_left(inpt)
+            if self.edit_cell[1] < self.columns:
+                self.edit_cell[1] = 0
+        else:
+            self.h_exit_up(inpt)
+
+    def h_move_cell_right(self, inpt):
+        if self.edit_cell[1] <= len(self.values[self.edit_cell[0]]) -2:   # Only allow move to end of current line
+            self.edit_cell[1] += self.columns
+            self.edit_cell[1] = self.edit_cell[1] if self.edit_cell[1]<len(self.values) else len(self.values) - 1
+            if self.edit_cell[1] > self.begin_col_display_at + self.columns-1:
+                self.h_scroll_right(inpt)
+            #if self.edit_cell[1] < self.columns:
+            #    self.edit_cell[1] = self.columns
 
     def exit_enter(self, input):
         self.select(input)

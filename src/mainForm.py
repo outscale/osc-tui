@@ -117,6 +117,7 @@ class MainForm(npyscreen.FormBaseNew):
             additional_y_offset=2,
             additional_x_offset=2,
             max_height=int(y / 2 - 2),
+            column_width=17,
             select_whole_line=True,
             scroll_exit=True,
             relx=17,
