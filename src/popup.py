@@ -205,3 +205,35 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
     edit.whenPressed = edit_cb
     F.edit()
 
+def manageSecurityGroup(form, sg, form_color='STANDOUT'):
+    name = sg[1]
+    id = sg[0]
+    main.SECURITY_GROUP = id
+    F = displayPopup(name=name + ' (' + id + ')', color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        form.current_grid.refresh()
+        F.editing = False
+
+    F.on_ok = exit
+    edit = F.add_widget(
+        npyscreen.ButtonPress,
+        name="EDIT",
+    )
+
+    def edit_cb():
+        exit()
+        form.parentApp.addForm(
+            "SecurityRules",
+            securityRulesForm.SecurityRulesForm,
+            name="osc-cli-curses",
+        )
+        form.parentApp.switchForm("SecurityRules")
+
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="REMOVE",
+    )
+    edit.whenPressed = edit_cb
+    F.edit()

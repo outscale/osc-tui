@@ -41,7 +41,7 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
         self.values = values
 
         def on_selection(line):
-            popup.editSecurityGroup(self.form, line)
+            popup.manageSecurityGroup(self.form, line)
 
         self.on_selection = on_selection
 
