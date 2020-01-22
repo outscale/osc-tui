@@ -9,7 +9,6 @@ import npyscreen
 import main
 import mainForm
 import securityGroupsGrid
-import securityRulesForm
 import securityRulesGrid
 
 
