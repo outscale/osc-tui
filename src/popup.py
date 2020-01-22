@@ -1,10 +1,10 @@
 import curses
 import textwrap
 
+import npyscreen
 import npyscreen.fmPopup
 import npyscreen.wgmultiline
 import pyperclip
-import npyscreen
 
 import main
 import mainForm
@@ -221,7 +221,6 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
     F.preserve_selected_widget = True
 
     def exit():
-        form.current_grid.refresh()
         F.editing = False
 
     F.on_ok = exit
@@ -234,11 +233,20 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
         exit()
         mainForm.MODE = 'SECURITY-RULES'
 
-    delete = F.add_widget(
+    remove = F.add_widget(
         npyscreen.ButtonPress,
-        name="REMOVE",
+        name="REMOVE FROM INSTANCE",
     )
+    def remove_cb():
+        groups = main.VM["SecurityGroups"]
+        values = list()
+        for g in groups:
+            if id != g["SecurityGroupId"]:
+                values.append(g["SecurityGroupId"])
+        main.GATEWAY.UpdateVm(VmId = main.VM["VmId"], SecurityGroupIds = values)
+        exit()
     edit.whenPressed = edit_cb
+    remove.whenPressed = remove_cb
     F.edit()
     form.current_grid.refresh()
     form.current_grid.display()

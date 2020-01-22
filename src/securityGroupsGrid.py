@@ -48,3 +48,16 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
             popup.manageSecurityGroup(self.form, line)
 
         self.on_selection = on_selection
+
+    def refresh(self):
+        id = main.VM["VmId"]
+        data = main.GATEWAY.ReadVms()["Vms"]
+        main.VMs = dict()
+        for vm in data:
+            main.VMs.update({vm["VmId"]: vm})
+        main.VM = main.VMs[id]
+        groups = main.VM["SecurityGroups"]
+        values = list()
+        for g in groups:
+            values.append([g["SecurityGroupId"], g["SecurityGroupName"]])
+        self.values = values
