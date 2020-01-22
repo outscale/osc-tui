@@ -6,6 +6,8 @@ import npyscreen
 
 import main
 
+# Initially it was designed to have a thread that auto refresh... However, even if it worked fine, if too many people does it, it looks like a DDOS attack.
+# So now, use [F5] key to refreesh, a find a button called refresh.
 
 class SelectableGrid(npyscreen.GridColTitles):
     def __init__(self, screen, form, on_selection=None, *args, **keywords):
