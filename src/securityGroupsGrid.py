@@ -16,8 +16,7 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.column_width = 20
-        self.col_titles = ["SECURITY GROUPS ID", "SECURITY GROUPS NAME"]
+        self.col_titles = ["ID", "Name"]
 
         def on_selection(line):
             popup.editSecurityGroup(self.form, line)
@@ -36,8 +35,7 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.column_width = 20
-        self.col_titles = ["SECURITY GROUPS ID", "SECURITY GROUPS NAME"]
+        self.col_titles = ["ID", "Name"]
         groups = main.VM["SecurityGroups"]
         values = list()
         for g in groups:

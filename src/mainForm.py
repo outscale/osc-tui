@@ -70,7 +70,10 @@ class mainMenu(npyscreen.MultiLineAction):
                     return
                 MODE = act_on_this
                 global SELECTED_BUTTON
-                SELECTED_BUTTON = self.cursor_line
+                if act_on_this == 'INSTANCES' or act_on_this == 'SECURITY':
+                    SELECTED_BUTTON = 7
+                else:
+                    SELECTED_BUTTON = self.cursor_line
                 self.vmform.reload()
 
     def set_up_handlers(self):
@@ -139,7 +142,7 @@ class MainForm(npyscreen.FormBaseNew):
             additional_y_offset=2,
             additional_x_offset=2,
             max_height=int(y / 2 - 2),
-            column_width=17,
+            column_width=21,
             select_whole_line=True,
             scroll_exit=True,
             relx=17,
