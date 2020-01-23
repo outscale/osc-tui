@@ -13,6 +13,7 @@ import selectableGrid
 import virtualMachine
 import securityRulesGrid
 import popup
+import volumesGrid
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0
@@ -123,6 +124,8 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
             menu_desc.append('CREATE NEW')
             menu_desc.append('ADD SSH MY IP')
+        elif MODE == 'VOLUMES':
+            CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
         self.add_widget(
             mainMenu,
             vmform=self,
