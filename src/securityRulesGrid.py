@@ -55,3 +55,13 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
                     )
             self.values = values
 
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            ip = self.values[y][4]
+            cell.highlight_whole_widget = True
+            if main.IP in ip:
+                cell.color = "GOODHL"
+            else:
+                cell.color = "DEFAULT"

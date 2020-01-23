@@ -195,6 +195,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
     def edit_cb():
         exit()
         mainForm.MODE = 'SECURITY-RULES'
+        form.reload()
 
     delete = F.add_widget(
         npyscreen.ButtonPress,
@@ -232,6 +233,7 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
     def edit_cb():
         exit()
         mainForm.MODE = 'SECURITY-RULES'
+        form.reload()
 
     remove = F.add_widget(
         npyscreen.ButtonPress,
