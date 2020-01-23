@@ -104,6 +104,10 @@ def editInstance(form, instance, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="SECURITY",
     )
+    volumes = F.add_widget(
+        npyscreen.ButtonPress,
+        name="VOLUMES",
+    )
     # Now managing actions and wich buttons to hide or not.
     force_stop.hidden = (True if status == "stopped"
                          or status == "terminated" else False)
@@ -162,6 +166,12 @@ def editInstance(form, instance, form_color='STANDOUT'):
         pyperclip.copy(instance[5])
         exit()
 
+    def volumes_cb():
+        main.VM = main.VMs[id]
+        mainForm.MODE = 'VOLUMES-VM'
+        exit()
+        form.reload()
+
     copy_ip.whenPressed = copy_ip
     run_stop.whenPressed = start_vm if status == "stopped" else stop_vm
     force_stop.whenPressed = force_stop_vm
@@ -169,6 +179,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
     security.whenPressed = sg
     terminate.whenPressed = terminate_vm
     copy_ip.whenPressed = _copy_ip
+    volumes.whenPressed = volumes_cb
     F.edit()
 
 
@@ -357,40 +368,6 @@ def newSecurityGroup(form, form_color='STANDOUT'):
             )
         except BaseException:
             raise
-        F.editing = False
-
-    F.on_ok = exit
-    F.edit()
-    form.current_grid.refresh()
-    form.current_grid.display()
-
-def addSecurityGroupToVm(form,form_color='STANDOUT'):
-    id = main.SECURITY_GROUP
-    F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)
-    F.preserve_selected_widget = True
-    groups = main.VM["SecurityGroups"]
-    vm_sg = list()
-    for g in groups:
-        vm_sg.append(g["SecurityGroupId"])
-    groups = main.GATEWAY.ReadSecurityGroups()["SecurityGroups"]
-    values = list()
-    for g in groups:
-        if not g["SecurityGroupId"] in vm_sg:
-            values.append(g["SecurityGroupId"])
-    new_sg = F.add_widget(
-        npyscreen.TitleCombo,
-        name="CHOOSE SECURITY GROUP",
-        values=values,
-        value=0,
-    )
-
-    def exit():
-        groups = main.VM["SecurityGroups"]
-        values = list()
-        for g in groups:
-            values.append(g["SecurityGroupId"])
-        values.append(new_sg.values[new_sg.value])
-        res = main.GATEWAY.UpdateVm(VmId = main.VM["VmId"], SecurityGroupIds = values)
         F.editing = False
 
     F.on_ok = exit

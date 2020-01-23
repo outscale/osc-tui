@@ -29,16 +29,11 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         self.values = values
 
 
-class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
+class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.refresh()
-        self.col_titles = ["ID", "Name"]
-        groups = main.VM["SecurityGroups"]
-        values = list()
-        for g in groups:
-            values.append([g["SecurityGroupId"], g["SecurityGroupName"]])
-        self.values = values
+        self.col_titles = ["ID", "Name", 'Size (Gb)', 'Subregion']
 
         def on_selection(line):
             popup.manageSecurityGroup(self.form, line)
@@ -52,8 +47,10 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
         for vm in data:
             main.VMs.update({vm["VmId"]: vm})
         main.VM = main.VMs[id]
-        groups = main.VM["SecurityGroups"]
+        volume = main.GATEWAY.ReadVolumes(Filters = {'LinkVolumeVmIds' : [id]})
+        groups = volume['Volumes']
         values = list()
         for g in groups:
-            values.append([g["SecurityGroupId"], g["SecurityGroupName"]])
+            values.append([g["VolumeId"], g["VolumeType"],
+                           g["Size"], g['SubregionName']])
         self.values = values
