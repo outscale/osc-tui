@@ -136,7 +136,6 @@ class MainForm(npyscreen.FormBaseNew):
             vmform=self,
             relx=1,
             max_width=14,
-            max_height=10,
             values=menu_desc,
         )
 
@@ -149,7 +148,6 @@ class MainForm(npyscreen.FormBaseNew):
             value=0,
             additional_y_offset=2,
             additional_x_offset=2,
-            max_height=int(y / 2 - 2),
             column_width=21,
             select_whole_line=True,
             scroll_exit=True,
