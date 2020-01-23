@@ -1,6 +1,4 @@
 import curses
-import threading
-import time
 
 import npyscreen
 import pyperclip
@@ -108,7 +106,8 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " + build_line(15)).split()
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " +
+            build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = 16

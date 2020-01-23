@@ -1,6 +1,3 @@
-import curses
-import threading
-import time
 
 import npyscreen
 import pyperclip
@@ -27,7 +24,8 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadVolumes()['Volumes']
         values = list()
         for g in groups:
-            values.append([g["VolumeId"], g["VolumeType"], g["Size"], g['SubregionName']])
+            values.append([g["VolumeId"], g["VolumeType"],
+                           g["Size"], g['SubregionName']])
         self.values = values
 
 

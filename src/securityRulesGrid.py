@@ -1,13 +1,9 @@
-import curses
-import threading
-import time
-
-import npyscreen
-import pyperclip
 
 import createVm
 import main
+import npyscreen
 import popup
+import pyperclip
 import selectableGrid
 import virtualMachine
 
@@ -20,6 +16,7 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
                            "FROM PORT", "TO PORT", "IP"]
         self.refresh()
         self.start_updater()
+
         def on_selection(line):
             popup.editSecurityGroupRule(self.form, line)
         self.on_selection = on_selection
@@ -40,8 +37,7 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
                             rule["FromPortRange"] if "FromPortRange" in rule else "all",
                             rule["ToPortRange"] if "ToPortRange" in rule else "all",
                             ip,
-                        ]
-                    )
+                        ])
             for rule in data["OutboundRules"]:
                 for ip in rule["IpRanges"]:
                     values.append(
@@ -51,8 +47,7 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
                             rule["FromPortRange"] if "FromPortRange" in rule else "all",
                             rule["ToPortRange"] if "ToPortRange" in rule else "all",
                             ip,
-                        ]
-                    )
+                        ])
             self.values = values
 
     def custom_print_cell(self, cell, cell_value):

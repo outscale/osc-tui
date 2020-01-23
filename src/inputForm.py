@@ -5,7 +5,8 @@ QUESTION = 'Please, say something :)'
 DEFAULT_ANSWER = ''
 PREVIOUS_FORM = None
 
-def ask(form, question = None, default_answer = None, cb = None):
+
+def ask(form, question=None, default_answer=None, cb=None):
     global QUESTION
     global DEFAULT_ANSWER
     global PREVIOUS_FORM
@@ -18,14 +19,13 @@ def ask(form, question = None, default_answer = None, cb = None):
     form.parentApp.switchForm('InputForm')
 
 
-
 class InputForm(npyscreen.ActionFormV2):
     def create(self):
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
         self.add_widget(npyscreen.Textfield, value=QUESTION,
                         editable=False)
         self.input = self.add_widget(npyscreen.Textfield, value=DEFAULT_ANSWER,
-                        editable=True)
+                                     editable=True)
 
     def on_cancel(self):
         self.parentApp.switchFormPrevious()
@@ -36,9 +36,9 @@ class InputForm(npyscreen.ActionFormV2):
             CB(self.input.value)
         self.parentApp.switchFormPrevious()
 
+
 if __name__ == '__main__':
     class MyTestApp(npyscreen.NPSAppManaged):
         def onStart(self):
             self.registerForm("MAIN", InputForm())
     MyTestApp().run()
-

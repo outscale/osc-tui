@@ -34,16 +34,14 @@ class CallbackFactory:
         try:
             main.GATEWAY = Gateway(**{"profile": self.name})
             res = main.GATEWAY.ReadClientGateways()
-            if not "Errors" in res:
+            if "Errors" not in res:
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
                     "Cockpit", mainForm.MainForm, name="osc-cli-curses")
                 self.form.parentApp.switchForm("Cockpit")
             else:
                 should_destroy_profile = npyscreen.notify_yes_no(
-                    "Credentials are not valids.\nDo you want do delete this profile?",
-                    "ERROR",
-                )
+                    "Credentials are not valids.\nDo you want do delete this profile?", "ERROR", )
                 if should_destroy_profile:
                     global OAPI_CREDENTIALS
                     del OAPI_CREDENTIALS[self.name]
@@ -80,7 +78,8 @@ class ProfileSelector(npyscreen.ActionFormV2):
                 for c in aksk:
                     if c in OAPI_CREDENTIALS:
                         ok = False
-                        if npyscreen.notify_yes_no("An existing profile has the same name.\nContinue and overwrite it?", ""):
+                        if npyscreen.notify_yes_no(
+                                "An existing profile has the same name.\nContinue and overwrite it?", ""):
                             ok = True
                         break
             if ok and aksk:

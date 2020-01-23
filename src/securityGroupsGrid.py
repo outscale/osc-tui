@@ -1,6 +1,3 @@
-import curses
-import threading
-import time
 
 import npyscreen
 import pyperclip

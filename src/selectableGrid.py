@@ -9,6 +9,7 @@ import main
 # Initially it was designed to have a thread that auto refresh... However, even if it worked fine, if too many people does it, it looks like a DDOS attack.
 # So now, use [F5] key to refreesh, a find a button called refresh.
 
+
 class SelectableGrid(npyscreen.GridColTitles):
     def __init__(self, screen, form, on_selection=None, *args, **keywords):
         super().__init__(screen, *args, **keywords)
@@ -51,10 +52,10 @@ class SelectableGrid(npyscreen.GridColTitles):
     def h_move_cell_left(self, inpt):
         if len(self.values) > 0:
             if self.edit_cell[0] >= len(self.values):
-                self.edit_cell[0] = len(self.values)  - 1
+                self.edit_cell[0] = len(self.values) - 1
             if self.edit_cell[1] > self.columns:
                 self.edit_cell[1] -= (self.columns + 1)
-                self.edit_cell[1] = self.edit_cell[1] if self.edit_cell[1]>0 else 0
+                self.edit_cell[1] = self.edit_cell[1] if self.edit_cell[1] > 0 else 0
                 if self.edit_cell[1] < self.begin_col_display_at:
                     self.h_scroll_left(inpt)
                 if self.edit_cell[1] < self.columns:
@@ -65,11 +66,14 @@ class SelectableGrid(npyscreen.GridColTitles):
     def h_move_cell_right(self, inpt):
         if len(self.values) > 0:
             if self.edit_cell[0] >= len(self.values):
-                self.edit_cell[0] = len(self.values)  - 1
-            if self.edit_cell[1] <= len(self.values[self.edit_cell[0]]) -2:   # Only allow move to end of current line
+                self.edit_cell[0] = len(self.values) - 1
+            if self.edit_cell[1] <= len(
+                    self.values[self.edit_cell[0]]) - 2:   # Only allow move to end of current line
                 self.edit_cell[1] += self.columns
-                self.edit_cell[1] = self.edit_cell[1] if self.edit_cell[1]<len(self.values) else len(self.values) - 1
-                if self.edit_cell[1] > self.begin_col_display_at + self.columns-1:
+                self.edit_cell[1] = self.edit_cell[1] if self.edit_cell[1] < len(
+                    self.values) else len(self.values) - 1
+                if self.edit_cell[1] > self.begin_col_display_at + \
+                        self.columns - 1:
                     self.h_scroll_right(inpt)
 
     def exit_enter(self, input):
@@ -85,7 +89,7 @@ class SelectableGrid(npyscreen.GridColTitles):
     def select(self, inpt=None):
         if(self.edit_cell):
             self.selected_row = self.edit_cell[0]
-            if self.on_selection != None:
+            if self.on_selection is not None:
                 if not self.selected_row < len(self.values):
                     self.selected_row = len(self.values) - 1
                 if self.selected_row < 0:
@@ -103,7 +107,8 @@ class SelectableGrid(npyscreen.GridColTitles):
     def refresh(self):
         pass
 
-# This is the component that will poll the server and refresh the grid once started.
+# This is the component that will poll the server and refresh the grid
+# once started.
 
 
 class GridUpdater(threading.Thread):
@@ -120,7 +125,7 @@ class GridUpdater(threading.Thread):
         self.running = False
 
     def run(self):
-        while self.running == True:
+        while self.running:
             self.t2 = self.grid.time()
             dt = self.t2 - self.t1
             self.timeSinceLastRefresh += dt
