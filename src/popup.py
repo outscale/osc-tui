@@ -1,10 +1,11 @@
 
-import main
-import mainForm
 import npyscreen
 import npyscreen.fmPopup
 import npyscreen.wgmultiline
 import pyperclip
+
+import main
+import mainForm
 import securityGroupsGrid
 import securityRulesGrid
 
@@ -264,7 +265,7 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
     form.current_grid.display()
 
 
-def addSecurityGroupToVm(form,form_color='STANDOUT'):
+def addSecurityGroupToVm(form, form_color='STANDOUT'):
     id = main.SECURITY_GROUP
     F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)
     F.preserve_selected_widget = True
@@ -290,13 +291,16 @@ def addSecurityGroupToVm(form,form_color='STANDOUT'):
         for g in groups:
             values.append(g["SecurityGroupId"])
         values.append(new_sg.values[new_sg.value])
-        res = main.GATEWAY.UpdateVm(VmId = main.VM["VmId"], SecurityGroupIds = values)
+        res = main.GATEWAY.UpdateVm(
+            VmId=main.VM["VmId"],
+            SecurityGroupIds=values)
         F.editing = False
 
     F.on_ok = exit
     F.edit()
     form.current_grid.refresh()
     form.current_grid.display()
+
 
 def editSecurityGroupRule(form, rule, form_color='STANDOUT'):
     dir = rule[0]

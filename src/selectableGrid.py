@@ -51,7 +51,7 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     def h_move_cell_left(self, inpt):
         if len(self.values) > 0:
-            #Check y
+            # Check y
             if self.edit_cell[0] >= len(self.values):
                 self.edit_cell[0] = len(self.values) - 1
             if self.edit_cell[1] >= self.columns:
@@ -66,7 +66,7 @@ class SelectableGrid(npyscreen.GridColTitles):
 
     def h_move_cell_right(self, inpt):
         if len(self.values) > 0:
-            #Check y
+            # Check y
             if self.edit_cell[0] >= len(self.values):
                 self.edit_cell[0] = len(self.values) - 1
             if self.edit_cell[1] <= len(

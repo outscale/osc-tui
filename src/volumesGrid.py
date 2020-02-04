@@ -47,7 +47,7 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
         for vm in data:
             main.VMs.update({vm["VmId"]: vm})
         main.VM = main.VMs[id]
-        volume = main.GATEWAY.ReadVolumes(Filters = {'LinkVolumeVmIds' : [id]})
+        volume = main.GATEWAY.ReadVolumes(Filters={'LinkVolumeVmIds': [id]})
         groups = volume['Volumes']
         values = list()
         for g in groups:

@@ -6,11 +6,11 @@ import pyperclip
 import createVm
 import instancesGrid
 import main
+import popup
 import securityGroupsGrid
+import securityRulesGrid
 import selectableGrid
 import virtualMachine
-import securityRulesGrid
-import popup
 import volumesGrid
 
 MODE = "INSTANCES"
@@ -55,8 +55,7 @@ class mainMenu(npyscreen.MultiLineAction):
                             FromPortRange=22,
                             IpProtocol="tcp",
                             IpRange=main.IP + "/32",
-                            ToPortRange=22,
-                            SecurityGroupId=main.SECURITY_GROUP,
+                            ToPortRange=22, SecurityGroupId=main.SECURITY_GROUP,
                             Flow="Inbound",
                         )
                         self.vmform.current_grid.refresh()
