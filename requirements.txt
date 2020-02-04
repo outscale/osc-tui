@@ -1,9 +1,11 @@
+autopep8==1.5
 certifi==2019.11.28
 chardet==3.0.4
 idna==2.8
 npyscreen==4.10.5
 osc-sdk-python==0.9.15
+pycodestyle==2.5.0
 pyperclip==1.7.0
 requests==2.22.0
 ruamel.yaml==0.15.94
-urllib3==1.25.7
+urllib3==1.25.8
