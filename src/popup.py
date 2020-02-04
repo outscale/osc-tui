@@ -57,7 +57,7 @@ def readAKSK(form_color='STANDOUT'):
                 return {
                     name.value: {
                         'access_key': ak.value,
-                        'secret-key': sk.value,
+                        'secret_key': sk.value,
                         'region': region.values[region.value]
                     }
                 }
