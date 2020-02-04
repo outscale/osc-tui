@@ -8,29 +8,43 @@ It is currently not compatible with python 3.7 because of the lib npyscreen used
 
 # Installation
 
+You will need to install python3.6:<br>
+
+* Python3.6 (https://www.python.org/downloads/release/python-360/).
+
+Then setup a virtual environnement (Facultative but recommended):<br>
+* Install `virtualenv`: `python3.6 -m virtualenv -p python3.6 env`
+* Activate it: `source env/bin/activate`.
+* To exite use `deactivate`.
+
+<br>
 You will need to install:<br>
-* Python3.6 (https://www.python.org/downloads/release/python-360/)<br>
-* `pip install npyscreen`<br>
-* `pip install pyperclip`<br>
-* OSC-SDK-Python (https://github.com/outscale/osc-sdk-python)<br>
+
+* `python3.6 -m pip install npyscreen`.
+* `python3.6 -m pip install pyperclip`.
+* `python3.6 -m pip install autopep8`.
+* OSC-SDK-Python (https://github.com/outscale/osc-sdk-python).
+
 <br>
 <br>
 Now you can clone the repository:
 <br>
 
-`git clone https://github.com/outscale/osc-sdk-python.git`<br>
+* `git clone https://github.com/outscale/osc-sdk-python.git`<br>
 
 And then open the project's folder: <br>
 
-`cd osc-cli-curses`<br>
+* `cd osc-cli-curses`<br>
 
 Finally run it!<br>
 
-`./src/main.py`
+* `./src/main.py`
 
 # Contributing
 
-Just a few rule:<br>
+Just a few rules:<br>
 * Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive src/*.py`).
 * Format correctly your commits(`myFolfder: what I Did`, or `myFolder/test.py: what I did`).
+* Add external dependencies as less as possible.
+
 <br>Note that the commit standard is new now so not really applied yet.
