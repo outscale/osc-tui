@@ -32,10 +32,9 @@ class CreateVm(npyscreen.FormBaseNew):
             ADVANCED_MODE = not ADVANCED_MODE
             self.reload()
 
-        self.add_widget(
-            npyscreen.ButtonPress,
-            name="SHOW " + ("ADVANCED" if not ADVANCED_MODE else "BASIC") + " SETTINGS",
-        ).whenPressed = switchMode
+        self.add_widget(npyscreen.ButtonPress, name="SHOW " +
+                        ("ADVANCED" if not ADVANCED_MODE else "BASIC") +
+                        " SETTINGS", ).whenPressed = switchMode
 
         def back():
             main.kill_threads()
@@ -45,7 +44,7 @@ class CreateVm(npyscreen.FormBaseNew):
 
         def create():
 
-            if IMG_COMBO.get_value() == None or KEYPAIRS_COMBO.get_value() == None:
+            if IMG_COMBO.get_value() is None or KEYPAIRS_COMBO.get_value() is None:
                 npyscreen.notify_confirm(
                     "No image/keypair selected, please select one.",
                     title="Argument Missing",
@@ -57,7 +56,8 @@ class CreateVm(npyscreen.FormBaseNew):
                 return
             else:
                 id = ID_LIST[IMG_COMBO.get_value()]
-                keypair = KEYPAIRS_COMBO.get_values()[KEYPAIRS_COMBO.get_value()]
+                keypair = KEYPAIRS_COMBO.get_values()[
+                    KEYPAIRS_COMBO.get_value()]
                 res = ""
                 if ADVANCED_MODE:
                     res = main.GATEWAY.CreateVms(
@@ -69,7 +69,8 @@ class CreateVm(npyscreen.FormBaseNew):
                         ],
                     )
                 else:
-                    res = main.GATEWAY.CreateVms(ImageId=id, KeypairName=keypair)
+                    res = main.GATEWAY.CreateVms(
+                        ImageId=id, KeypairName=keypair)
                 if "Errors" in res:
                     npyscreen.notify_confirm(str(res["Errors"]))
                 else:
@@ -100,8 +101,9 @@ class CreateVm(npyscreen.FormBaseNew):
             keyPairsNames.append(keyPair["KeypairName"])
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText, name="VM name:", value=NAME.get_value() if NAME else ""
-        )
+            npyscreen.TitleText,
+            name="VM name:",
+            value=NAME.get_value() if NAME else "")
         global IMG_COMBO
         IMG_COMBO = self.add_widget(
             npyscreen.TitleCombo,
@@ -136,5 +138,7 @@ class CreateVm(npyscreen.FormBaseNew):
                 value=AOS_COMBO.get_value() if AOS_COMBO else 0,
             )
 
-        self.add_widget(npyscreen.ButtonPress, name="CREATE").whenPressed = create
+        self.add_widget(
+            npyscreen.ButtonPress,
+            name="CREATE").whenPressed = create
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back

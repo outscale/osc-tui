@@ -1,6 +1,3 @@
-import curses
-import threading
-import time
 
 import npyscreen
 import pyperclip
@@ -11,10 +8,12 @@ import virtualMachine
 import createVm
 import popup
 
+
 class InstancesGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.column_width=17
+        self.column_width = 17
+
         def on_selection_cb(line):
             popup.editInstance(self.form, line)
         self.on_selection = on_selection_cb

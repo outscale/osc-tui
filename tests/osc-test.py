@@ -1,7 +1,7 @@
 from osc_sdk_python import Gateway
 import json
 if __name__ == '__main__':
-    gw = Gateway(**{'profile': 'fne'})
+    gw = Gateway(**{'profile': 'default'})
 
     #for vm in gw.ReadVms()['Vms']:
      #   print(json.dumps(vm["SecurityGroups"]))
@@ -26,5 +26,5 @@ if __name__ == '__main__':
     #print(json.dumps(gw.ReadSecurityGroups(
     #            Filters={"SecurityGroupIds": ['sg-c387f0b7']}
     #        )["SecurityGroups"][0]["InboundRules"]))
-    print(json.dumps(gw.ReadSecurityGroups()))
+    print(json.dumps(vms))
     from requests import get

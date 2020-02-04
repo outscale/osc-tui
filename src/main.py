@@ -17,8 +17,8 @@ VMs = None
 SECURITY_GROUP = None
 SECURITY_RULE = None
 IP = get("https://api.ipify.org").text
-#Because it's cool but also a DDOS attack :)
-#So let's be cool with the API --> No auto refresh!
+# Because it's cool but also a DDOS attack :)
+# So let's be cool with the API --> No auto refresh!
 POLL_ENABLED = False
 
 # GLOBALS METHODS
@@ -45,7 +45,8 @@ def exit():
 class App(npyscreen.StandardApp):
     def onStart(self):
         npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
-        self.addForm("MAIN", profileSelector.ProfileSelector, name="osc-cli-curses")
+        self.addForm("MAIN", profileSelector.ProfileSelector,
+                     name="osc-cli-curses")
 
 
 # LET'S RUN

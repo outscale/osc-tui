@@ -8,9 +8,9 @@ import npyscreen
 import requests
 from osc_sdk_python import Gateway
 
-import popup
 import main
-from mainForm import MainForm
+import mainForm
+import popup
 
 home = str(Path.home())
 
@@ -34,20 +34,21 @@ class CallbackFactory:
         try:
             main.GATEWAY = Gateway(**{"profile": self.name})
             res = main.GATEWAY.ReadClientGateways()
-            if not "Errors" in res:
-                self.form.parentApp.addForm("Cockpit", MainForm, name="osc-cli-curses")
+            if "Errors" not in res:
+                mainForm.MODE = 'INSTANCES'
+                self.form.parentApp.addForm(
+                    "Cockpit", mainForm.MainForm, name="osc-cli-curses")
                 self.form.parentApp.switchForm("Cockpit")
             else:
                 should_destroy_profile = npyscreen.notify_yes_no(
-                    "Credentials are not valids.\nDo you want do delete this profile?",
-                    "ERROR",
-                )
+                    "Credentials are not valids.\nDo you want do delete this profile?", "ERROR", )
                 if should_destroy_profile:
                     global OAPI_CREDENTIALS
                     del OAPI_CREDENTIALS[self.name]
                     save_credentials(self.form)
         except requests.ConnectionError:
-            npyscreen.notify_confirm("Please check your internet connection.", "ERROR")
+            npyscreen.notify_confirm(
+                "Please check your internet connection.", "ERROR")
 
 
 class ProfileSelector(npyscreen.ActionFormV2):
@@ -77,13 +78,13 @@ class ProfileSelector(npyscreen.ActionFormV2):
                 for c in aksk:
                     if c in OAPI_CREDENTIALS:
                         ok = False
-                        if npyscreen.notify_yes_no("An existing profile has the same name.\nContinue and overwrite it?", ""):
+                        if npyscreen.notify_yes_no(
+                                "An existing profile has the same name.\nContinue and overwrite it?", ""):
                             ok = True
                         break
             if ok and aksk:
                 OAPI_CREDENTIALS.update(aksk)
                 save_credentials(self)
-
 
         bt = self.add_widget(npyscreen.ButtonPress, name="NEW PROFILE")
         bt.whenPressed = new

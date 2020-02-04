@@ -1,16 +1,17 @@
 import curses
-import threading
-import time
 
 import npyscreen
 import pyperclip
 
-import main
-import selectableGrid
-import virtualMachine
 import createVm
 import instancesGrid
+import main
+import popup
 import securityGroupsGrid
+import securityRulesGrid
+import selectableGrid
+import virtualMachine
+import volumesGrid
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0
@@ -18,7 +19,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, vmform=None, draw_line_at = 6, *args, **keywords):
+    def __init__(self, screen, vmform=None, draw_line_at=6, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.vmform = vmform
         self.cursor_line = SELECTED_BUTTON
@@ -33,26 +34,48 @@ class mainMenu(npyscreen.MultiLineAction):
                 if MODE == 'INSTANCES':
                     if act_on_this == "CREATE NEW":
                         self.vmform.parentApp.addForm("CREATE_VM",
-                                                    createVm.CreateVm,
-                                                    name="osc-cli-curses")
+                                                      createVm.CreateVm,
+                                                      name="osc-cli-curses")
                         self.vmform.parentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'SECURITY':
                     if act_on_this == "CREATE NEW":
-                        npyscreen.notify("Not imlemented yet")
+                        popup.newSecurityGroup(self.vmform)
+                        return
+                elif MODE == 'SECURITY-VM':
+                    if act_on_this == "ADD SEC-GROUP":
+                        popup.addSecurityGroupToVm(self.vmform)
+                        return
+                elif MODE == 'SECURITY-RULES':
+                    if act_on_this == "CREATE NEW":
+                        popup.newSecurityGroupRule(self.vmform)
+                        return
+                    elif act_on_this == 'ADD SSH MY IP':
+                        main.GATEWAY.CreateSecurityGroupRule(
+                            FromPortRange=22,
+                            IpProtocol="tcp",
+                            IpRange=main.IP + "/32",
+                            ToPortRange=22, SecurityGroupId=main.SECURITY_GROUP,
+                            Flow="Inbound",
+                        )
+                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.display()
                         return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.vmform.parentApp.switchForm("MAIN")
                     return
-                if act_on_this == "REFRESH":
+                elif act_on_this == "REFRESH":
                     if hasattr(self.vmform, 'current_grid'):
                         self.vmform.current_grid.refresh()
                         self.vmform.current_grid.display()
                     return
                 MODE = act_on_this
                 global SELECTED_BUTTON
-                SELECTED_BUTTON = self.cursor_line
+                if act_on_this == 'INSTANCES' or act_on_this == 'SECURITY':
+                    SELECTED_BUTTON = 7
+                else:
+                    SELECTED_BUTTON = self.cursor_line
                 self.vmform.reload()
 
     def set_up_handlers(self):
@@ -74,6 +97,7 @@ class mainMenu(npyscreen.MultiLineAction):
         if(self.draw_line_at == self.cursor_line):
             super().h_cursor_line_up(input)
 
+
 class MainForm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -84,7 +108,9 @@ class MainForm(npyscreen.FormBaseNew):
             for i in range(0, size):
                 out = out + '─'
             return out
-        menu_desc = ("INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " + build_line(15)).split()
+        menu_desc = (
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " +
+            build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = 16
@@ -96,12 +122,19 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == "SECURITY-VM":
             menu_desc.append('ADD SEC-GROUP')
+        elif MODE == 'SECURITY-RULES':
+            CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
+            menu_desc.append('CREATE NEW')
+            menu_desc.append('ADD SSH MY IP')
+        elif MODE == 'VOLUMES':
+            CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
+        elif MODE == 'VOLUMES-VM':
+            CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         self.add_widget(
             mainMenu,
             vmform=self,
             relx=1,
             max_width=14,
-            max_height=10,
             values=menu_desc,
         )
 
@@ -114,7 +147,7 @@ class MainForm(npyscreen.FormBaseNew):
             value=0,
             additional_y_offset=2,
             additional_x_offset=2,
-            max_height=int(y / 2 - 2),
+            column_width=21,
             select_whole_line=True,
             scroll_exit=True,
             relx=17,
@@ -123,8 +156,6 @@ class MainForm(npyscreen.FormBaseNew):
 
     def on_screen(self):
         super().on_screen()
-        # if not self.current_grid.updater.isAlive():
-        #   self.current_grid.start_updater()
 
     def draw_form(self, ):
         _, MAXX = self.curses_pad.getmaxyx()
