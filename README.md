@@ -27,3 +27,10 @@ And then open the project's folder: <br>
 Finally run it!<br>
 
 `./src/main.py`
+
+# Contributing
+
+Just a few rule:<br>
+* Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive src/*.py`).
+* Format correctly your commits(`myFolfder: what I Did`, or `myFolder/test.py: what I did`).
+<br>Note that the commit standard is new now so not really applied yet.
