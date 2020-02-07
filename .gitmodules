@@ -1,0 +1,3 @@
+[submodule "npyscreen"]
+	path = npyscreen
+	url = https://github.com/npcole/npyscreen.git
