@@ -23,7 +23,7 @@ class CreateVm(npyscreen.FormBaseNew):
 
     def reload(self):
         main.kill_threads()
-        self.parentApp.addForm("CREATE_VM", CreateVm, name="osc-cli-curses")
+        self.parentApp.addForm("CREATE_VM", CreateVm, name="osc-tui")
         self.parentApp.switchForm("CREATE_VM")
 
     def create(self):

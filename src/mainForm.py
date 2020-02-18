@@ -35,7 +35,7 @@ class mainMenu(npyscreen.MultiLineAction):
                     if act_on_this == "CREATE NEW":
                         self.vmform.parentApp.addForm("CREATE_VM",
                                                       createVm.CreateVm,
-                                                      name="osc-cli-curses")
+                                                      name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'SECURITY':
@@ -165,5 +165,5 @@ class MainForm(npyscreen.FormBaseNew):
 
     def reload(self):
         main.kill_threads()
-        self.parentApp.addForm("Cockpit", MainForm, name="osc-cli-curses")
+        self.parentApp.addForm("Cockpit", MainForm, name="osc-tui")
         self.parentApp.switchForm("Cockpit")

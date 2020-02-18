@@ -46,7 +46,7 @@ class App(npyscreen.StandardApp):
     def onStart(self):
         npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
-                     name="osc-cli-curses")
+                     name="osc-tui")
 
 
 # LET'S RUN

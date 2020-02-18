@@ -21,7 +21,7 @@ def save_credentials(form):
     file = home + "/.oapi_credentials"
     with open(file, "w") as filetowrite:
         filetowrite.write(json.dumps(OAPI_CREDENTIALS))
-    form.parentApp.addForm("MAIN", ProfileSelector, name="osc-cli-curses")
+    form.parentApp.addForm("MAIN", ProfileSelector, name="osc-tui")
     form.parentApp.switchForm("MAIN")
 
 
@@ -37,7 +37,7 @@ class CallbackFactory:
             if "Errors" not in res:
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
-                    "Cockpit", mainForm.MainForm, name="osc-cli-curses")
+                    "Cockpit", mainForm.MainForm, name="osc-tui")
                 self.form.parentApp.switchForm("Cockpit")
             else:
                 should_destroy_profile = npyscreen.notify_yes_no(
