@@ -11,7 +11,7 @@ You will need to install python3:<br>
 Now you can clone the repository:
 <br>
 
-* `git clone https://github.com/outscale/osc-sdk-python.git`
+* `git clone https://github.com/outscale-dev/osc-tui.git`
 
 <br>
 
