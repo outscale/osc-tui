@@ -128,6 +128,8 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('ADD SSH MY IP')
         elif MODE == 'VOLUMES':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
+        elif MODE == 'VOLUMES-EDIT':
+            CURRENT_GRID_CLASS = volumesGrid.VolumeGridEdit
         elif MODE == 'VOLUMES-VM':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         self.add_widget(

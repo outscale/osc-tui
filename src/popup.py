@@ -412,3 +412,58 @@ def newSecurityGroup(form, form_color='STANDOUT'):
     F.edit()
     form.current_grid.refresh()
     form.current_grid.display()
+
+
+def editVolume(form, volume, form_color='STANDOUT'):
+    type = volume[1]
+    id = volume[0]
+    size = volume[2]
+    vm_id = volume[4]
+
+    F = displayPopup(name="{} ({}), {}gib, linked to: {}".format(id, type, size, vm_id))
+    F.preserve_selected_widget = True
+
+
+    def exit():
+        form.current_grid.refresh()
+        F.editing = False
+    
+    F.on_ok = exit
+    edit = F.add_widget(
+        npyscreen.ButtonPress,
+        name="EDIT",
+    )
+
+
+    def edit_cb():
+        exit()
+        mainForm.MODE = 'VOLUMES-EDIT'
+        form.reload()
+
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="DELETE",
+    )
+
+    def delete_cb():
+        try:
+            val = main.GATEWAY.DeleteVolume(VolumeId=id)
+        except BaseException:
+            raise
+        exit()
+
+    vm = F.add_widget(
+        npyscreen.ButtonPress,
+        name="volume"
+    )
+
+    def volume_cb():
+        pass    
+    
+    
+    edit.whenPress = edit_cb
+    delete.whenPress = delete_cb
+    
+    F.edit()
+    form.current_grid.refresh()
+    form.current_grid.display()
