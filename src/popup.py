@@ -452,14 +452,8 @@ def editVolume(form, volume, form_color='STANDOUT'):
             raise
         exit()
 
-    vm = F.add_widget(
-        npyscreen.ButtonPress,
-        name="volume"
-    )
-
     def volume_cb():
         pass    
-    
     
     edit.whenPress = edit_cb
     delete.whenPress = delete_cb

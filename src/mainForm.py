@@ -5,6 +5,7 @@ import pyperclip
 
 import createVm
 import instancesGrid
+import snapshotGrid
 import main
 import popup
 import securityGroupsGrid
@@ -132,6 +133,8 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridEdit
         elif MODE == 'VOLUMES-VM':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
+        elif MODE == 'SNAPSHOT':
+            CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
         self.add_widget(
             mainMenu,
             vmform=self,
@@ -139,7 +142,6 @@ class MainForm(npyscreen.FormBaseNew):
             max_width=14,
             values=menu_desc,
         )
-
         y, _ = self.useable_space()
 
         self.current_grid = self.add(
