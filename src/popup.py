@@ -461,3 +461,51 @@ def editVolume(form, volume, form_color='STANDOUT'):
     F.edit()
     form.current_grid.refresh()
     form.current_grid.display()
+
+
+def editSnapshot(form, snapshot, form_color='STANDOUT'):
+    id = snapshot[0]
+    description = snapshot[1]
+    size = snapshot[2]
+    volume_id = snapshot[3]
+
+    F = displayPopup(name="{} ({}gib), volume: {}".format(id,size, volume_id))
+    F.preserve_selected_widget = True
+
+    def exit():
+        form.current_grid.refresh()
+        F.editing = False
+
+    F.on_ok = exit
+    edit = F.add_widget(
+        npyscreen.ButtonPress,
+        name="EDIT",
+    )   
+    
+    def edit_cb():
+        exit()
+        mainForm.MODE = "SNAPSHOT-EDIT"
+        form.reload()
+                               
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="DELETE",
+    )   
+
+    def delete_cb():
+        try:
+            val = main.GATEWAY.DeleteSnapshot(SnapshotId=id)
+        except BaseException:
+            raise
+        exit()
+
+    def volume_cb():
+        pass
+
+    edit.whenPress=edit_cb
+    delete.whenPress=delete_cb
+
+    F.edit()
+    
+    form.current_grid.refresh()
+    form.current_grid.display()

@@ -11,7 +11,6 @@ import virtualMachine
 
 class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
-        print("INIT")
         super().__init__(screen, *args, **keywords)
         self.refresh()
         self.col_titles = ["ID", "Type", 'Size (Gb)', 'Subregion', 'Linked To']
