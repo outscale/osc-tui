@@ -4,17 +4,21 @@ import main
 # If advanced VM creation enabled.
 ADVANCED_MODE = False
 # All images combo box.
-IMG_COMBO = None
+SNAPSHOT_COMBO = None
 # List of all IDs
 ID_LIST = None
 # Textbox for name inpur.
 NAME = None
-# Key pairs combo box.
-KEYPAIRS_COMBO = None
+# TYPE of volume
+TYPE = None
+# SUBREGION name
+SUBREGION = None
 # VM TYPE combo box.
 VM_COMBO = None
-# Action On Shutdown combo box.
-AOS_COMBO = None
+# SIZE of volume in gib
+SIZE = None
+#COUNT of volume created
+COUNT = None
 
 
 class CreateVolume(npyscreen.FormBaseNew):
@@ -36,9 +40,9 @@ class CreateVolume(npyscreen.FormBaseNew):
 
         def create():
 
-            if IMG_COMBO.get_value() is None or KEYPAIRS_COMBO.get_value() is None:
+            if SNAPSHOT_COMBO.get_value() is None or SUBREGION.get_value() is None:
                 npyscreen.notify_confirm(
-                    "No image/keypair selected, please select one.",
+                    "No snapshot/subregion selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
                     wrap=True,
@@ -47,41 +51,40 @@ class CreateVolume(npyscreen.FormBaseNew):
                 self.display()
                 return
             else:
-                id = ID_LIST[IMG_COMBO.get_value()]
-                keypair = KEYPAIRS_COMBO.get_values()[
-                    KEYPAIRS_COMBO.get_value()]
+                id = ID_LIST[SNAPSHOT_COMBO.get_value()]
+                snapshot = SNAPSHOT_COMBO.get_values()[
+                    SNAPSHOT_COMBO.get_value()
+                ]
+                subregionName = SUBREGION.get_values()[
+                    SUBREGION.get_value()
+                ]
+                volumeType = TYPE.get_values()[
+                    TYPE.get_value()
+                ]
                 res = ""
-                if ADVANCED_MODE:
-                    res = main.GATEWAY.CreateVms(
-                        ImageId=id,
-                        KeypairName=keypair,
-                        VmType=VM_COMBO.get_values()[VM_COMBO.get_value()],
-                        VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
-                            AOS_COMBO.get_value()
-                        ],
-                    )
-                else:
-                    res = main.GATEWAY.CreateVms(
-                        ImageId=id, KeypairName=keypair)
+                res = main.GATEWAY.CreateVolume(
+                    SnapshotId=id,
+                    SubregionName=subregionName,
+                    Size=int(SIZE.get_value()),
+                    VolumeType=volumeType
+                )
                 if "Errors" in res:
                     npyscreen.notify_confirm(str(res["Errors"]))
                 else:
-                    vmId = res["Vms"][0]["VmId"]
+                    volumeId = res["Volume"]["VolumeId"]
                     main.GATEWAY.CreateTags(
-                        ResourceIds=[vmId],
+                        ResourceIds=[volumeId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
-
+                back()
+        
         snapshots = main.GATEWAY.ReadSnapshots()["Snapshots"]
         snapshots_vals = []
         ID_LIST = []
         for snap in snapshots:
             name = snap["Tags"][0]["Value"] if snap["Tags"] else "Unkown"
             snapshots_vals.append(
-                + " id: "
-                + snap["SnapshotId"]
-                + " name: "
-                + name
+                " id: " + snap["SnapshotId"] + " name: " + name
             )
             ID_LIST.append(snap["SnapshotId"])
 
@@ -108,15 +111,26 @@ class CreateVolume(npyscreen.FormBaseNew):
         subregions = main.GATEWAY.ReadSubregions()["Subregions"]
         subregions_vals = []
         for subregion in subregions:
-            subregions_val.append(subregion["SubregionName"])
-        SUBREGION = self.widget(
+            subregions_vals.append(subregion["SubregionName"])
+        SUBREGION = self.add_widget(
             npyscreen.TitleCombo,
             name="CHOOSE A SUBREGION",
-            values=subregions_val,
+            values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0
         )
-
-        # @TODO Need to keep doing that  
+        print(SUBREGION.get_values())
+        global SIZE
+        SIZE = self.add_widget(
+            npyscreen.TitleText,
+            name="CHOOSE A SIZE (gib)",
+            value=SIZE.get_value() if SIZE else "10"
+        )
+        global COUNT
+        COUNT = self.add_widget(
+            npyscreen.TitleText,
+            name="CHOOSE A COUNT",
+            value=COUNT.get_value() if COUNT else "1"
+        )
         if ADVANCED_MODE:
             vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
                 " "
