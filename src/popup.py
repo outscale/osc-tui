@@ -455,8 +455,8 @@ def editVolume(form, volume, form_color='STANDOUT'):
     def volume_cb():
         pass    
     
-    edit.whenPress = edit_cb
-    delete.whenPress = delete_cb
+    edit.whenPressed = edit_cb
+    delete.whenPressed = delete_cb
     
     F.edit()
     form.current_grid.refresh()
@@ -502,8 +502,8 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     def volume_cb():
         pass
 
-    edit.whenPress=edit_cb
-    delete.whenPress=delete_cb
+    edit.whenPressed = edit_cb
+    delete.whenPressed = delete_cb
 
     F.edit()
     
