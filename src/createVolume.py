@@ -17,8 +17,6 @@ SUBREGION = None
 VM_COMBO = None
 # SIZE of volume in gib
 SIZE = None
-#COUNT of volume created
-COUNT = None
 
 
 class CreateVolume(npyscreen.FormBaseNew):
@@ -61,7 +59,6 @@ class CreateVolume(npyscreen.FormBaseNew):
                 volumeType = TYPE.get_values()[
                     TYPE.get_value()
                 ]
-                res = ""
                 res = main.GATEWAY.CreateVolume(
                     SnapshotId=id,
                     SubregionName=subregionName,
@@ -118,18 +115,11 @@ class CreateVolume(npyscreen.FormBaseNew):
             values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0
         )
-        print(SUBREGION.get_values())
         global SIZE
         SIZE = self.add_widget(
             npyscreen.TitleText,
             name="CHOOSE A SIZE (gib)",
             value=SIZE.get_value() if SIZE else "10"
-        )
-        global COUNT
-        COUNT = self.add_widget(
-            npyscreen.TitleText,
-            name="CHOOSE A COUNT",
-            value=COUNT.get_value() if COUNT else "1"
         )
         if ADVANCED_MODE:
             vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(

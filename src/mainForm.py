@@ -5,6 +5,7 @@ import pyperclip
 
 import createVm
 import createVolume
+import createSnapshot
 import instancesGrid
 import snapshotGrid
 import main
@@ -69,6 +70,13 @@ class mainMenu(npyscreen.MultiLineAction):
                                                     createVolume.CreateVolume,
                                                     name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_VOLUME")
+                        return
+                elif MODE == 'SNAPSHOT':
+                    if act_on_this == 'CREATE NEW':
+                        self.vmform.parentApp.addForm("CREATE_SNAPSHOT",
+                                                    createSnapshot.CreateSnapshot,
+                                                    name="osc-tui")
+                        self.vmform.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
                 if act_on_this == "EXIT":
                     main.kill_threads()
@@ -144,6 +152,7 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         elif MODE == 'SNAPSHOT':
             CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
+            menu_desc.append('CREATE NEW')
         self.add_widget(
             mainMenu,
             vmform=self,
