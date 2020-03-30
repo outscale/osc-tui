@@ -4,7 +4,10 @@ import npyscreen
 import pyperclip
 
 import createVm
+import createVolume
+import createSnapshot
 import instancesGrid
+import snapshotGrid
 import main
 import popup
 import securityGroupsGrid
@@ -60,6 +63,20 @@ class mainMenu(npyscreen.MultiLineAction):
                         )
                         self.vmform.current_grid.refresh()
                         self.vmform.current_grid.display()
+                        return
+                elif MODE == 'VOLUMES':
+                    if act_on_this == 'CREATE NEW':
+                        self.vmform.parentApp.addForm("CREATE_VOLUME",
+                                                    createVolume.CreateVolume,
+                                                    name="osc-tui")
+                        self.vmform.parentApp.switchForm("CREATE_VOLUME")
+                        return
+                elif MODE == 'SNAPSHOT':
+                    if act_on_this == 'CREATE NEW':
+                        self.vmform.parentApp.addForm("CREATE_SNAPSHOT",
+                                                    createSnapshot.CreateSnapshot,
+                                                    name="osc-tui")
+                        self.vmform.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
                 if act_on_this == "EXIT":
                     main.kill_threads()
@@ -128,8 +145,14 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('ADD SSH MY IP')
         elif MODE == 'VOLUMES':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'VOLUMES-EDIT':
+            CURRENT_GRID_CLASS = volumesGrid.VolumeGridEdit
         elif MODE == 'VOLUMES-VM':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
+        elif MODE == 'SNAPSHOT':
+            CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
+            menu_desc.append('CREATE NEW')
         self.add_widget(
             mainMenu,
             vmform=self,
@@ -137,7 +160,6 @@ class MainForm(npyscreen.FormBaseNew):
             max_width=14,
             values=menu_desc,
         )
-
         y, _ = self.useable_space()
 
         self.current_grid = self.add(

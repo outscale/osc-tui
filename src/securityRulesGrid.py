@@ -26,28 +26,30 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
             self.refreshing = True
             data = main.GATEWAY.ReadSecurityGroups(
                 Filters={"SecurityGroupIds": [main.SECURITY_GROUP]}
-            )["SecurityGroups"][0]
+            )["SecurityGroups"]
             values = list()
-            for rule in data["InboundRules"]:
-                for ip in rule["IpRanges"]:
-                    values.append(
-                        [
-                            "Inbound",
-                            "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
-                            rule["FromPortRange"] if "FromPortRange" in rule else "all",
-                            rule["ToPortRange"] if "ToPortRange" in rule else "all",
-                            ip,
-                        ])
-            for rule in data["OutboundRules"]:
-                for ip in rule["IpRanges"]:
-                    values.append(
-                        [
-                            "Outbound",
-                            "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
-                            rule["FromPortRange"] if "FromPortRange" in rule else "all",
-                            rule["ToPortRange"] if "ToPortRange" in rule else "all",
-                            ip,
-                        ])
+            if data:
+                for rule in data[0]["InboundRules"]:
+                    for ip in rule["IpRanges"]:
+                        values.append(
+                            [
+                                "Inbound",
+                                "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
+                                rule["FromPortRange"] if "FromPortRange" in rule else "all",
+                                rule["ToPortRange"] if "ToPortRange" in rule else "all",
+                                ip,
+                            ])
+                for rule in data[0]["OutboundRules"]:
+                    for ip in rule["IpRanges"]:
+                        values.append(
+                            [
+                                "Outbound",
+                                "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
+                                rule["FromPortRange"] if "FromPortRange" in rule else "all",
+                                rule["ToPortRange"] if "ToPortRange" in rule else "all",
+                                ip,
+                            ])
+                self.values = values
             self.values = values
 
     def custom_print_cell(self, cell, cell_value):
