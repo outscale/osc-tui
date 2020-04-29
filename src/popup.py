@@ -505,25 +505,17 @@ def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
         DEFAULT_LINES = 7
         DEFAULT_COLUMNS = 12
-        SHOW_ATX = 5
+        SHOW_ATX = 10
         SHOW_ATY = 2
-
-    def _prepare_message(message):
-        return message
-
-    def _wrap_message_lines(message, line_length):
-        return message.split('\n')
 
     def notify(message, title="Loading", form_color='STANDOUT',
                wrap=True, wide=False,
                ):
-        message = _prepare_message(message)
         F = PendingPopup(name=title, color=form_color)
         F.preserve_selected_widget = True
         mlw = F.add(wgmultiline.Pager,)
         mlw_width = mlw.width - 1
-        if wrap:
-            message = _wrap_message_lines(message, mlw_width)
+        message = message.split('\n')
         mlw.values = message
         F.display()
     global waiting
@@ -538,18 +530,15 @@ def startLoading(form, refresh):
     thread.start()
     i = 0
     while waiting:
-        msg = [
+        frames = [
             "   |/\n"
-            "   +\n"
-            "    ",
+            "   +\n",
 
-            r"  \|  \n"
-            "   +\n"
-            "    ",
+            "  \|  \n"
+            "   +\n",
 
             "  \\ \n"
-            " --+ \n"
-            "  ",
+            " --+ \n",
 
             "    \n"
             " --+ \n"
@@ -569,11 +558,10 @@ def startLoading(form, refresh):
 
             "    /\n"
             "   +-- \n"
-            "  "
         ]
-        notify(msg[i], wide=True)
+        notify(frames[i], wide=True)
         i = i + 1
-        if(i >= len(msg)):
+        if(i >= len(frames)):
             i = 0
         curses.napms(150)
         curses.flushinp()
