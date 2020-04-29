@@ -136,6 +136,8 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGrid
             menu_desc.append('CREATE NEW')
         elif MODE == "SECURITY-VM":
+            CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
+        elif MODE == "SECURITY-VM":
             menu_desc.append('ADD SEC-GROUP')
         elif MODE == 'SECURITY-RULES':
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
@@ -144,8 +146,6 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'VOLUMES':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
             menu_desc.append('CREATE NEW')
-        elif MODE == 'VOLUMES-EDIT':
-            CURRENT_GRID_CLASS = volumesGrid.VolumeGridEdit
         elif MODE == 'VOLUMES-VM':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         elif MODE == 'SNAPSHOT':

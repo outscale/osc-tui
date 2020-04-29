@@ -79,7 +79,6 @@ def editInstance(form, instance, form_color='STANDOUT'):
     F.preserve_selected_widget = True
 
     def exit():
-        form.current_grid.refresh()
         F.editing = False
     F.on_ok = exit
     # Buttons about VMs
@@ -133,6 +132,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
     # Operations availables:
     def start_vm():
         main.GATEWAY.StartVms(VmIds=[id])
+        form.current_grid.h_refresh(None)
         exit()
 
     def terminate_vm():
@@ -143,14 +143,17 @@ def editInstance(form, instance, form_color='STANDOUT'):
                 "VM Termination",
         ):
             main.GATEWAY.DeleteVms(VmIds=[id])
+        form.current_grid.h_refresh(None)
         exit()
 
     def stop_vm():
         main.GATEWAY.StopVms(VmIds=[id])
+        form.current_grid.h_refresh(None)
         exit()
 
     def force_stop_vm():
         main.GATEWAY.StopVms(ForceStop=True, VmIds=[id])
+        form.current_grid.h_refresh(None)
         exit()
 
     def restart_vm():
@@ -161,7 +164,6 @@ def editInstance(form, instance, form_color='STANDOUT'):
         exit()
         main.kill_threads()
         main.VM = main.VMs[id]
-        mainForm.CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
         mainForm.MODE = 'SECURITY-VM'
         form.reload()
 
@@ -194,7 +196,6 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
     F.preserve_selected_widget = True
 
     def exit():
-        form.current_grid.refresh()
         F.editing = False
 
     F.on_ok = exit
@@ -218,11 +219,11 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
             val = main.GATEWAY.DeleteSecurityGroup(SecurityGroupId=id)
         except BaseException:
             raise
+        form.current_grid.h_refresh(None)
         exit()
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
     F.edit()
-    form.current_grid.refresh()
     form.current_grid.display()
 
 
@@ -259,11 +260,11 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
             if id != g["SecurityGroupId"]:
                 values.append(g["SecurityGroupId"])
         main.GATEWAY.UpdateVm(VmId=main.VM["VmId"], SecurityGroupIds=values)
+        form.current_grid.h_refresh(None)
         exit()
     edit.whenPressed = edit_cb
     remove.whenPressed = remove_cb
     F.edit()
-    form.current_grid.refresh()
     form.current_grid.display()
 
 
@@ -300,7 +301,7 @@ def addSecurityGroupToVm(form, form_color='STANDOUT'):
 
     F.on_ok = exit
     F.edit()
-    form.current_grid.refresh()
+    form.current_grid.h_refresh(None)
     form.current_grid.display()
 
 
@@ -339,13 +340,13 @@ def editSecurityGroupRule(form, rule, form_color='STANDOUT'):
                 SecurityGroupId=main.SECURITY_GROUP,
                 Flow=dir,
             )
+        form.current_grid.h_refresh(None)
         exit()
 
     btn_delete.whenPressed = delete
     F.edit()
     form.current_grid.ensure_cursor_on_display_down_right(None)
     form.current_grid.ensure_cursor_on_display_up(None)
-    form.current_grid.refresh()
     form.current_grid.display()
 
 
@@ -389,7 +390,7 @@ def newSecurityGroupRule(form, form_color='STANDOUT'):
 
     F.on_ok = exit
     F.edit()
-    form.current_grid.refresh()
+    form.current_grid.h_refresh(None)
     form.current_grid.display()
 
 
@@ -412,7 +413,7 @@ def newSecurityGroup(form, form_color='STANDOUT'):
 
     F.on_ok = exit
     F.edit()
-    form.current_grid.refresh()
+    form.current_grid.h_refresh(None)
     form.current_grid.display()
 
 
@@ -427,7 +428,6 @@ def editVolume(form, volume, form_color='STANDOUT'):
     F.preserve_selected_widget = True
 
     def exit():
-        form.current_grid.refresh()
         F.editing = False
 
     F.on_ok = exit
@@ -438,8 +438,6 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
     def edit_cb():
         exit()
-        mainForm.MODE = 'VOLUMES-EDIT'
-        form.reload()
 
     delete = F.add_widget(
         npyscreen.ButtonPress,
@@ -451,16 +449,13 @@ def editVolume(form, volume, form_color='STANDOUT'):
             val = main.GATEWAY.DeleteVolume(VolumeId=id)
         except BaseException:
             raise
+        form.current_grid.h_refresh(None)
         exit()
-
-    def volume_cb():
-        pass
 
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
 
     F.edit()
-    form.current_grid.refresh()
     form.current_grid.display()
 
 
@@ -474,7 +469,6 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     F.preserve_selected_widget = True
 
     def exit():
-        form.current_grid.refresh()
         F.editing = False
 
     F.on_ok = exit
@@ -498,17 +492,12 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
             val = main.GATEWAY.DeleteSnapshot(SnapshotId=id)
         except BaseException:
             raise
+        form.current_grid.h_refresh(None)
         exit()
-
-    def volume_cb():
-        pass
 
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
-
     F.edit()
-
-    form.current_grid.refresh()
     form.current_grid.display()
 
 
