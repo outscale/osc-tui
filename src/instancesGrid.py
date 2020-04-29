@@ -17,8 +17,6 @@ class InstancesGrid(selectableGrid.SelectableGrid):
         def on_selection_cb(line):
             popup.editInstance(self.form, line)
         self.on_selection = on_selection_cb
-        self.refresh()
-        self.start_updater()
 
     def refresh(self):
         if main.GATEWAY:

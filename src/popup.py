@@ -3,11 +3,13 @@ import npyscreen
 import npyscreen.fmPopup
 import npyscreen.wgmultiline
 import pyperclip
+from threading import Thread
+import curses
+from npyscreen import *
+import textwrap
 
 import main
 import mainForm
-import securityGroupsGrid
-import securityRulesGrid
 
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
@@ -420,20 +422,19 @@ def editVolume(form, volume, form_color='STANDOUT'):
     size = volume[2]
     vm_id = volume[4]
 
-    F = displayPopup(name="{} ({}), {}gib, linked to: {}".format(id, type, size, vm_id))
+    F = displayPopup(
+        name="{} ({}), {}gib, linked to: {}".format(id, type, size, vm_id))
     F.preserve_selected_widget = True
-
 
     def exit():
         form.current_grid.refresh()
         F.editing = False
-    
+
     F.on_ok = exit
     edit = F.add_widget(
         npyscreen.ButtonPress,
         name="EDIT",
     )
-
 
     def edit_cb():
         exit()
@@ -453,11 +454,11 @@ def editVolume(form, volume, form_color='STANDOUT'):
         exit()
 
     def volume_cb():
-        pass    
-    
+        pass
+
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
-    
+
     F.edit()
     form.current_grid.refresh()
     form.current_grid.display()
@@ -469,7 +470,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     size = snapshot[2]
     volume_id = snapshot[3]
 
-    F = displayPopup(name="{} ({}gib), volume: {}".format(id,size, volume_id))
+    F = displayPopup(name="{} ({}gib), volume: {}".format(id, size, volume_id))
     F.preserve_selected_widget = True
 
     def exit():
@@ -480,17 +481,17 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     edit = F.add_widget(
         npyscreen.ButtonPress,
         name="EDIT",
-    )   
-    
+    )
+
     def edit_cb():
         exit()
         mainForm.MODE = "SNAPSHOT-EDIT"
         form.reload()
-                               
+
     delete = F.add_widget(
         npyscreen.ButtonPress,
         name="DELETE",
-    )   
+    )
 
     def delete_cb():
         try:
@@ -506,6 +507,85 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     delete.whenPressed = delete_cb
 
     F.edit()
-    
+
     form.current_grid.refresh()
     form.current_grid.display()
+
+
+def pending(form, refresh):
+    class PendingPopup(fmForm.Form):
+        DEFAULT_LINES = 7
+        DEFAULT_COLUMNS = 12
+        SHOW_ATX = 5
+        SHOW_ATY = 2
+
+    def _prepare_message(message):
+        return message
+
+    def _wrap_message_lines(message, line_length):
+        return message.split('\n')
+
+    def notify(message, title="Pending", form_color='STANDOUT',
+               wrap=True, wide=False,
+               ):
+        message = _prepare_message(message)
+        F = PendingPopup(name=title, color=form_color)
+        F.preserve_selected_widget = True
+        mlw = F.add(wgmultiline.Pager,)
+        mlw_width = mlw.width-1
+        if wrap:
+            message = _wrap_message_lines(message, mlw_width)
+        mlw.values = message
+        F.display()
+    global waiting
+    waiting = True
+
+    def capsule():
+        refresh()
+        global waiting
+        waiting = False
+
+    thread = Thread(target=capsule)
+    thread.start()
+    i = 0
+    while waiting == True:
+        msg = [
+            "   |/\n"
+            "   +\n"
+            "    ",
+
+            "  \|  \n"
+            "   +\n"
+            "    ",
+
+            "  \\ \n"
+            " --+ \n"
+            "  ",
+
+            "    \n"
+            " --+ \n"
+            "  /",
+
+            " \n"
+            "   + \n"
+            "  /|",
+
+            "  \n"
+            "   + \n"
+            "   |\\",
+
+            "  \n"
+            "   +--\n"
+            "    \\",
+
+            "    /\n"
+            "   +-- \n"
+            "  "
+        ]
+        notify(msg[i], wide=True)
+        i = i + 1
+        if(i >= len(msg)):
+            i = 0
+        curses.napms(150)
+        curses.flushinp()
+    thread.join()

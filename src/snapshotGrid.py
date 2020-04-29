@@ -11,7 +11,6 @@ import virtualMachine
 class SnapshotGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["ID", "Description", "Size (Gb)", "Volume"]
 
         def on_selection(line):

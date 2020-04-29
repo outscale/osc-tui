@@ -14,8 +14,6 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
         self.refresh()
         self.col_titles = ["DIRECTION", "PROTOCOL",
                            "FROM PORT", "TO PORT", "IP"]
-        self.refresh()
-        self.start_updater()
 
         def on_selection(line):
             popup.editSecurityGroupRule(self.form, line)

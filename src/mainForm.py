@@ -61,7 +61,7 @@ class mainMenu(npyscreen.MultiLineAction):
                             ToPortRange=22, SecurityGroupId=main.SECURITY_GROUP,
                             Flow="Inbound",
                         )
-                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.h_refresh(None)
                         self.vmform.current_grid.display()
                         return
                 elif MODE == 'VOLUMES':
@@ -84,7 +84,7 @@ class mainMenu(npyscreen.MultiLineAction):
                     return
                 elif act_on_this == "REFRESH":
                     if hasattr(self.vmform, 'current_grid'):
-                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.h_refresh(None)
                         self.vmform.current_grid.display()
                     return
                 MODE = act_on_this

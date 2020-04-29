@@ -12,7 +12,6 @@ import virtualMachine
 class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["ID", "Type", 'Size (Gb)', 'Subregion', 'Linked To']
 
         def on_selection(line):
@@ -33,7 +32,6 @@ class VolumeGrid(selectableGrid.SelectableGrid):
 class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["ID", "Name", 'Size (Gb)', 'Subregion']
 
         def on_selection(line):
