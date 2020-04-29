@@ -501,7 +501,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     form.current_grid.display()
 
 
-def pending(form, refresh):
+def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
         DEFAULT_LINES = 7
         DEFAULT_COLUMNS = 12
@@ -514,7 +514,7 @@ def pending(form, refresh):
     def _wrap_message_lines(message, line_length):
         return message.split('\n')
 
-    def notify(message, title="Pending", form_color='STANDOUT',
+    def notify(message, title="Loading", form_color='STANDOUT',
                wrap=True, wide=False,
                ):
         message = _prepare_message(message)
