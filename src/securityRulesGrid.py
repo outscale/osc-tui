@@ -11,11 +11,8 @@ import virtualMachine
 class SecurityRulesGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["DIRECTION", "PROTOCOL",
                            "FROM PORT", "TO PORT", "IP"]
-        self.refresh()
-        self.start_updater()
 
         def on_selection(line):
             popup.editSecurityGroupRule(self.form, line)

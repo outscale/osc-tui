@@ -61,21 +61,19 @@ class mainMenu(npyscreen.MultiLineAction):
                             ToPortRange=22, SecurityGroupId=main.SECURITY_GROUP,
                             Flow="Inbound",
                         )
-                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.h_refresh(None)
                         self.vmform.current_grid.display()
                         return
                 elif MODE == 'VOLUMES':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm("CREATE_VOLUME",
-                                                    createVolume.CreateVolume,
-                                                    name="osc-tui")
+                        self.vmform.parentApp.addForm(
+                            "CREATE_VOLUME", createVolume.CreateVolume, name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_VOLUME")
                         return
                 elif MODE == 'SNAPSHOT':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm("CREATE_SNAPSHOT",
-                                                    createSnapshot.CreateSnapshot,
-                                                    name="osc-tui")
+                        self.vmform.parentApp.addForm(
+                            "CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
                 if act_on_this == "EXIT":
@@ -84,7 +82,7 @@ class mainMenu(npyscreen.MultiLineAction):
                     return
                 elif act_on_this == "REFRESH":
                     if hasattr(self.vmform, 'current_grid'):
-                        self.vmform.current_grid.refresh()
+                        self.vmform.current_grid.h_refresh(None)
                         self.vmform.current_grid.display()
                     return
                 MODE = act_on_this
@@ -138,6 +136,8 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGrid
             menu_desc.append('CREATE NEW')
         elif MODE == "SECURITY-VM":
+            CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
+        elif MODE == "SECURITY-VM":
             menu_desc.append('ADD SEC-GROUP')
         elif MODE == 'SECURITY-RULES':
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
@@ -146,8 +146,6 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'VOLUMES':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
             menu_desc.append('CREATE NEW')
-        elif MODE == 'VOLUMES-EDIT':
-            CURRENT_GRID_CLASS = volumesGrid.VolumeGridEdit
         elif MODE == 'VOLUMES-VM':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         elif MODE == 'SNAPSHOT':

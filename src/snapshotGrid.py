@@ -11,7 +11,6 @@ import virtualMachine
 class SnapshotGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["ID", "Description", "Size (Gb)", "Volume"]
 
         def on_selection(line):
@@ -23,5 +22,6 @@ class SnapshotGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadSnapshots()['Snapshots']
         values = list()
         for g in groups:
-            values.append([g['SnapshotId'], g['Description'], g['VolumeSize'], g['VolumeId']])
+            values.append([g['SnapshotId'], g['Description'],
+                           g['VolumeSize'], g['VolumeId']])
         self.values = values

@@ -12,7 +12,6 @@ import virtualMachine
 class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["ID", "Type", 'Size (Gb)', 'Subregion', 'Linked To']
 
         def on_selection(line):
@@ -33,7 +32,6 @@ class VolumeGrid(selectableGrid.SelectableGrid):
 class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.refresh()
         self.col_titles = ["ID", "Name", 'Size (Gb)', 'Subregion']
 
         def on_selection(line):
@@ -42,8 +40,9 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
 
-## @TODO verify that everything between first loop and second loop is actually usefull and cannot be replace by a filter
-## "VmsId" on the first request
+# @TODO verify that everything between first loop and second loop is actually usefull and cannot be replace by a filter
+# "VmsId" on the first request
+
     def refresh(self):
         id = main.VM["VmId"]
         data = main.GATEWAY.ReadVms()["Vms"]

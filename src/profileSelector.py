@@ -32,8 +32,13 @@ class CallbackFactory:
 
     def __call__(self):
         try:
-            main.GATEWAY = Gateway(**{"profile": self.name})
-            res = main.GATEWAY.ReadClientGateways()
+            global res
+
+            def func():
+                global res
+                main.GATEWAY = Gateway(**{"profile": self.name})
+                res = main.GATEWAY.ReadClientGateways()
+            popup.startLoading(self.form, func)
             if "Errors" not in res:
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(

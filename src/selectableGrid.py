@@ -5,6 +5,7 @@ import time
 import npyscreen
 
 import main
+import popup
 
 # Initially it was designed to have a thread that auto refresh... However, even if it worked fine, if too many people does it, it looks like a DDOS attack.
 # So now, use [F5] key to refreesh, a find a button called refresh.
@@ -22,6 +23,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.exit_left = True
         self.exit_right = True
         self.form = form
+        self.h_refresh(None)
 
     def set_up_handlers(self):
         super().set_up_handlers()
@@ -32,7 +34,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         return int(round(time.time() * 1000))
 
     def h_refresh(self, inpt):
-        self.refresh()
+        popup.startLoading(self.form, self.refresh)
         self.display()
 
     # Each time we change the selected line, we select the new one.
@@ -98,43 +100,8 @@ class SelectableGrid(npyscreen.GridColTitles):
                     self.selected_row = 0
                 self.on_selection(self.values[self.selected_row])
 
-    # Call this func to enable self-refresh of the screen.
-    def start_updater(self):
-        if main.POLL_ENABLED:
-            self.updater = GridUpdater(self)
-            main.add_thread(self.updater)
-            self.updater.start()
-
     # The func to override in order to refresh the screen.
+    # Do not use it directly!
+    # If you need to manually trigger a refresh... use self.h_refresh(None)
     def refresh(self):
         pass
-
-# This is the component that will poll the server and refresh the grid
-# once started.
-
-
-class GridUpdater(threading.Thread):
-    def __init__(self, grid, period=2000):
-        threading.Thread.__init__(self)
-        self.grid = grid
-        self.t1 = self.grid.time()
-        self.t2 = self.grid.time()
-        self.timeSinceLastRefresh = 0
-        self.period = period
-        self.running = True
-
-    def stop(self):
-        self.running = False
-
-    def run(self):
-        while self.running:
-            self.t2 = self.grid.time()
-            dt = self.t2 - self.t1
-            self.timeSinceLastRefresh += dt
-            if self.timeSinceLastRefresh > self.period:
-                self.grid.refresh()
-                if self.running:
-                    self.grid.display()
-                self.timeSinceLastRefresh = 0
-                self.grid.select()
-            time.sleep(0.5)

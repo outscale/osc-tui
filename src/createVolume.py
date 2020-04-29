@@ -74,7 +74,7 @@ class CreateVolume(npyscreen.FormBaseNew):
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
                 back()
-        
+
         snapshots = main.GATEWAY.ReadSnapshots()["Snapshots"]
         snapshots_vals = []
         ID_LIST = []
@@ -98,7 +98,7 @@ class CreateVolume(npyscreen.FormBaseNew):
             value=SNAPSHOT_COMBO.get_value() if SNAPSHOT_COMBO else 0,
         )
         global TYPE
-        TYPE  = self.add_widget(
+        TYPE = self.add_widget(
             npyscreen.TitleCombo,
             name="CHOOSE A TYPE",
             values=["standard", "io1", "gp2"],
