@@ -17,7 +17,10 @@ class CreateSnapshot(npyscreen.FormBaseNew):
 
     def reload(self):
         main.kill_threads()
-        self.parentApp.addForm("CREATE_SNAPSHOT", CreateSnapshot, name="osc-tui")
+        self.parentApp.addForm(
+            "CREATE_SNAPSHOT",
+            CreateSnapshot,
+            name="osc-tui")
         self.parentApp.switchForm("CREATE_SNAPSHOT")
 
     def create(self):
@@ -58,7 +61,7 @@ class CreateSnapshot(npyscreen.FormBaseNew):
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
                 back()
-        
+
         volumes = main.GATEWAY.ReadVolumes()["Volumes"]
         volumes_vals = []
         ID_LIST = []

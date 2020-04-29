@@ -532,7 +532,7 @@ def pending(form, refresh):
         F = PendingPopup(name=title, color=form_color)
         F.preserve_selected_widget = True
         mlw = F.add(wgmultiline.Pager,)
-        mlw_width = mlw.width-1
+        mlw_width = mlw.width - 1
         if wrap:
             message = _wrap_message_lines(message, mlw_width)
         mlw.values = message
@@ -548,13 +548,13 @@ def pending(form, refresh):
     thread = Thread(target=capsule)
     thread.start()
     i = 0
-    while waiting == True:
+    while waiting:
         msg = [
             "   |/\n"
             "   +\n"
             "    ",
 
-            "  \|  \n"
+            r"  \|  \n"
             "   +\n"
             "    ",
 

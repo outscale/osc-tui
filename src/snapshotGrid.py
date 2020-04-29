@@ -22,5 +22,6 @@ class SnapshotGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadSnapshots()['Snapshots']
         values = list()
         for g in groups:
-            values.append([g['SnapshotId'], g['Description'], g['VolumeSize'], g['VolumeId']])
+            values.append([g['SnapshotId'], g['Description'],
+                           g['VolumeSize'], g['VolumeId']])
         self.values = values

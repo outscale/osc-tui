@@ -66,16 +66,14 @@ class mainMenu(npyscreen.MultiLineAction):
                         return
                 elif MODE == 'VOLUMES':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm("CREATE_VOLUME",
-                                                    createVolume.CreateVolume,
-                                                    name="osc-tui")
+                        self.vmform.parentApp.addForm(
+                            "CREATE_VOLUME", createVolume.CreateVolume, name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_VOLUME")
                         return
                 elif MODE == 'SNAPSHOT':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm("CREATE_SNAPSHOT",
-                                                    createSnapshot.CreateSnapshot,
-                                                    name="osc-tui")
+                        self.vmform.parentApp.addForm(
+                            "CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
                 if act_on_this == "EXIT":

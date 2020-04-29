@@ -40,8 +40,9 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
 
-## @TODO verify that everything between first loop and second loop is actually usefull and cannot be replace by a filter
-## "VmsId" on the first request
+# @TODO verify that everything between first loop and second loop is actually usefull and cannot be replace by a filter
+# "VmsId" on the first request
+
     def refresh(self):
         id = main.VM["VmId"]
         data = main.GATEWAY.ReadVms()["Vms"]
