@@ -27,7 +27,7 @@ Then setup a virtual environnement (Facultative but recommended):<br>
 * Install `virtualenv`: `python3 -m pip install virtualenv`
 * Create the environnement: `python3 -m virtualenv -p python3 env`
 * Activate it: `source env/bin/activate`.
-* To exite use `deactivate`.
+* To exit use `deactivate`.
 
 <br>
 You will need to install:<br>
