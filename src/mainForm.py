@@ -15,6 +15,8 @@ import securityRulesGrid
 import selectableGrid
 import virtualMachine
 import volumesGrid
+import keyPairsGrid
+import createKeyPair
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0
@@ -22,7 +24,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, vmform=None, draw_line_at=6, *args, **keywords):
+    def __init__(self, screen, vmform=None, draw_line_at=7, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.vmform = vmform
         self.cursor_line = SELECTED_BUTTON
@@ -76,6 +78,12 @@ class mainMenu(npyscreen.MultiLineAction):
                             "CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
                         self.vmform.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
+                elif MODE == 'KEYPAIRS':
+                    if act_on_this == 'CREATE NEW':
+                        self.vmform.parentApp.addForm(
+                            "CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
+                        self.vmform.parentApp.switchForm("CREATE_KEYPAIR")
+                        return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.vmform.parentApp.switchForm("MAIN")
@@ -88,7 +96,7 @@ class mainMenu(npyscreen.MultiLineAction):
                 MODE = act_on_this
                 global SELECTED_BUTTON
                 if act_on_this == 'INSTANCES' or act_on_this == 'SECURITY':
-                    SELECTED_BUTTON = 7
+                    SELECTED_BUTTON = 8
                 else:
                     SELECTED_BUTTON = self.cursor_line
                 self.vmform.reload()
@@ -124,7 +132,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -150,6 +158,9 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         elif MODE == 'SNAPSHOT':
             CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'KEYPAIRS':
+            CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid
             menu_desc.append('CREATE NEW')
         self.add_widget(
             mainMenu,
