@@ -19,7 +19,7 @@ class SnapshotGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh(self):
-        groups = main.GATEWAY.ReadSnapshots()['Snapshots']
+        groups = main.GATEWAY.ReadSnapshots(form=self.form)['Snapshots']
         values = list()
         for g in groups:
             values.append([g['SnapshotId'], g['Description'],

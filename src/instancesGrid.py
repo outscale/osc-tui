@@ -21,7 +21,7 @@ class InstancesGrid(selectableGrid.SelectableGrid):
     def refresh(self):
         if main.GATEWAY:
             self.refreshing = True
-            data = main.GATEWAY.ReadVms()["Vms"]
+            data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
             self.vms = list()
             main.VMs = dict()
             for vm in data:

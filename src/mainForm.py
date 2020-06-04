@@ -57,6 +57,7 @@ class mainMenu(npyscreen.MultiLineAction):
                         return
                     elif act_on_this == 'ADD SSH MY IP':
                         main.GATEWAY.CreateSecurityGroupRule(
+                            form=self.form,
                             FromPortRange=22,
                             IpProtocol="tcp",
                             IpRange=main.IP + "/32",

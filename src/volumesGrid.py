@@ -20,7 +20,7 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh(self):
-        groups = main.GATEWAY.ReadVolumes()['Volumes']
+        groups = main.GATEWAY.ReadVolumes(form=self.form)['Volumes']
         values = list()
         for g in groups:
             VmId = g["LinkedVolumes"][0]["VmId"] if g["LinkedVolumes"] else "Unlinked"
@@ -43,14 +43,17 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
 # @TODO verify that everything between first loop and second loop is actually usefull and cannot be replace by a filter
 # "VmsId" on the first request
 
+
     def refresh(self):
         id = main.VM["VmId"]
-        data = main.GATEWAY.ReadVms()["Vms"]
+        data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
         main.VMs = dict()
         for vm in data:
             main.VMs.update({vm["VmId"]: vm})
         main.VM = main.VMs[id]
-        volume = main.GATEWAY.ReadVolumes(Filters={'LinkVolumeVmIds': [id]})
+        volume = main.GATEWAY.ReadVolumes(
+            form=self.form, Filters={
+                'LinkVolumeVmIds': [id]})
         groups = volume['Volumes']
         values = list()
         for g in groups:

@@ -33,12 +33,48 @@ class CallbackFactory:
     def __call__(self):
         try:
             global res
+            main.GATEWAY = Gateway(**{"profile": self.name})
+            # The following code is a little bit completely tricky :)
+            # Here is the idea:
+            # I want to hook all calls to the main.GATEWAY modules to automatically display the pending animation.
+            # (So it's a decorator)
+            # However, for doing such things I need to add a form parameter.
+            # However 2, when performing one call, it will do some "inner calls" so we must not trigger the animation all the time.
+            # One way would be to decorate only the "main functions" but I wanna do it automatically!
+            # Another one is the following one:
+            # If we have the form parameter, we remove it form kwargs and start the pending animation.
+            # So the pending animation won't be started again during "inner
+            # calls".
 
-            def func():
-                global res
-                main.GATEWAY = Gateway(**{"profile": self.name})
-                res = main.GATEWAY.ReadClientGateways()
-            popup.startLoading(self.form, func)
+            def decorator(func):
+                def wrapped(*args, **kwargs):
+                    form = kwargs.get('form')
+                    global result
+                    result = None
+                    if form:
+                        kwargs.pop('form')
+
+                        def cb():
+                            global result
+                            result = func(*args, **kwargs)
+                        popup.startLoading(form, cb)
+                    else:
+                        result = func(*args, **kwargs)
+                    return result
+
+                return wrapped
+
+            # So now we iterate over all methods of the GATEWAY that are not prefixed by "__"
+            # and basically we decorate them.
+            for method_name in dir(main.GATEWAY):
+                if not method_name.startswith("__"):
+                    attr = getattr(main.GATEWAY, method_name)
+                    if(callable(attr)):
+                        wrapped = decorator(attr)
+                        setattr(main.GATEWAY, method_name, wrapped)
+
+            # now let's check if the profile worked:
+            res = main.GATEWAY.ReadClientGateways(form=self.form)
             if "Errors" not in res:
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(

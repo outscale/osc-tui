@@ -49,6 +49,7 @@ class CreateSnapshot(npyscreen.FormBaseNew):
                     VOLUME_COMBO.get_value()
                 ]
                 res = main.GATEWAY.CreateSnapshot(
+                    form=self,
                     VolumeId=id,
                     Description=DESCRIPTION.get_value(),
                 )
@@ -57,12 +58,13 @@ class CreateSnapshot(npyscreen.FormBaseNew):
                 else:
                     snapshotId = res["Snapshot"]["SnapshotId"]
                     main.GATEWAY.CreateTags(
+                        form=self,
                         ResourceIds=[snapshotId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
                 back()
 
-        volumes = main.GATEWAY.ReadVolumes()["Volumes"]
+        volumes = main.GATEWAY.ReadVolumes(form=self)["Volumes"]
         volumes_vals = []
         ID_LIST = []
         for volume in volumes:
