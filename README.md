@@ -55,4 +55,4 @@ Just a few rules:<br>
 * Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive src/*.py`).
 * Add external dependencies as less as possible.
 
-<br>Note that the commit standard is new now so not really applied yet.
+
