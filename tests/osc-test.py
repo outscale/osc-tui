@@ -1,5 +1,7 @@
-from osc_sdk_python import Gateway
 import json
+
+from osc_sdk_python import Gateway
+
 if __name__ == '__main__':
     gw = Gateway(**{'profile': 'fne'})
     def decorator(func):

@@ -3,20 +3,20 @@ import curses
 import npyscreen
 import pyperclip
 
+import createKeyPair
+import createSnapshot
 import createVm
 import createVolume
-import createSnapshot
 import instancesGrid
-import snapshotGrid
+import keyPairsGrid
 import main
 import popup
 import securityGroupsGrid
 import securityRulesGrid
 import selectableGrid
+import snapshotGrid
 import virtualMachine
 import volumesGrid
-import keyPairsGrid
-import createKeyPair
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0

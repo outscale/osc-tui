@@ -1,12 +1,13 @@
 
+import curses
+import textwrap
+from threading import Thread
+
 import npyscreen
 import npyscreen.fmPopup
 import npyscreen.wgmultiline
 import pyperclip
-from threading import Thread
-import curses
 from npyscreen import *
-import textwrap
 
 import main
 import mainForm

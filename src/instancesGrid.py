@@ -2,11 +2,11 @@
 import npyscreen
 import pyperclip
 
+import createVm
 import main
+import popup
 import selectableGrid
 import virtualMachine
-import createVm
-import popup
 
 
 class InstancesGrid(selectableGrid.SelectableGrid):
