@@ -35,22 +35,12 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
         self.col_titles = ["ID", "Name", 'Size (Gb)', 'Subregion']
 
         def on_selection(line):
-            popup.manageSecurityGroup(self.form, line)
+            pass
 
         self.on_selection = on_selection
 
-
-# @TODO verify that everything between first loop and second loop is actually usefull and cannot be replace by a filter
-# "VmsId" on the first request
-
-
     def refresh(self):
         id = main.VM["VmId"]
-        data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
-        main.VMs = dict()
-        for vm in data:
-            main.VMs.update({vm["VmId"]: vm})
-        main.VM = main.VMs[id]
         volume = main.GATEWAY.ReadVolumes(
             form=self.form, Filters={
                 'LinkVolumeVmIds': [id]})
