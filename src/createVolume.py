@@ -1,4 +1,5 @@
 import npyscreen
+
 import main
 
 # If advanced VM creation enabled.

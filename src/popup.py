@@ -1,12 +1,13 @@
 
+import curses
+import textwrap
+from threading import Thread
+
 import npyscreen
 import npyscreen.fmPopup
 import npyscreen.wgmultiline
 import pyperclip
-from threading import Thread
-import curses
 from npyscreen import *
-import textwrap
 
 import main
 import mainForm
@@ -591,7 +592,8 @@ def editKeypair(form, line, form_color='STANDOUT'):
     )
 
     def delete_cb():
-        delete = npyscreen.notify_ok_cancel("You are gonna delete permanently the keypair named " + name, "Warning")
+        delete = npyscreen.notify_ok_cancel(
+            "You are gonna delete permanently the keypair named " + name, "Warning")
         if delete:
             try:
                 val = main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
