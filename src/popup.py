@@ -591,12 +591,14 @@ def editKeypair(form, line, form_color='STANDOUT'):
     )
 
     def delete_cb():
-        try:
-            val = main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
-        except BaseException:
-            raise
-        form.current_grid.h_refresh(None)
-        exit()
+        delete = npyscreen.notify_ok_cancel("You are gonna delete permanently the keypair named " + name, "Warning")
+        if delete:
+            try:
+                val = main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
+            except BaseException:
+                raise
+            form.current_grid.h_refresh(None)
+            exit()
 
     delete.whenPressed = delete_cb
     F.edit()
