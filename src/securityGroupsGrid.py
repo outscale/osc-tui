@@ -20,7 +20,8 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh(self):
-        groups = main.GATEWAY.ReadSecurityGroups()["SecurityGroups"]
+        groups = main.GATEWAY.ReadSecurityGroups(form=self.form)[
+            "SecurityGroups"]
         values = list()
         for g in groups:
             values.append([g["SecurityGroupId"], g["SecurityGroupName"]])

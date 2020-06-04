@@ -61,6 +61,7 @@ class CreateVm(npyscreen.FormBaseNew):
                 res = ""
                 if ADVANCED_MODE:
                     res = main.GATEWAY.CreateVms(
+                        form=self,
                         ImageId=id,
                         KeypairName=keypair,
                         VmType=VM_COMBO.get_values()[VM_COMBO.get_value()],
@@ -70,17 +71,19 @@ class CreateVm(npyscreen.FormBaseNew):
                     )
                 else:
                     res = main.GATEWAY.CreateVms(
+                        form=self,
                         ImageId=id, KeypairName=keypair)
                 if "Errors" in res:
                     npyscreen.notify_confirm(str(res["Errors"]))
                 else:
                     vmId = res["Vms"][0]["VmId"]
                     main.GATEWAY.CreateTags(
+                        form=self,
                         ResourceIds=[vmId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
 
-        imgs = main.GATEWAY.ReadImages()["Images"]
+        imgs = main.GATEWAY.ReadImages(form=self)["Images"]
         imgs_vals = []
         ID_LIST = []
         for img in imgs:
@@ -95,7 +98,7 @@ class CreateVm(npyscreen.FormBaseNew):
             )
             ID_LIST.append(img["ImageId"])
 
-        keyPairs = main.GATEWAY.ReadKeypairs()["Keypairs"]
+        keyPairs = main.GATEWAY.ReadKeypairs(form=self)["Keypairs"]
         keyPairsNames = []
         for keyPair in keyPairs:
             keyPairsNames.append(keyPair["KeypairName"])

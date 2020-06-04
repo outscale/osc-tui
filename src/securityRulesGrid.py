@@ -22,8 +22,9 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
         if main.GATEWAY:
             self.refreshing = True
             data = main.GATEWAY.ReadSecurityGroups(
-                Filters={"SecurityGroupIds": [main.SECURITY_GROUP]}
-            )["SecurityGroups"]
+                form=self.form, Filters={
+                    "SecurityGroupIds": [
+                        main.SECURITY_GROUP]})["SecurityGroups"]
             values = list()
             if data:
                 for rule in data[0]["InboundRules"]:

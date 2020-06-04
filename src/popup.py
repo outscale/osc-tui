@@ -131,7 +131,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
 
     # Operations availables:
     def start_vm():
-        main.GATEWAY.StartVms(VmIds=[id])
+        main.GATEWAY.StartVms(form=form, VmIds=[id])
         form.current_grid.h_refresh(None)
         exit()
 
@@ -142,22 +142,22 @@ def editInstance(form, instance, form_color='STANDOUT'):
                 "\nID: " + id,
                 "VM Termination",
         ):
-            main.GATEWAY.DeleteVms(VmIds=[id])
+            main.GATEWAY.DeleteVms(form=form, VmIds=[id])
         form.current_grid.h_refresh(None)
         exit()
 
     def stop_vm():
-        main.GATEWAY.StopVms(VmIds=[id])
+        main.GATEWAY.StopVms(form=form, VmIds=[id])
         form.current_grid.h_refresh(None)
         exit()
 
     def force_stop_vm():
-        main.GATEWAY.StopVms(ForceStop=True, VmIds=[id])
+        main.GATEWAY.StopVms(form=form, ForceStop=True, VmIds=[id])
         form.current_grid.h_refresh(None)
         exit()
 
     def restart_vm():
-        main.GATEWAY.RebootVms(VmIds=[id])
+        main.GATEWAY.RebootVms(form=form, VmIds=[id])
         exit()
 
     def sg():
@@ -216,7 +216,8 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
 
     def delete_cb():
         try:
-            val = main.GATEWAY.DeleteSecurityGroup(SecurityGroupId=id)
+            val = main.GATEWAY.DeleteSecurityGroup(
+                form=form, SecurityGroupId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
@@ -259,7 +260,10 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
         for g in groups:
             if id != g["SecurityGroupId"]:
                 values.append(g["SecurityGroupId"])
-        main.GATEWAY.UpdateVm(VmId=main.VM["VmId"], SecurityGroupIds=values)
+        main.GATEWAY.UpdateVm(
+            form=form,
+            VmId=main.VM["VmId"],
+            SecurityGroupIds=values)
         form.current_grid.h_refresh(None)
         exit()
     edit.whenPressed = edit_cb
@@ -276,7 +280,7 @@ def addSecurityGroupToVm(form, form_color='STANDOUT'):
     vm_sg = list()
     for g in groups:
         vm_sg.append(g["SecurityGroupId"])
-    groups = main.GATEWAY.ReadSecurityGroups()["SecurityGroups"]
+    groups = main.GATEWAY.ReadSecurityGroups(form=form)["SecurityGroups"]
     values = list()
     for g in groups:
         if not g["SecurityGroupId"] in vm_sg:
@@ -295,6 +299,7 @@ def addSecurityGroupToVm(form, form_color='STANDOUT'):
             values.append(g["SecurityGroupId"])
         values.append(new_sg.values[new_sg.value])
         res = main.GATEWAY.UpdateVm(
+            form=form,
             VmId=main.VM["VmId"],
             SecurityGroupIds=values)
         F.editing = False
@@ -534,7 +539,7 @@ def startLoading(form, refresh):
             "   |/\n"
             "   +\n",
 
-            "  \|  \n"
+            r"  \|  \n"
             "   +\n",
 
             "  \\ \n"
@@ -586,12 +591,14 @@ def editKeypair(form, line, form_color='STANDOUT'):
     )
 
     def delete_cb():
-        try:
-            val = main.GATEWAY.DeleteKeypair(KeypairName=name)
-        except BaseException:
-            raise
-        form.current_grid.h_refresh(None)
-        exit()
+        delete = npyscreen.notify_ok_cancel("You are gonna delete permanently the keypair named " + name, "Warning")
+        if delete:
+            try:
+                val = main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
+            except BaseException:
+                raise
+            form.current_grid.h_refresh(None)
+            exit()
 
     delete.whenPressed = delete_cb
     F.edit()

@@ -3,7 +3,10 @@
 import npyscreen
 
 
-class FormObject(npyscreen.ActionFormV2, npyscreen.SplitForm, npyscreen.FormWithMenus):
+class FormObject(
+        npyscreen.ActionFormV2,
+        npyscreen.SplitForm,
+        npyscreen.FormWithMenus):
     def create(self):
         self.show_atx = 30
         self.show_aty = 5

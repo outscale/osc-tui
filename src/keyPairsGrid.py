@@ -19,7 +19,7 @@ class KeyPairsGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh(self):
-        groups = main.GATEWAY.ReadKeypairs()['Keypairs']
+        groups = main.GATEWAY.ReadKeypairs(form=self.form)['Keypairs']
         values = list()
         for g in groups:
             values.append([g['KeypairName'], g['KeypairFingerprint']])

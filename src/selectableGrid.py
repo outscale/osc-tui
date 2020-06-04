@@ -34,7 +34,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         return int(round(time.time() * 1000))
 
     def h_refresh(self, inpt):
-        popup.startLoading(self.form, self.refresh)
+        self.refresh()
         self.display()
 
     # Each time we change the selected line, we select the new one.

@@ -34,14 +34,9 @@ class CreateKeyPair(npyscreen.FormBaseNew):
 
         def create():
             if(NAME.get_value()):
-                global res
-                res = None
-
-                def cb():
-                    global res
-                    res = main.GATEWAY.CreateKeypair(
-                        KeypairName=NAME.get_value())
-                popup.startLoading(self, cb)
+                res = main.GATEWAY.CreateKeypair(
+                    form=self,
+                    KeypairName=NAME.get_value())
                 if 'Errors' not in res and 'Keypair' in res:
                     private_key = res['Keypair']['PrivateKey']
                     name = res['Keypair']['KeypairName']
