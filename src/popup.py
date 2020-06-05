@@ -593,7 +593,7 @@ def editKeypair(form, line, form_color='STANDOUT'):
 
     def delete_cb():
         delete = npyscreen.notify_ok_cancel(
-            "You are gonna delete permanently the keypair named " + name, "Warning")
+            "You will delete permanently the keypair named " + name, "Warning")
         if delete:
             try:
                 val = main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
