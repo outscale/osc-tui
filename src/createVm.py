@@ -140,8 +140,10 @@ class CreateVm(npyscreen.FormBaseNew):
                 values=actionOnShutdown,
                 value=AOS_COMBO.get_value() if AOS_COMBO else 0,
             )
-
+        def creation():
+            create()
+            back()
         self.add_widget(
             npyscreen.ButtonPress,
-            name="CREATE").whenPressed = create
+            name="CREATE").whenPressed = creation
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
