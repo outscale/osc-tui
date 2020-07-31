@@ -53,3 +53,7 @@ class App(npyscreen.StandardApp):
 if __name__ == "__main__":
     APP = App()
     APP.run()
+
+def main():
+    APP = App()
+    APP.run()
