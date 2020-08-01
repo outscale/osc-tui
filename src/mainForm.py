@@ -3,20 +3,20 @@ import curses
 import npyscreen
 import pyperclip
 
-import createKeyPair
-import createSnapshot
-import createVm
-import createVolume
-import instancesGrid
-import keyPairsGrid
-import main
-import popup
-import securityGroupsGrid
-import securityRulesGrid
-import selectableGrid
-import snapshotGrid
-import virtualMachine
-import volumesGrid
+from osc_tui import createKeyPair
+from osc_tui import createSnapshot
+from osc_tui import createVm
+from osc_tui import createVolume
+from osc_tui import instancesGrid
+from osc_tui import keyPairsGrid
+from osc_tui import main
+from osc_tui import popup
+from osc_tui import securityGroupsGrid
+from osc_tui import securityRulesGrid
+from osc_tui import selectableGrid
+from osc_tui import snapshotGrid
+from osc_tui import virtualMachine
+from osc_tui import volumesGrid
 
 MODE = "INSTANCES"
 SELECTED_BUTTON = 0

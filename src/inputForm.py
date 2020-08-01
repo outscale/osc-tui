@@ -1,5 +1,5 @@
 import npyscreen
-import main
+from osc_tui import main
 
 QUESTION = 'Please, say something :)'
 DEFAULT_ANSWER = ''

@@ -1,5 +1,5 @@
 import npyscreen
-import main
+from osc_tui import main
 
 # All VOLUME_COMBO box.
 VOLUME_COMBO = None
