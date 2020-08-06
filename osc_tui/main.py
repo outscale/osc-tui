@@ -5,8 +5,8 @@ import sys
 import npyscreen
 from requests import get
 
-import inputForm
-import profileSelector
+from osc_tui import inputForm
+from osc_tui import profileSelector
 
 # GLOBALS ATTRIBUTES
 APP = None
@@ -51,5 +51,9 @@ class App(npyscreen.StandardApp):
 
 # LET'S RUN
 if __name__ == "__main__":
+    APP = App()
+    APP.run()
+
+def main():
     APP = App()
     APP.run()
