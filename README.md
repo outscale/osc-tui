@@ -10,7 +10,13 @@ You will need to install python3:<br>
 
 ## The easy way:
 
-* `bash <(curl -s https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh)`
+### Clone, setup, build and install:
+
+* `curl https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh | bash -s -- -y`
+
+### Clone and setup only:
+
+* `curl https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh | bash -s -- -n`
 
 ## The tricky one:
 
