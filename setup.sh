@@ -13,10 +13,9 @@ python3 setup.py build
 python3 setup.py install
 cd ..
 ./configure.sh --dev
-read -p "Do you want to build and install osc-tui? " -n 1 -r
+read -p "Do you want to build and install osc-tui (y/n) ?" -n 1 -r
 echo    # (optional) move to a new line
-if [[ $REPLY =~ ^[Yy]$ ] || [ $1 == "install" ]]
-then
+if [ "$REPLY" == "y" ] || [ "$1" == "-y" ] && [ "$1" != "-n" ]; then
     make osc-tui
     make install
 fi
