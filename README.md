@@ -44,8 +44,12 @@ And now npyscreen:
 
 <br>
 
+Now configure the project:
+* `./configure --dev`: allow running directly `main.py` file.
+* `./configure --release`: before packaging the app.
 
-Finally run it!<br>
+
+Finally run it! (must be configured in `--dev`)<br>
 
 * `./src/main.py`
 
