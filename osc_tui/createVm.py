@@ -13,6 +13,7 @@ NAME = None
 KEYPAIRS_COMBO = None
 # VM TYPE combo box.
 VM_COMBO = None
+REGION = None
 # Action On Shutdown combo box.
 AOS_COMBO = None
 
@@ -65,6 +66,7 @@ class CreateVm(npyscreen.FormBaseNew):
                         ImageId=id,
                         KeypairName=keypair,
                         VmType=VM_COMBO.get_values()[VM_COMBO.get_value()],
+                        Placement={"SubregionName":REGION.get_values()[REGION.get_value()]},
                         VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
                             AOS_COMBO.get_value()
                         ],
@@ -82,7 +84,6 @@ class CreateVm(npyscreen.FormBaseNew):
                         ResourceIds=[vmId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
-
         imgs = main.GATEWAY.ReadImages(form=self)["Images"]
         imgs_vals = []
         ID_LIST = []
@@ -114,6 +115,17 @@ class CreateVm(npyscreen.FormBaseNew):
             values=imgs_vals,
             value=IMG_COMBO.get_value() if IMG_COMBO else 0,
         )
+        global REGION
+        subregions = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
+        subregions_vals = []
+        for subregion in subregions:
+            subregions_vals.append(subregion["SubregionName"])
+        REGION = self.add_widget(
+                npyscreen.TitleCombo,
+                name="CHOOSE REGION",
+                values=subregions_vals,
+                value=REGION.get_value() if REGION else 0,
+                )
         global KEYPAIRS_COMBO
         KEYPAIRS_COMBO = self.add_widget(
             npyscreen.TitleCombo,
