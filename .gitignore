@@ -3,3 +3,11 @@ env*
 *.pyc
 .vscode
 npyscreen
+build
+osc_tui.egg-info/top_level.txt
+osc_tui.egg-info/SOURCES.txt
+osc_tui.egg-info/requires.txt
+osc_tui.egg-info/PKG-INFO
+osc_tui.egg-info/entry_points.txt
+osc_tui.egg-info/dependency_links.txt
+*.egg
