@@ -8,6 +8,12 @@ You will need to install python3:<br>
 
 * Python3 (https://www.python.org/downloads/).
 
+## The easy way:
+
+* `bash <(curl -s https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh)`
+
+## The tricky one:
+
 Now you can clone the repository:
 <br>
 
