@@ -11,3 +11,4 @@ osc_tui.egg-info/PKG-INFO
 osc_tui.egg-info/entry_points.txt
 osc_tui.egg-info/dependency_links.txt
 *.egg
+*.build
