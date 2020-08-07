@@ -9,8 +9,8 @@ import npyscreen.wgmultiline
 import pyperclip
 from npyscreen import *
 
-from osc_tui import main
-from osc_tui import mainForm
+import main
+import mainForm
 
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):

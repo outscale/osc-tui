@@ -5,8 +5,8 @@ import sys
 import npyscreen
 from requests import get
 
-from osc_tui import inputForm
-from osc_tui import profileSelector
+import inputForm
+import profileSelector
 
 # GLOBALS ATTRIBUTES
 APP = None

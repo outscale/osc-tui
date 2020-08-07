@@ -8,9 +8,9 @@ import npyscreen
 import requests
 from osc_sdk_python import Gateway
 
-from osc_tui import main
-from osc_tui import mainForm
-from osc_tui import popup
+import main
+import mainForm
+import popup
 
 home = str(Path.home())
 

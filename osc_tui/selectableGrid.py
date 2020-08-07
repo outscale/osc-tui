@@ -4,8 +4,8 @@ import time
 
 import npyscreen
 
-from osc_tui import main
-from osc_tui import popup
+import main
+import popup
 
 # Initially it was designed to have a thread that auto refresh... However, even if it worked fine, if too many people does it, it looks like a DDOS attack.
 # So now, use [F5] key to refreesh, a find a button called refresh.

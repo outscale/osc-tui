@@ -1,6 +1,6 @@
 import npyscreen
 
-from osc_tui import main
+import main
 
 # If advanced VM creation enabled.
 ADVANCED_MODE = False

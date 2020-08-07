@@ -1,6 +1,6 @@
 import npyscreen
-from osc_tui import main
-from osc_tui import popup
+import main
+import popup
 import os
 
 # This file is here for creating a keypair and downloading the generated private key.
