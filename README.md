@@ -8,62 +8,43 @@ You will need to install python3:<br>
 
 * Python3 (https://www.python.org/downloads/).
 
-## The easy way:
-
-### Clone, setup, build and install:
+## Clone, setup, build and install:
 
 * `curl https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh | bash -s -- -y`
 
-### Clone and setup only:
+## Clone and setup only:
 
 * `curl https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh | bash -s -- -n`
 
-## The tricky one:
+# Running the client.
 
-Now you can clone the repository:
-<br>
+## If installed:
 
-* `git clone https://github.com/outscale-dev/osc-tui.git`
+* `osc-tui`
 
-<br>
+## If not installed (for devs):
 
-And then open the project's folder: <br>
+Move to the osc-tui folder, then run:
 
-* `cd osc-tui`
-* `git submodule update --init`
+* `source env/bin/activate`to activate the virtual env.
+* `python3 osc_tui/main.py`
 
-<br>
+Then you can deactivate the virtual env:
 
-Then setup a virtual environnement (Facultative but recommended):<br>
-* Install `virtualenv`: `python3 -m pip install virtualenv`
-* Create the environnement: `python3 -m virtualenv -p python3 env`
-* Activate it: `source env/bin/activate`.
-* To exit use `deactivate`.
+* `deactivate`
 
-<br>
-You will need to install:<br>
+# Packaging the app with pip (BETA, WIP).
 
-* `python3 -m pip install pyperclip`.
-* `python3 -m pip install autopep8`.
-* `python3 -m pip install requests`.
-* OSC-SDK-Python (https://github.com/outscale/osc-sdk-python), `python3 -m pip install https://github.com/outscale/osc-sdk-python/releases/download/0.9.15/osc_sdk_python-0.9.15-py3-none-any.whl`.
-
-And now npyscreen:
-* `cd npyscreen`
-* `python3 setup.py build`
-* `python3 setup.py install`
-* `cd ..`
-
-<br>
-
-Now configure the project:
-* `./configure --dev`: allow running directly `main.py` file.
-* `./configure --release`: before packaging the app.
+We will need to rename some imports so we have a script for that: `configure.sh`.<br>
+This script is ran by the `setup.py`to move in `--release`config.<br>
+If you want to be able again to run directly the python file, you will have to do first:
+* `./configure.sh --dev`
+It will rename back all imports.
 
 
-Finally run it! (must be configured in `--dev`)<br>
+Finally build and install the package:<br>
 
-* `./src/main.py`
+* `sudo python3 setup.py build install`
 
 # Contributing
 
