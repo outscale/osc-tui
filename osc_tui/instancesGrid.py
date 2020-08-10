@@ -8,6 +8,7 @@ import popup
 import selectableGrid
 import virtualMachine
 
+
 class InstancesGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)

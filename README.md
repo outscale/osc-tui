@@ -49,7 +49,7 @@ Finally build and install the package:<br>
 # Contributing
 
 Just a few rules:<br>
-* Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive src/*.py`).
+* Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive osc_tui/*.py`).
 * Add external dependencies as less as possible.
 
 

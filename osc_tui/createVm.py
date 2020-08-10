@@ -62,15 +62,11 @@ class CreateVm(npyscreen.FormBaseNew):
                 res = ""
                 if ADVANCED_MODE:
                     res = main.GATEWAY.CreateVms(
-                        form=self,
-                        ImageId=id,
-                        KeypairName=keypair,
-                        VmType=VM_COMBO.get_values()[VM_COMBO.get_value()],
-                        Placement={"SubregionName":REGION.get_values()[REGION.get_value()]},
-                        VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
-                            AOS_COMBO.get_value()
-                        ],
-                    )
+                        form=self, ImageId=id, KeypairName=keypair, VmType=VM_COMBO.get_values()[
+                            VM_COMBO.get_value()], Placement={
+                            "SubregionName": REGION.get_values()[
+                                REGION.get_value()]}, VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
+                            AOS_COMBO.get_value()], )
                 else:
                     res = main.GATEWAY.CreateVms(
                         form=self,
@@ -121,11 +117,11 @@ class CreateVm(npyscreen.FormBaseNew):
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
         REGION = self.add_widget(
-                npyscreen.TitleCombo,
-                name="CHOOSE REGION",
-                values=subregions_vals,
-                value=REGION.get_value() if REGION else 0,
-                )
+            npyscreen.TitleCombo,
+            name="CHOOSE REGION",
+            values=subregions_vals,
+            value=REGION.get_value() if REGION else 0,
+        )
         global KEYPAIRS_COMBO
         KEYPAIRS_COMBO = self.add_widget(
             npyscreen.TitleCombo,
@@ -152,6 +148,7 @@ class CreateVm(npyscreen.FormBaseNew):
                 values=actionOnShutdown,
                 value=AOS_COMBO.get_value() if AOS_COMBO else 0,
             )
+
         def creation():
             create()
             back()
