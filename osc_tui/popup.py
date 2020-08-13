@@ -9,6 +9,7 @@ import npyscreen.wgmultiline
 import pyperclip
 from npyscreen import *
 
+import requests
 import main
 import mainForm
 
@@ -48,10 +49,15 @@ def readAKSK(form_color='STANDOUT'):
         name = F.add(npyscreen.TitleText, name="NAME:")
         ak = F.add(npyscreen.TitleText, name="ACCESS KEY:")
         sk = F.add(npyscreen.TitleText, name="SECRET KEY:")
-        region = F.add_widget(
+        regions = requests.post("https://api.eu-west-2.outscale.com/api/latest/ReadRegions").json()
+        regions_list = []
+        for region in regions["Regions"]:
+            regions_list.append(region["RegionName"])
+        global REGION
+        REGION = F.add_widget(
             npyscreen.TitleCombo,
             name="REGION:",
-            values="eu-west-2 eu-west-1".split(),
+            values=regions_list,
             value=0,
         )
         #ak.width = ak.width - 1
@@ -62,7 +68,7 @@ def readAKSK(form_color='STANDOUT'):
                     name.value: {
                         'access_key': ak.value,
                         'secret_key': sk.value,
-                        'region': region.values[region.value]
+                        'region': REGION.values[REGION.value]
                     }
                 }
             else:
