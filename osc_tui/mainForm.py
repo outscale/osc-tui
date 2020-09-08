@@ -24,9 +24,9 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, vmform=None, draw_line_at=7, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=7, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.vmform = vmform
+        self.form = form
         self.cursor_line = SELECTED_BUTTON
         self.scroll_exit = True
         self.draw_line_at = draw_line_at
@@ -34,26 +34,26 @@ class mainMenu(npyscreen.MultiLineAction):
     def actionHighlighted(self, act_on_this, key_press):
         if key_press == 10:
 
-            if self.vmform:
+            if self.form:
                 global MODE
                 if MODE == 'INSTANCES':
                     if act_on_this == "CREATE NEW":
-                        self.vmform.parentApp.addForm("CREATE_VM",
+                        self.form.parentApp.addForm("CREATE_VM",
                                                       createVm.CreateVm,
                                                       name="osc-tui")
-                        self.vmform.parentApp.switchForm("CREATE_VM")
+                        self.form.parentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'SECURITY':
                     if act_on_this == "CREATE NEW":
-                        popup.newSecurityGroup(self.vmform)
+                        popup.newSecurityGroup(self.form)
                         return
                 elif MODE == 'SECURITY-VM':
                     if act_on_this == "ADD SEC-GROUP":
-                        popup.addSecurityGroupToVm(self.vmform)
+                        popup.addSecurityGroupToVm(self.form)
                         return
                 elif MODE == 'SECURITY-RULES':
                     if act_on_this == "CREATE NEW":
-                        popup.newSecurityGroupRule(self.vmform)
+                        popup.newSecurityGroupRule(self.form)
                         return
                     elif act_on_this == 'ADD SSH MY IP':
                         main.GATEWAY.CreateSecurityGroupRule(
@@ -64,35 +64,35 @@ class mainMenu(npyscreen.MultiLineAction):
                             ToPortRange=22, SecurityGroupId=main.SECURITY_GROUP,
                             Flow="Inbound",
                         )
-                        self.vmform.current_grid.h_refresh(None)
-                        self.vmform.current_grid.display()
+                        self.form.current_grid.h_refresh(None)
+                        self.form.current_grid.display()
                         return
                 elif MODE == 'VOLUMES':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm(
+                        self.form.parentApp.addForm(
                             "CREATE_VOLUME", createVolume.CreateVolume, name="osc-tui")
-                        self.vmform.parentApp.switchForm("CREATE_VOLUME")
+                        self.form.parentApp.switchForm("CREATE_VOLUME")
                         return
                 elif MODE == 'SNAPSHOT':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm(
+                        self.form.parentApp.addForm(
                             "CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
-                        self.vmform.parentApp.switchForm("CREATE_SNAPSHOT")
+                        self.form.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
                 elif MODE == 'KEYPAIRS':
                     if act_on_this == 'CREATE NEW':
-                        self.vmform.parentApp.addForm(
+                        self.form.parentApp.addForm(
                             "CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
-                        self.vmform.parentApp.switchForm("CREATE_KEYPAIR")
+                        self.form.parentApp.switchForm("CREATE_KEYPAIR")
                         return
                 if act_on_this == "EXIT":
                     main.kill_threads()
-                    self.vmform.parentApp.switchForm("MAIN")
+                    self.form.parentApp.switchForm("MAIN")
                     return
                 elif act_on_this == "REFRESH":
-                    if hasattr(self.vmform, 'current_grid'):
-                        self.vmform.current_grid.h_refresh(None)
-                        self.vmform.current_grid.display()
+                    if hasattr(self.form, 'current_grid'):
+                        self.form.current_grid.h_refresh(None)
+                        self.form.current_grid.display()
                     return
                 MODE = act_on_this
                 global SELECTED_BUTTON
@@ -100,7 +100,7 @@ class mainMenu(npyscreen.MultiLineAction):
                     SELECTED_BUTTON = 8
                 else:
                     SELECTED_BUTTON = self.cursor_line
-                self.vmform.reload()
+                self.form.reload()
 
     def set_up_handlers(self):
         super().set_up_handlers()
@@ -165,7 +165,7 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         self.add_widget(
             mainMenu,
-            vmform=self,
+            form=self,
             relx=1,
             max_width=14,
             values=menu_desc,
