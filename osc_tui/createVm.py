@@ -30,6 +30,7 @@ class CreateVm(npyscreen.FormBaseNew):
 
     def create(self):
         preloader.Preloader.wait_for_preload(self)
+
         def switchMode():
             global ADVANCED_MODE
             ADVANCED_MODE = not ADVANCED_MODE

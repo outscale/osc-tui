@@ -37,7 +37,6 @@ class CallbackFactory:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name})
 
-
             # The following code is a little bit completely tricky :)
             # Here is the idea:
             # I want to hook all calls to the main.GATEWAY modules to automatically display the pending animation.
