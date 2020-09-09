@@ -19,10 +19,16 @@ class Preloader():
         Preloader.register(
             lambda: main.GATEWAY.ReadVmTypes()["VmTypes"],
             'vm_types')
+
     # If no name given, we preload all registered datas!
+    # If name is list we update for each name.
+    # Else we update only the selected name.
 
     def load(name=None):
-        if name:
+        if type(name) is list:
+            for n in name:
+                Preloader.data.get(n).load()
+        elif name:
             Preloader.data.get(name).load()
         else:
             for key in Preloader.data:
