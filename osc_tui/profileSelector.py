@@ -3,6 +3,7 @@
 import json
 import os
 from pathlib import Path
+import threading
 
 import npyscreen
 import requests
@@ -36,9 +37,15 @@ class CallbackFactory:
             main.GATEWAY = Gateway(**{"profile": self.name})
 
             def load_information():
-                main.SUBREGION_LIST = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
-                main.IMAGEVM_LIST = main.GATEWAY.ReadImages(form=self)["Images"]
-                main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes(form=self)["VmTypes"]
+                # Running in async mode.
+                # A good fix would be to know if everything is loaded.
+                def refresh():
+                    # All gateway calls: no "form" arg so it run without animation.
+                    main.SUBREGION_LIST = main.GATEWAY.ReadSubregions()["Subregions"]
+                    main.IMAGEVM_LIST = main.GATEWAY.ReadImages()["Images"]
+                    main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes()["VmTypes"]
+                threading.Thread(target=refresh).start()
+
 
             # The following code is a little bit completely tricky :)
             # Here is the idea:
