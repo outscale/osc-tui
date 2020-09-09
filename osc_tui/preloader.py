@@ -7,6 +7,7 @@ import popup
 
 class Preloader():
     data = dict()
+    loading = 0
 
     def init():
         # Here we register every data we need to preload.
@@ -31,11 +32,11 @@ class Preloader():
         return Preloader.data[name].value
 
     def load_async(name=None):
-        Preloader.loaded = False
+        Preloader.loading +=1
 
         def cb():
             Preloader.load(name)
-            Preloader.loaded = True
+            Preloader.loading -= 1
         threading.Thread(target=cb).start()
 
     def register(fct, name):
@@ -50,6 +51,6 @@ class Preloader():
 
     def wait_for_preload(form):
         def cb():
-            while(Preloader.loaded == False):
+            while(Preloader.loading > 0):
                 pass
         popup.startLoading(form, cb)
