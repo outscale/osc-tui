@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 import threading
+import preloader
 
 import npyscreen
 import requests
@@ -35,16 +36,6 @@ class CallbackFactory:
         try:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name})
-
-            def load_information():
-                # Running in async mode.
-                # A good fix would be to know if everything is loaded.
-                def refresh():
-                    # All gateway calls: no "form" arg so it run without animation.
-                    main.SUBREGION_LIST = main.GATEWAY.ReadSubregions()["Subregions"]
-                    main.IMAGEVM_LIST = main.GATEWAY.ReadImages()["Images"]
-                    main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes()["VmTypes"]
-                threading.Thread(target=refresh).start()
 
 
             # The following code is a little bit completely tricky :)
@@ -89,7 +80,7 @@ class CallbackFactory:
             # now let's check if the profile worked:
             res = main.GATEWAY.ReadClientGateways(form=self.form)
             if "Errors" not in res:
-                load_information()
+                preloader.Preloader.load_async()
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
                     "Cockpit", mainForm.MainForm, name="osc-tui")
@@ -108,6 +99,7 @@ class CallbackFactory:
 
 class ProfileSelector(npyscreen.ActionFormV2):
     def create(self):
+        preloader.Preloader.init()
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
         global OAPI_CREDENTIALS
         OAPI_CREDENTIALS = dict()

@@ -1,5 +1,6 @@
 import npyscreen
 import main
+import preloader
 
 # If advanced VM creation enabled.
 ADVANCED_MODE = False
@@ -28,6 +29,7 @@ class CreateVm(npyscreen.FormBaseNew):
         self.parentApp.switchForm("CREATE_VM")
 
     def create(self):
+        preloader.Preloader.wait_for_preload(self)
         def switchMode():
             global ADVANCED_MODE
             ADVANCED_MODE = not ADVANCED_MODE
@@ -80,7 +82,7 @@ class CreateVm(npyscreen.FormBaseNew):
                         ResourceIds=[vmId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
-        imgs = main.IMAGEVM_LIST
+        imgs = preloader.Preloader.get('vm_images')
         imgs_vals = []
         ID_LIST = []
         for img in imgs:
@@ -112,7 +114,7 @@ class CreateVm(npyscreen.FormBaseNew):
             value=IMG_COMBO.get_value() if IMG_COMBO else 0,
         )
         global REGION
-        subregions = main.SUBREGION_LIST
+        subregions = preloader.Preloader.get('subregions')
         subregions_vals = []
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
@@ -130,7 +132,7 @@ class CreateVm(npyscreen.FormBaseNew):
             value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
         )
         if ADVANCED_MODE:
-            vmTypes = main.VMTYPE_LIST
+            vmTypes = preloader.Preloader.get('vm_types')
             vmTypes_vals = []
             for vmType in vmTypes:
                 vmTypes_vals.append(vmType["VmTypeName"])
