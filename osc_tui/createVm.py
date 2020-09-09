@@ -80,7 +80,7 @@ class CreateVm(npyscreen.FormBaseNew):
                         ResourceIds=[vmId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )
-        imgs = main.GATEWAY.ReadImages(form=self)["Images"]
+        imgs = main.IMAGEVM_LIST
         imgs_vals = []
         ID_LIST = []
         for img in imgs:
@@ -112,7 +112,7 @@ class CreateVm(npyscreen.FormBaseNew):
             value=IMG_COMBO.get_value() if IMG_COMBO else 0,
         )
         global REGION
-        subregions = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
+        subregions = main.SUBREGION_LIST
         subregions_vals = []
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
@@ -130,14 +130,15 @@ class CreateVm(npyscreen.FormBaseNew):
             value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
         )
         if ADVANCED_MODE:
-            vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
-                " "
-            )
+            vmTypes = main.VMTYPE_LIST
+            vmTypes_vals = []
+            for vmType in vmTypes:
+                vmTypes_vals.append(vmType["VmTypeName"])
             global VM_COMBO
             VM_COMBO = self.add_widget(
                 npyscreen.TitleCombo,
                 name="CHOOSE VM TYPE",
-                values=vmTypes,
+                values=vmTypes_vals,
                 value=VM_COMBO.get_value() if VM_COMBO else 0,
             )
             actionOnShutdown = "stop restart terminate".split(" ")

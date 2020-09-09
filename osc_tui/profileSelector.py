@@ -34,6 +34,12 @@ class CallbackFactory:
         try:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name})
+
+            def load_information():
+                main.SUBREGION_LIST = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
+                main.IMAGEVM_LIST = main.GATEWAY.ReadImages(form=self)["Images"]
+                main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes(form=self)["VmTypes"]
+
             # The following code is a little bit completely tricky :)
             # Here is the idea:
             # I want to hook all calls to the main.GATEWAY modules to automatically display the pending animation.
@@ -76,6 +82,7 @@ class CallbackFactory:
             # now let's check if the profile worked:
             res = main.GATEWAY.ReadClientGateways(form=self.form)
             if "Errors" not in res:
+                load_information()
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
                     "Cockpit", mainForm.MainForm, name="osc-tui")
