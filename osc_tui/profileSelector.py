@@ -34,6 +34,12 @@ class CallbackFactory:
         try:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name})
+
+            def load_information():
+                main.SUBREGION_LIST = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
+                main.IMAGEVM_LIST = main.GATEWAY.ReadImages(form=self)["Images"]
+                main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes(form=self)["VmTypes"]
+
             # The following code is a little bit completely tricky :)
             # Here is the idea:
             # I want to hook all calls to the main.GATEWAY modules to automatically display the pending animation.
@@ -45,11 +51,6 @@ class CallbackFactory:
             # If we have the form parameter, we remove it form kwargs and start the pending animation.
             # So the pending animation won't be started again during "inner
             # calls".
-
-            def load_information():
-                main.SUBREGION_LIST = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
-                main.IMAGEVM_LIST = main.GATEWAY.ReadImages(form=self)["Images"]
-                main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes(form=self)["VmTypes"]
 
             def decorator(func):
                 def wrapped(*args, **kwargs):
