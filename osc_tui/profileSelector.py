@@ -46,6 +46,11 @@ class CallbackFactory:
             # So the pending animation won't be started again during "inner
             # calls".
 
+            def load_information():
+                main.SUBREGION_LIST = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
+                main.IMAGEVM_LIST = main.GATEWAY.ReadImages(form=self)["Images"]
+                main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes(form=self)["VmTypes"]
+
             def decorator(func):
                 def wrapped(*args, **kwargs):
                     form = kwargs.get('form')
@@ -76,6 +81,7 @@ class CallbackFactory:
             # now let's check if the profile worked:
             res = main.GATEWAY.ReadClientGateways(form=self.form)
             if "Errors" not in res:
+                load_information()
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
                     "Cockpit", mainForm.MainForm, name="osc-tui")

@@ -12,6 +12,9 @@ import profileSelector
 APP = None
 GATEWAY = None
 THREADS = list()
+SUBREGION_LIST = None
+IMAGEVM_LIST = None
+VMTYPE_LIST = None
 VM = None
 VMs = None
 SECURITY_GROUP = None
