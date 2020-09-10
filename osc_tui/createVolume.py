@@ -78,7 +78,7 @@ class CreateVolume(npyscreen.FormBaseNew):
                     )
                 back()
 
-        snapshots = main.GATEWAY.ReadSnapshots(form=self.form)["Snapshots"]
+        snapshots = main.GATEWAY.ReadSnapshots(form=self)["Snapshots"]
         snapshots_vals = []
         ID_LIST = []
         for snap in snapshots:
@@ -108,7 +108,7 @@ class CreateVolume(npyscreen.FormBaseNew):
             value=TYPE.get_value() if TYPE else 0,
         )
         global SUBREGION
-        subregions = main.GATEWAY.ReadSubregions(form=self.form)["Subregions"]
+        subregions = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
         subregions_vals = []
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
