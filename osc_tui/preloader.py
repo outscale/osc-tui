@@ -59,4 +59,8 @@ class Preloader():
         def cb():
             while(Preloader.loading > 0):
                 pass
-        popup.startLoading(form, cb)
+
+        # Avoid starting the animation if no need.
+
+        if Preloader.loading > 0:
+            popup.startLoading(form, cb)
