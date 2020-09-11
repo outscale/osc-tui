@@ -2,8 +2,6 @@ import npyscreen
 
 import main
 
-# If advanced VM creation enabled.
-ADVANCED_MODE = False
 # All images combo box.
 SNAPSHOT_COMBO = None
 # List of all IDs
@@ -14,8 +12,6 @@ NAME = None
 TYPE = None
 # SUBREGION name
 SUBREGION = None
-# VM TYPE combo box.
-VM_COMBO = None
 # SIZE of volume in gib
 SIZE = None
 
@@ -124,25 +120,6 @@ class CreateVolume(npyscreen.FormBaseNew):
             name="CHOOSE A SIZE (gib)",
             value=SIZE.get_value() if SIZE else "10"
         )
-        if ADVANCED_MODE:
-            vmTypes = "t2.nano t2.micro t2.small t2.medium t2.large m4.large m4.xlarge m4.2xlarge m4.4xlarge m4.10xlarge".split(
-                " "
-            )
-            global VM_COMBO
-            VM_COMBO = self.add_widget(
-                npyscreen.TitleCombo,
-                name="CHOOSE VM TYPE",
-                values=vmTypes,
-                value=VM_COMBO.get_value() if VM_COMBO else 0,
-            )
-            actionOnShutdown = "stop restart terminate".split(" ")
-            global AOS_COMBO
-            AOS_COMBO = self.add_widget(
-                npyscreen.TitleCombo,
-                name="ACTION ON SHUTDOWN",
-                values=actionOnShutdown,
-                value=AOS_COMBO.get_value() if AOS_COMBO else 0,
-            )
 
         self.add_widget(
             npyscreen.ButtonPress,
