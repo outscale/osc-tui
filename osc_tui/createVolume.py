@@ -57,7 +57,7 @@ class CreateVolume(npyscreen.FormBaseNew):
                     TYPE.get_value()
                 ]
                 res = main.GATEWAY.CreateVolume(
-                    form=self.form,
+                    form=self,
                     SnapshotId=id,
                     SubregionName=subregionName,
                     Size=int(SIZE.get_value()),
@@ -68,7 +68,7 @@ class CreateVolume(npyscreen.FormBaseNew):
                 else:
                     volumeId = res["Volume"]["VolumeId"]
                     main.GATEWAY.CreateTags(
-                        form=self.form,
+                        form=self,
                         ResourceIds=[volumeId],
                         Tags=[{"Key": "Name", "Value": NAME.get_value()}],
                     )

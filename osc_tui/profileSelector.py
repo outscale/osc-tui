@@ -3,6 +3,8 @@
 import json
 import os
 from pathlib import Path
+import threading
+import preloader
 
 import npyscreen
 import requests
@@ -34,11 +36,6 @@ class CallbackFactory:
         try:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name})
-
-            def load_information():
-                main.SUBREGION_LIST = main.GATEWAY.ReadSubregions(form=self)["Subregions"]
-                main.IMAGEVM_LIST = main.GATEWAY.ReadImages(form=self)["Images"]
-                main.VMTYPE_LIST = main.GATEWAY.ReadVmTypes(form=self)["VmTypes"]
 
             # The following code is a little bit completely tricky :)
             # Here is the idea:
@@ -82,7 +79,7 @@ class CallbackFactory:
             # now let's check if the profile worked:
             res = main.GATEWAY.ReadClientGateways(form=self.form)
             if "Errors" not in res:
-                load_information()
+                preloader.Preloader.load_async()
                 mainForm.MODE = 'INSTANCES'
                 self.form.parentApp.addForm(
                     "Cockpit", mainForm.MainForm, name="osc-tui")
@@ -101,6 +98,7 @@ class CallbackFactory:
 
 class ProfileSelector(npyscreen.ActionFormV2):
     def create(self):
+        preloader.Preloader.init()
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
         global OAPI_CREDENTIALS
         OAPI_CREDENTIALS = dict()

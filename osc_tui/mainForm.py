@@ -39,8 +39,8 @@ class mainMenu(npyscreen.MultiLineAction):
                 if MODE == 'INSTANCES':
                     if act_on_this == "CREATE NEW":
                         self.form.parentApp.addForm("CREATE_VM",
-                                                      createVm.CreateVm,
-                                                      name="osc-tui")
+                                                    createVm.CreateVm,
+                                                    name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'SECURITY':
