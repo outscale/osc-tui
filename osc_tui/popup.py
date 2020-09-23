@@ -50,10 +50,14 @@ def readAKSK(form_color='STANDOUT'):
         ak = F.add(npyscreen.TitleText, name="ACCESS KEY:")
         sk = F.add(npyscreen.TitleText, name="SECRET KEY:")
         regions = requests.post(
-            "https://api.eu-west-2.outscale.com/api/latest/ReadRegions").json()
+            "https://api.eu-west-2.outscale.com/api/latest/ReadRegions")
         regions_list = []
-        for region in regions["Regions"]:
-            regions_list.append(region["RegionName"])
+        if regions == 200:
+            regions = regions.json()
+            for region in regions["Regions"]:
+                regions_list.append(region["RegionName"])
+        else:
+            regions_list = "eu-west-2","us-east-2","us-west-1","cn-southeast-1"
         global REGION
         REGION = F.add_widget(
             npyscreen.TitleCombo,
