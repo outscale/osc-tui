@@ -12,8 +12,15 @@ ID_LIST = None
 NAME = None
 # Key pairs combo box.
 KEYPAIRS_COMBO = None
-# VM TYPE combo box.
-VM_COMBO = None
+# All CPU
+CPU = None
+# Performance
+PERFORMANCE = None
+# Textbox for memory in gib
+SIZE = None
+# Textbox for number of core
+CORE = None
+# List of all Subregions
 REGION = None
 # Action On Shutdown combo box.
 AOS_COMBO = None
@@ -46,6 +53,20 @@ class CreateVm(npyscreen.FormBaseNew):
 
         self.inspector = None
 
+        def create_vmtype():
+            cpu=CPU.get_values()[CPU.get_value()]
+            perf=PERFORMANCE.get_values()[PERFORMANCE.get_value()]
+            size=SIZE.get_value()
+            core=CORE.get_value()
+            if perf == "MEDIUM":
+                performance="3"
+            if perf == "HIGH":
+                performance="2"
+            if perf == "HIGHEST":
+                performance="1"
+            vmtype="tinav" + cpu[4] + ".c" + core + "r" + size + "p" + performance
+            return(vmtype)
+
         def create():
 
             if IMG_COMBO.get_value() is None or KEYPAIRS_COMBO.get_value() is None:
@@ -60,13 +81,13 @@ class CreateVm(npyscreen.FormBaseNew):
                 return
             else:
                 id = ID_LIST[IMG_COMBO.get_value()]
+                vmtype = create_vmtype()
                 keypair = KEYPAIRS_COMBO.get_values()[
                     KEYPAIRS_COMBO.get_value()]
                 res = ""
                 if ADVANCED_MODE:
                     res = main.GATEWAY.CreateVms(
-                        form=self, ImageId=id, KeypairName=keypair, VmType=VM_COMBO.get_values()[
-                            VM_COMBO.get_value()], Placement={
+                        form=self, ImageId=id, KeypairName=keypair, VmType=vmtype, Placement={
                             "SubregionName": REGION.get_values()[
                                 REGION.get_value()]}, VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
                             AOS_COMBO.get_value()], )
@@ -133,16 +154,33 @@ class CreateVm(npyscreen.FormBaseNew):
             value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
         )
         if ADVANCED_MODE:
-            vmTypes = preloader.Preloader.get('vm_types')
-            vmTypes_vals = []
-            for vmType in vmTypes:
-                vmTypes_vals.append(vmType["VmTypeName"])
-            global VM_COMBO
-            VM_COMBO = self.add_widget(
+            global CPU
+            cpu_vals = "GEN 2|GEN 3|GEN 4|GEN 5".split("|")
+            CPU = self.add_widget(
                 npyscreen.TitleCombo,
-                name="CHOOSE VM TYPE",
-                values=vmTypes_vals,
-                value=VM_COMBO.get_value() if VM_COMBO else 0,
+                name="CHOOSE CPU",
+                values=cpu_vals,
+                value=CPU.get_value () if CPU else 0,
+            )
+            global PERFORMANCE
+            perf_vals = "MEDIUM HIGH HIGHEST".split(" ")
+            PERFORMANCE = self.add_widget(
+                npyscreen.TitleCombo,
+                name="CHOOSE PERFORMANCE",
+                values=perf_vals,
+                value=PERFORMANCE.get_value() if PERFORMANCE else 0,
+            )
+            global SIZE
+            SIZE = self.add_widget(
+                npyscreen.TitleText,
+                name="CHOOSE A SIZE (gib)",
+                value=SIZE.get_value() if SIZE else "10"
+            )
+            global CORE
+            CORE = self.add_widget(
+                npyscreen.TitleText,
+                name="CHOOSE A NUMBER OF CORE",
+                value=CORE.get_value() if CORE else "1"
             )
             actionOnShutdown = "stop restart terminate".split(" ")
             global AOS_COMBO
