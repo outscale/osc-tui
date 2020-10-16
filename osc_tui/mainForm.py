@@ -7,6 +7,7 @@ import createKeyPair
 import createSnapshot
 import createVm
 import createVolume
+import createLoadbalancer
 import instancesGrid
 import keyPairsGrid
 import main
@@ -15,6 +16,7 @@ import securityGroupsGrid
 import securityRulesGrid
 import selectableGrid
 import snapshotGrid
+import loadbalancerGrid
 import virtualMachine
 import volumesGrid
 
@@ -24,7 +26,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=7, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=8, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -85,6 +87,12 @@ class mainMenu(npyscreen.MultiLineAction):
                             "CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_KEYPAIR")
                         return
+                elif MODE == 'LOADBALANCER':
+                    if act_on_this == 'CREATE NEW':
+                        self.form.parentApp.addForm(
+                            "CREATE_LOADBALANCER", createLoadbalancer.CreateLoadbalancer, name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_LOADBALANCER")
+                        return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.form.parentApp.switchForm("MAIN")
@@ -133,7 +141,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS LOADBALANCER EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -159,6 +167,9 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
         elif MODE == 'SNAPSHOT':
             CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'LOADBALANCER':
+            CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
             menu_desc.append('CREATE NEW')
         elif MODE == 'KEYPAIRS':
             CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid

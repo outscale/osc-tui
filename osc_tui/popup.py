@@ -518,6 +518,29 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     form.current_grid.display()
 
 
+def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
+    name = loadbalancer[0]
+    F = displayPopup(name="{}".format(name))
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="DELETE",
+    )
+
+    def delete_cb():
+        val = main.GATEWAY.DeleteLoadBalancer(LoadBalancerName=name)
+        form.current_grid.h_refresh(None)
+        exit()
+
+    delete.whenPressed = delete_cb
+    F.edit()
+    form.current_grid.display()
+
 def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
         DEFAULT_LINES = 7
