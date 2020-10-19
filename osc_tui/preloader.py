@@ -25,7 +25,7 @@ class Preloader():
     # Else we update only the selected name.
 
     def load(name=None):
-        if type(name) is list:
+        if isinstance(name, list):
             for n in name:
                 Preloader.data.get(n).load()
         elif name:
@@ -38,7 +38,7 @@ class Preloader():
         return Preloader.data[name].value
 
     def load_async(name=None):
-        Preloader.loading +=1
+        Preloader.loading += 1
 
         def cb():
             Preloader.load(name)
