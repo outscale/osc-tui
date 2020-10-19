@@ -15,6 +15,7 @@ BACKENDPORT = None
 # The port on which the load balancer is listening
 LOADBALANCERPORT = None
 
+
 class CreateLoadbalancer(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -91,4 +92,4 @@ class CreateLoadbalancer(npyscreen.FormBaseNew):
             npyscreen.ButtonPress,
             name="CREATE"
         ).whenPressed = create
-        self.add_widget(npyscreen.ButtonPress,name = "EXIT").whenPressed = back
+        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back

@@ -54,17 +54,18 @@ class CreateVm(npyscreen.FormBaseNew):
         self.inspector = None
 
         def create_vmtype():
-            cpu=CPU.get_values()[CPU.get_value()]
-            perf=PERFORMANCE.get_values()[PERFORMANCE.get_value()]
-            size=SIZE.get_value()
-            core=CORE.get_value()
+            cpu = CPU.get_values()[CPU.get_value()]
+            perf = PERFORMANCE.get_values()[PERFORMANCE.get_value()]
+            size = SIZE.get_value()
+            core = CORE.get_value()
             if perf == "MEDIUM":
-                performance="3"
+                performance = "3"
             if perf == "HIGH":
-                performance="2"
+                performance = "2"
             if perf == "HIGHEST":
-                performance="1"
-            vmtype="tinav" + cpu[4] + ".c" + core + "r" + size + "p" + performance
+                performance = "1"
+            vmtype = "tinav" + cpu[4] + ".c" + \
+                core + "r" + size + "p" + performance
             return(vmtype)
 
         def create():
@@ -160,7 +161,7 @@ class CreateVm(npyscreen.FormBaseNew):
                 npyscreen.TitleCombo,
                 name="CHOOSE CPU",
                 values=cpu_vals,
-                value=CPU.get_value () if CPU else 0,
+                value=CPU.get_value() if CPU else 0,
             )
             global PERFORMANCE
             perf_vals = "MEDIUM HIGH HIGHEST".split(" ")

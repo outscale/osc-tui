@@ -57,7 +57,7 @@ def readAKSK(form_color='STANDOUT'):
             for region in regions["Regions"]:
                 regions_list.append(region["RegionName"])
         else:
-            regions_list = "eu-west-2","us-east-2","us-west-1","cn-southeast-1"
+            regions_list = "eu-west-2", "us-east-2", "us-west-1", "cn-southeast-1"
         global REGION
         REGION = F.add_widget(
             npyscreen.TitleCombo,
@@ -540,6 +540,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
+
 
 def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):

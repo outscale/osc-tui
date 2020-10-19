@@ -90,7 +90,9 @@ class mainMenu(npyscreen.MultiLineAction):
                 elif MODE == 'LOADBALANCER':
                     if act_on_this == 'CREATE NEW':
                         self.form.parentApp.addForm(
-                            "CREATE_LOADBALANCER", createLoadbalancer.CreateLoadbalancer, name="osc-tui")
+                            "CREATE_LOADBALANCER",
+                            createLoadbalancer.CreateLoadbalancer,
+                            name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_LOADBALANCER")
                         return
                 if act_on_this == "EXIT":
