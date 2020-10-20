@@ -31,5 +31,7 @@ if __name__ == '__main__':
     print(json.dumps(
         gw.ReadLoadBalancers(**{'Filters' : {'LoadBalancerNames' : ['lbu-1']}})["LoadBalancers"][0]['BackendVmIds'],
         sort_keys=True, indent=4))
-
+    print(json.dumps(
+        gw.ReadLoadBalancers(**{'Filters' : {'LoadBalancerNames' : ['lbu-1']}})["LoadBalancers"],
+        sort_keys=True, indent=4))
     from requests import get

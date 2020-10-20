@@ -75,3 +75,16 @@ class InstancesGrid(selectableGrid.SelectableGrid):
                 cell.color = "CURSOR"
             elif status == "terminated" or status == "shutting-down":
                 cell.color = "DANGER"
+
+class InstancesGridLBU(InstancesGrid):
+    def summarise(self):
+        summary = list()
+        lbu = None
+        for lbu_tmp in main.LBUs:
+            if lbu_tmp['Tags'][0]['Key'] == 'name' and lbu_tmp['LoadBalancerName'] == main.LBU:
+                lbu = lbu_tmp
+                break
+        for vm in self.vms:
+            if vm.summarise()[2] in lbu['BackendVmIds']:
+                summary.append(vm.summarise())
+        return virtualMachine.summary_titles(), summary

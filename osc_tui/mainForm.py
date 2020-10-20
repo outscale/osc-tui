@@ -151,6 +151,9 @@ class MainForm(npyscreen.FormBaseNew):
         if MODE == "INSTANCES":
             CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
             menu_desc.append('CREATE NEW')
+        elif MODE == "INSTANCES-LBU":
+            CURRENT_GRID_CLASS = instancesGrid.InstancesGridLBU
+            menu_desc.append('CREATE NEW')
         elif MODE == "SECURITY":
             CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGrid
             menu_desc.append('CREATE NEW')

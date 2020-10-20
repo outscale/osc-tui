@@ -526,7 +526,19 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     def exit():
         F.editing = False
 
+    def reg_cb():
+        exit()
+        mainForm.MODE = 'INSTANCES-LBU'
+        form.reload()
+
     F.on_ok = exit
+
+    reg = F.add_widget(
+        npyscreen.ButtonPress,
+        name="REGISTERED VMs",
+    )
+    reg.whenPressed = reg_cb
+
     delete = F.add_widget(
         npyscreen.ButtonPress,
         name="DELETE",
