@@ -82,11 +82,11 @@ class CreateVm(npyscreen.FormBaseNew):
                 return
             else:
                 id = ID_LIST[IMG_COMBO.get_value()]
-                vmtype = create_vmtype()
                 keypair = KEYPAIRS_COMBO.get_values()[
                     KEYPAIRS_COMBO.get_value()]
                 res = ""
                 if ADVANCED_MODE:
+                    vmtype = create_vmtype()
                     res = main.GATEWAY.CreateVms(
                         form=self, ImageId=id, KeypairName=keypair, VmType=vmtype, Placement={
                             "SubregionName": REGION.get_values()[
