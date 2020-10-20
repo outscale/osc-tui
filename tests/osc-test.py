@@ -3,7 +3,7 @@ import json
 from osc_sdk_python import Gateway
 
 if __name__ == '__main__':
-    gw = Gateway(**{'profile': 'fne'})
+    gw = Gateway(**{'profile': 'open-source'})
 
     # for vm in gw.ReadVms()['Vms']:
      #   print(json.dumps(vm["SecurityGroups"]))
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     #            Filters={"SecurityGroupIds": ['sg-c387f0b7']}
     #        )["SecurityGroups"][0]["InboundRules"]))
     print(json.dumps(
-        gw.ReadVms(**{'Filters' : {'VmIds' : ['i-7akcd792c']}}),
+        gw.ReadLoadBalancers(**{'Filters' : {'LoadBalancerNames' : ['lbu-1']}})["LoadBalancers"][0]['BackendVmIds'],
         sort_keys=True, indent=4))
 
     from requests import get

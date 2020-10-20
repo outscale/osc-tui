@@ -20,6 +20,10 @@ class Preloader():
             lambda: main.GATEWAY.ReadVmTypes()["VmTypes"],
             'vm_types')
 
+    def free(form):
+        Preloader.wait_for_preload(form)
+        Preloader.data = dict()
+
     # If no name given, we preload all registered datas!
     # If name is list we update for each name.
     # Else we update only the selected name.
@@ -41,24 +45,50 @@ class Preloader():
         Preloader.loading += 1
 
         def cb():
+            # Prevent too many api calls at a time.
+            while(Preloader.loading > 3):
+                pass
             Preloader.load(name)
             Preloader.loading -= 1
         threading.Thread(target=cb).start()
+
+    def load_in_parallel(ls=None):
+        if isinstance(ls, list):
+            for key in ls:
+                Preloader.load_async(key)
+        else:
+            for key in Preloader.data:
+                Preloader.load_async(key)
 
     def register(fct, name):
         class loader():
             def __init__(self, fct, name):
                 self.fct = fct
                 self.value = None
+                self.loading = False
+                self.name = name
 
             def load(self):
+                self.loading = True
                 self.value = self.fct()
+                self.loading = False
+
         Preloader.data.update({name: loader(fct, name)})
 
-    def wait_for_preload(form):
+    # Can wait for the preload of everything or the preload of ['smthg',
+    # 'smthg1'] or of 'smthg'.
+    def wait_for_preload(form, name=None):
         def cb():
-            while(Preloader.loading > 0):
-                pass
+            if name is None:
+                while(Preloader.loading > 0):
+                    pass
+            elif isinstance(name, dict):
+                for key in name:
+                    while(Preloader.get(key).loading):
+                        pass
+            else:
+                while(Preloader.get(name).loading):
+                    pass
 
         # Avoid starting the animation if no need.
 
