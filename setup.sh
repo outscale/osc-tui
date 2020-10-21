@@ -1,3 +1,4 @@
+#!/bin/bash
 git clone https://github.com/outscale-dev/osc-tui.git
 cd osc-tui
 git submodule update --init
