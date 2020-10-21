@@ -122,6 +122,10 @@ def editInstance(form, instance, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="VOLUMES",
     )
+    lbu = F.add_widget(
+        npyscreen.ButtonPress,
+        name="ADD TO LBU",
+    )
     # Now managing actions and wich buttons to hide or not.
     force_stop.hidden = (True if status == "stopped"
                          or status == "terminated" else False)
@@ -189,6 +193,9 @@ def editInstance(form, instance, form_color='STANDOUT'):
         exit()
         form.reload()
 
+    def add_to_lbu():
+        npyscreen.notify_confirm("Not implemented yet :/")
+
     copy_ip.whenPressed = copy_ip
     run_stop.whenPressed = start_vm if status == "stopped" else stop_vm
     force_stop.whenPressed = force_stop_vm
@@ -197,6 +204,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
     terminate.whenPressed = terminate_vm
     copy_ip.whenPressed = _copy_ip
     volumes.whenPressed = volumes_cb
+    lbu.whenPressed = add_to_lbu
     F.edit()
 
 
