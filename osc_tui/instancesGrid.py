@@ -76,7 +76,21 @@ class InstancesGrid(selectableGrid.SelectableGrid):
             elif status == "terminated" or status == "shutting-down":
                 cell.color = "DANGER"
 
+
 class InstancesGridLBU(InstancesGrid):
+    def __init__(self, screen, *args, **keywords):
+        super().__init__(screen, *args, **keywords)
+        self.column_width = 17
+
+        def on_selection_cb(line):
+            popup.editInstanceInLBU(self.form, line)
+        self.on_selection = on_selection_cb
+
+    def refresh(self):
+        main.LBUs = main.GATEWAY.ReadLoadBalancers(form=self.form)[
+            'LoadBalancers']
+        super().refresh()
+
     def summarise(self):
         summary = list()
         lbu = None

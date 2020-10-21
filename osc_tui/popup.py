@@ -292,6 +292,42 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
     form.current_grid.display()
 
 
+def editInstanceInLBU(form, sg, form_color='STANDOUT'):
+    name = sg[1]
+    id = sg[2]
+    F = displayPopup(name=name + ' (' + id + ')', color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    edit = F.add_widget(
+        npyscreen.ButtonPress,
+        name="EDIT",
+    )
+
+    def edit_cb():
+        exit()
+        mainForm.MODE = 'SECURITY-RULES'
+        form.reload()
+
+    remove = F.add_widget(
+        npyscreen.ButtonPress,
+        name="REMOVE FROM LBU",
+    )
+
+    def remove_cb():
+        main.GATEWAY.DeregisterVmsInLoadBalancer(
+            **{'BackendVmIds': [id], 'LoadBalancerName': main.LBU})
+        form.current_grid.h_refresh(None)
+        exit()
+    edit.whenPressed = edit_cb
+    remove.whenPressed = remove_cb
+    F.edit()
+    form.current_grid.display()
+
+
 def addSecurityGroupToVm(form, form_color='STANDOUT'):
     id = main.SECURITY_GROUP
     F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)

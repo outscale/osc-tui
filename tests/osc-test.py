@@ -34,4 +34,6 @@ if __name__ == '__main__':
     print(json.dumps(
         gw.ReadLoadBalancers(**{'Filters' : {'LoadBalancerNames' : ['lbu-1']}})["LoadBalancers"],
         sort_keys=True, indent=4))
+    print(gw.DeregisterVmsInLoadBalancer(
+            **{'BackendVmIds': ['i-45a6f7c9'], 'LoadBalancerName': 'lbu-1'}))
     from requests import get
