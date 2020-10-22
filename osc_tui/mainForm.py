@@ -87,7 +87,7 @@ class mainMenu(npyscreen.MultiLineAction):
                             "CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_KEYPAIR")
                         return
-                elif MODE == 'LOADBALANCER':
+                elif MODE == 'LBUs':
                     if act_on_this == 'CREATE NEW':
                         self.form.parentApp.addForm(
                             "CREATE_LOADBALANCER",
@@ -143,7 +143,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS LOADBALANCER EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS LBUs EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -173,7 +173,7 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'SNAPSHOT':
             CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
             menu_desc.append('CREATE NEW')
-        elif MODE == 'LOADBALANCER':
+        elif MODE == 'LBUs':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
             menu_desc.append('CREATE NEW')
         elif MODE == 'KEYPAIRS':
