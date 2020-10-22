@@ -570,7 +570,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     def exit():
         F.editing = False
 
-    def reg_cb():
+    def instances_registered():
         exit()
         mainForm.MODE = 'INSTANCES-LBU'
         form.reload()
@@ -581,7 +581,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="REGISTERED VMs",
     )
-    reg.whenPressed = reg_cb
+    reg.whenPressed = instances_registered
 
     delete = F.add_widget(
         npyscreen.ButtonPress,
@@ -596,6 +596,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
+    form.current_grid.refresh()
 
 
 def startLoading(form, refresh):
