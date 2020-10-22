@@ -38,7 +38,11 @@ class mainMenu(npyscreen.MultiLineAction):
 
             if self.form:
                 global MODE
-                if MODE == 'INSTANCES':
+                if MODE == 'INSTANCES-LBU':
+                    if act_on_this == "CREATE NEW":
+                        npyscreen.notify_confirm("Not implemented yet :/")
+                        return
+                elif MODE == 'INSTANCES':
                     if act_on_this == "CREATE NEW":
                         self.form.parentApp.addForm("CREATE_VM",
                                                     createVm.CreateVm,
