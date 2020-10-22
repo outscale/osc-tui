@@ -14,6 +14,7 @@ class loadbalancerGrid(selectableGrid.SelectableGrid):
         self.col_titles = ["Name", "Type", "DNS name"]
 
         def on_selection(line):
+            main.LBU = line[0]
             popup.editLoadbalancer(self.form, line)
 
         self.on_selection = on_selection
@@ -21,6 +22,7 @@ class loadbalancerGrid(selectableGrid.SelectableGrid):
     def refresh(self):
         groups = main.GATEWAY.ReadLoadBalancers(form=self.form)[
             'LoadBalancers']
+        main.LBUs = groups
         values = list()
         for g in groups:
             values.append([g['LoadBalancerName'], g['LoadBalancerType'],

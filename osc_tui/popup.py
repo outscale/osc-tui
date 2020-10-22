@@ -122,6 +122,10 @@ def editInstance(form, instance, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="VOLUMES",
     )
+    lbu = F.add_widget(
+        npyscreen.ButtonPress,
+        name="ADD TO LBU",
+    )
     # Now managing actions and wich buttons to hide or not.
     force_stop.hidden = (True if status == "stopped"
                          or status == "terminated" else False)
@@ -189,6 +193,9 @@ def editInstance(form, instance, form_color='STANDOUT'):
         exit()
         form.reload()
 
+    def add_to_lbu():
+        npyscreen.notify_confirm("Not implemented yet :/")
+
     copy_ip.whenPressed = copy_ip
     run_stop.whenPressed = start_vm if status == "stopped" else stop_vm
     force_stop.whenPressed = force_stop_vm
@@ -197,6 +204,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
     terminate.whenPressed = terminate_vm
     copy_ip.whenPressed = _copy_ip
     volumes.whenPressed = volumes_cb
+    lbu.whenPressed = add_to_lbu
     F.edit()
 
 
@@ -276,6 +284,42 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
             form=form,
             VmId=main.VM["VmId"],
             SecurityGroupIds=values)
+        form.current_grid.h_refresh(None)
+        exit()
+    edit.whenPressed = edit_cb
+    remove.whenPressed = remove_cb
+    F.edit()
+    form.current_grid.display()
+
+
+def editInstanceInLBU(form, sg, form_color='STANDOUT'):
+    name = sg[1]
+    id = sg[2]
+    F = displayPopup(name=name + ' (' + id + ')', color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    edit = F.add_widget(
+        npyscreen.ButtonPress,
+        name="EDIT",
+    )
+
+    def edit_cb():
+        exit()
+        mainForm.MODE = 'SECURITY-RULES'
+        form.reload()
+
+    remove = F.add_widget(
+        npyscreen.ButtonPress,
+        name="REMOVE FROM LBU",
+    )
+
+    def remove_cb():
+        main.GATEWAY.DeregisterVmsInLoadBalancer(
+            **{'BackendVmIds': [id], 'LoadBalancerName': main.LBU})
         form.current_grid.h_refresh(None)
         exit()
     edit.whenPressed = edit_cb
@@ -526,7 +570,19 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     def exit():
         F.editing = False
 
+    def instances_registered():
+        exit()
+        mainForm.MODE = 'INSTANCES-LBU'
+        form.reload()
+
     F.on_ok = exit
+
+    reg = F.add_widget(
+        npyscreen.ButtonPress,
+        name="REGISTERED VMs",
+    )
+    reg.whenPressed = instances_registered
+
     delete = F.add_widget(
         npyscreen.ButtonPress,
         name="DELETE",
@@ -540,6 +596,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
+    form.current_grid.refresh()
 
 
 def startLoading(form, refresh):

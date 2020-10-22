@@ -65,6 +65,8 @@ class SelectableGrid(npyscreen.GridColTitles):
                     self.edit_cell[1] = 0
             else:
                 self.h_exit_up(inpt)
+        else:
+            self.h_move_line_up(input)
 
     def h_move_cell_right(self, inpt):
         if len(self.values) > 0:
@@ -79,11 +81,16 @@ class SelectableGrid(npyscreen.GridColTitles):
                 if self.edit_cell[1] > self.begin_col_display_at + \
                         self.columns - 1:
                     self.h_scroll_right(inpt)
+        else:
+            self.h_move_line_up(input)
 
     def exit_enter(self, input):
-        self.select(input)
-        # On Enter, we also exit the widget.
-        self.h_exit(input)
+        if len(self.values) > 0:
+            self.select(input)
+            # On Enter, we also exit the widget.
+            self.h_exit(input)
+        else:
+            self.h_move_line_up(input)
 
     def h_exit_mouse(self, _input):
         super().h_exit_mouse(_input)
