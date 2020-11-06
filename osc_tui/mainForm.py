@@ -8,8 +8,10 @@ import createSnapshot
 import createVm
 import createVolume
 import createLoadbalancer
+import createVpcs
 import instancesGrid
 import keyPairsGrid
+import vpcsGrid
 import main
 import popup
 import securityGroupsGrid
@@ -26,7 +28,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=8, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=9, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -99,6 +101,14 @@ class mainMenu(npyscreen.MultiLineAction):
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_LOADBALANCER")
                         return
+                elif MODE == 'VPCs':
+                    if act_on_this == 'CREATE NEW':
+                        self.form.parentApp.addForm(
+                            "CREATE_VPCs",
+                            createVpcs.createVpcs,
+                            name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_VPCs")
+                        return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.form.parentApp.switchForm("MAIN")
@@ -147,7 +157,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS LBUs EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS LBUs VPCs EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -179,6 +189,9 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == 'LBUs':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'VPCs':
+            CURRENT_GRID_CLASS = vpcsGrid.vpcsGrid
             menu_desc.append('CREATE NEW')
         elif MODE == 'KEYPAIRS':
             CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid
