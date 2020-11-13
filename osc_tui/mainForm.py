@@ -109,6 +109,14 @@ class mainMenu(npyscreen.MultiLineAction):
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VPCs")
                         return
+                elif MODE == 'SUBNET':
+                    if act_on_this == 'CREATE NEW':
+                        self.form.parentApp.addForm(
+                            "CREATE_SUBNET",
+                            createVpcs.createSubnet,
+                            name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_SUBNET")
+                        return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.form.parentApp.switchForm("MAIN")
@@ -192,6 +200,9 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == 'VPCs':
             CURRENT_GRID_CLASS = vpcsGrid.vpcsGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'SUBNET':
+            CURRENT_GRID_CLASS = vpcsGrid.subnetGrid
             menu_desc.append('CREATE NEW')
         elif MODE == 'KEYPAIRS':
             CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid

@@ -13,6 +13,7 @@ import requests
 import main
 import mainForm
 
+SUBNETID = None
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
     def on_ok(self):
@@ -600,6 +601,39 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
 
 def editVpcs(form, vpcs, form_color='STANDOUT'):
     name = vpcs[0]
+    global SUBNETID
+    SUBNETID = vpcs[0]
+    F = displayPopup(name="{}".format(name))
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="DELETE",
+    )
+    read_subnet = F.add_widget(
+        npyscreen.ButtonPress,
+        name="READ SUBNET",
+    )
+    def delete_cb():
+        val = main.GATEWAY.DeleteNet(NetId=name)
+        form.current_grid.h_refresh(None)
+        exit()
+    def subnetRead():
+        exit()
+        mainForm.MODE = 'SUBNET'
+        form.reload()
+
+    delete.whenPressed = delete_cb
+    read_subnet.whenPressed = subnetRead
+    F.edit()
+    form.current_grid.display()
+
+def editSubnet(form, subnet, form_color='STANDOUT'):
+    name = subnet[0]
     F = displayPopup(name="{}".format(name))
     F.preserve_selected_widget = True
 
@@ -612,13 +646,13 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
         name="DELETE",
     )
     def delete_cb():
-        val = main.GATEWAY.DeleteNet(NetId=name)
+        val = main.GATEWAY.DeleteSubnet(SubnetId=name)
         form.current_grid.h_refresh(None)
         exit()
-
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
+    form.current_grid.refresh()
 
 def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
