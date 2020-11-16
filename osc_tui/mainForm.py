@@ -165,7 +165,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT REFRESH KEYPAIRS LBUs VPCs EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS LBUs VPCs REFRESH EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
