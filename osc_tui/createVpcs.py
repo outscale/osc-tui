@@ -42,7 +42,7 @@ class createVpcs(npyscreen.FormBaseNew):
         global CIDR
         CIDR = self.add_widget(
             npyscreen.TitleText,
-            name="CIDR",
+            name="CIDR (for example:10.0.0.0/16)",
             value=CIDR.get_value() if CIDR else "")
         self.add_widget(
             npyscreen.ButtonPress,
@@ -83,7 +83,7 @@ class createSubnet(npyscreen.FormBaseNew):
         global CIDR
         CIDRSUBNET = self.add_widget(
             npyscreen.TitleText,
-            name="CIDR",
+            name="CIDR (for example:10.0.0.0/16)",
             value=CIDR.get_value() if CIDR else "")
         global SUBREGION
         subregions = preloader.Preloader.get('subregions')
