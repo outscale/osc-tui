@@ -16,6 +16,7 @@ VM = None
 VMs = None
 LBU = None
 LBUs = None
+VPCs = None
 SECURITY_GROUP = None
 SECURITY_RULE = None
 IP = get("https://api.ipify.org").text

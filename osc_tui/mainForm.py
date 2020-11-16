@@ -8,8 +8,10 @@ import createSnapshot
 import createVm
 import createVolume
 import createLoadbalancer
+import createVpcs
 import instancesGrid
 import keyPairsGrid
+import vpcsGrid
 import main
 import popup
 import securityGroupsGrid
@@ -26,7 +28,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=8, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=9, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -99,6 +101,22 @@ class mainMenu(npyscreen.MultiLineAction):
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_LOADBALANCER")
                         return
+                elif MODE == 'VPCs':
+                    if act_on_this == 'CREATE NEW':
+                        self.form.parentApp.addForm(
+                            "CREATE_VPCs",
+                            createVpcs.createVpcs,
+                            name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_VPCs")
+                        return
+                elif MODE == 'SUBNET':
+                    if act_on_this == 'CREATE NEW':
+                        self.form.parentApp.addForm(
+                            "CREATE_SUBNET",
+                            createVpcs.createSubnet,
+                            name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_SUBNET")
+                        return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.form.parentApp.switchForm("MAIN")
@@ -111,7 +129,7 @@ class mainMenu(npyscreen.MultiLineAction):
                 MODE = act_on_this
                 global SELECTED_BUTTON
                 if act_on_this == 'INSTANCES' or act_on_this == 'SECURITY':
-                    SELECTED_BUTTON = 8
+                    SELECTED_BUTTON = 10
                 else:
                     SELECTED_BUTTON = self.cursor_line
                 self.form.reload()
@@ -147,7 +165,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '─'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS LBUs REFRESH EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS LBUs VPCs REFRESH EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -179,6 +197,12 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == 'LBUs':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'VPCs':
+            CURRENT_GRID_CLASS = vpcsGrid.vpcsGrid
+            menu_desc.append('CREATE NEW')
+        elif MODE == 'SUBNET':
+            CURRENT_GRID_CLASS = vpcsGrid.subnetGrid
             menu_desc.append('CREATE NEW')
         elif MODE == 'KEYPAIRS':
             CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid
