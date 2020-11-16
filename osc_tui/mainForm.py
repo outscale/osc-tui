@@ -129,7 +129,7 @@ class mainMenu(npyscreen.MultiLineAction):
                 MODE = act_on_this
                 global SELECTED_BUTTON
                 if act_on_this == 'INSTANCES' or act_on_this == 'SECURITY':
-                    SELECTED_BUTTON = 8
+                    SELECTED_BUTTON = 9
                 else:
                     SELECTED_BUTTON = self.cursor_line
                 self.form.reload()
