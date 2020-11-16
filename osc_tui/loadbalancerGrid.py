@@ -20,11 +20,14 @@ class loadbalancerGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh(self):
-        groups = main.GATEWAY.ReadLoadBalancers(form=self.form)[
-            'LoadBalancers']
-        main.LBUs = groups
-        values = list()
-        for g in groups:
-            values.append([g['LoadBalancerName'], g['LoadBalancerType'],
-                           g['DnsName']])
-        self.values = values
+        main.LBUs = list()
+        self.values = list()
+        groups = main.GATEWAY.ReadLoadBalancers(form=self.form)
+        if 'LoadBalancers' in groups:
+            groups = groups ['LoadBalancers']
+            main.LBUs = groups
+            values = list()
+            for g in groups:
+                values.append([g['LoadBalancerName'], g['LoadBalancerType'],
+                            g['DnsName']])
+            self.values = values
