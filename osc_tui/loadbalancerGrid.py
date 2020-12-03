@@ -24,10 +24,10 @@ class loadbalancerGrid(selectableGrid.SelectableGrid):
         self.values = list()
         groups = main.GATEWAY.ReadLoadBalancers(form=self.form)
         if 'LoadBalancers' in groups:
-            groups = groups ['LoadBalancers']
+            groups = groups['LoadBalancers']
             main.LBUs = groups
             values = list()
             for g in groups:
                 values.append([g['LoadBalancerName'], g['LoadBalancerType'],
-                            g['DnsName']])
+                               g['DnsName']])
             self.values = values

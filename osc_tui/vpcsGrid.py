@@ -7,6 +7,7 @@ import popup
 import selectableGrid
 import virtualMachine
 
+
 class vpcsGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
@@ -26,6 +27,7 @@ class vpcsGrid(selectableGrid.SelectableGrid):
                            g['IpRange'], g['DhcpOptionsSetId']])
         self.values = values
 
+
 class subnetGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
@@ -37,8 +39,8 @@ class subnetGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh(self):
-        groups = main.GATEWAY.ReadSubnets(Filters={"NetIds": [popup.SUBNETID]})[
-            'Subnets']
+        groups = main.GATEWAY.ReadSubnets(
+            Filters={"NetIds": [popup.SUBNETID]})['Subnets']
         values = list()
         for g in groups:
             values.append([g['SubnetId'],

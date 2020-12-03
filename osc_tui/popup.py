@@ -16,6 +16,7 @@ import mainForm
 SUBNETID = None
 ROUTE = None
 
+
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
     def on_ok(self):
         self.value = True
@@ -600,6 +601,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     form.current_grid.display()
     form.current_grid.refresh()
 
+
 def editVpcs(form, vpcs, form_color='STANDOUT'):
     name = vpcs[0]
     global SUBNETID
@@ -619,10 +621,12 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="READ SUBNET",
     )
+
     def delete_cb():
         val = main.GATEWAY.DeleteNet(NetId=name)
         form.current_grid.h_refresh(None)
         exit()
+
     def subnetRead():
         exit()
         mainForm.MODE = 'SUBNET'
@@ -633,9 +637,11 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
     F.edit()
     form.current_grid.display()
 
-def associate_route_table(form, subnet):
+
+def associateRouteTable(form, subnet):
     F = displayPopup(name="{associate route table}")
     F.preserve_selected_widget = True
+
     def exit():
         F.editing = False
     F.on_ok = exit
@@ -654,9 +660,11 @@ def associate_route_table(form, subnet):
         npyscreen.ButtonPress,
         name="ASSOCIATE",
     )
+
     def associate():
         id_route = ROUTE.get_values()[ROUTE.get_value()]
-        res = main.GATEWAY.LinkRouteTable(RouteTableId=id_route, SubnetId=subnet)
+        res = main.GATEWAY.LinkRouteTable(
+            RouteTableId=id_route, SubnetId=subnet)
         exit()
     associate_button.whenPressed = associate
     F.edit()
@@ -681,19 +689,22 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="DELETE",
     )
-    def associate_route_table_function():
-        associate_route_table(form, name)
+
+    def associateRoutetable():
+        associateRouteTable(form, name)
         form.current_grid.h_refresh(None)
         exit()
+
     def delete_cb():
         val = main.GATEWAY.DeleteSubnet(SubnetId=name)
         form.current_grid.h_refresh(None)
         exit()
     delete.whenPressed = delete_cb
-    test.whenPressed = associate_route_table_function
+    test.whenPressed = associateRoutetable
     F.edit()
     form.current_grid.display()
     form.current_grid.refresh()
+
 
 def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
