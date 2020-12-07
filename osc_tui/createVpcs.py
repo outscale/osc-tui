@@ -11,6 +11,7 @@ CIDRSUBNET = None
 # List of all Subregions
 SUBREGION = None
 
+
 class createVpcs(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -49,6 +50,7 @@ class createVpcs(npyscreen.FormBaseNew):
             name="CREATE"
         ).whenPressed = create
         self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+
 
 class createSubnet(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -92,7 +94,7 @@ class createSubnet(npyscreen.FormBaseNew):
             subregions_vals.append(subregion["SubregionName"])
         SUBREGION = self.add_widget(
             npyscreen.TitleCombo,
-            name = "CHOOSE SUBREGION",
+            name="CHOOSE SUBREGION",
             values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0,
         )

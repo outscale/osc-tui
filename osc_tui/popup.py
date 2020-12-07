@@ -14,6 +14,8 @@ import main
 import mainForm
 
 SUBNETID = None
+ROUTE = None
+
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
     def on_ok(self):
@@ -599,6 +601,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     form.current_grid.display()
     form.current_grid.refresh()
 
+
 def editVpcs(form, vpcs, form_color='STANDOUT'):
     name = vpcs[0]
     global SUBNETID
@@ -618,10 +621,12 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
         npyscreen.ButtonPress,
         name="READ SUBNET",
     )
+
     def delete_cb():
         val = main.GATEWAY.DeleteNet(NetId=name)
         form.current_grid.h_refresh(None)
         exit()
+
     def subnetRead():
         exit()
         mainForm.MODE = 'SUBNET'
@@ -632,6 +637,41 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
     F.edit()
     form.current_grid.display()
 
+
+def associateRouteTable(form, subnet):
+    F = displayPopup(name="{associate route table}")
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+    F.on_ok = exit
+    global ROUTE
+    route_tables = main.GATEWAY.ReadRouteTables()["RouteTables"]
+    route_tables_vals = []
+    for route_table in route_tables:
+        route_tables_vals.append(route_table["RouteTableId"])
+    ROUTE = F.add_widget(
+        npyscreen.TitleCombo,
+        name="CHOOSE A ROUTE TABLE",
+        values=route_tables_vals,
+        value=ROUTE.get_value() if ROUTE else 0,
+    )
+    associate_button = F.add_widget(
+        npyscreen.ButtonPress,
+        name="ASSOCIATE",
+    )
+
+    def associate():
+        id_route = ROUTE.get_values()[ROUTE.get_value()]
+        res = main.GATEWAY.LinkRouteTable(
+            RouteTableId=id_route, SubnetId=subnet)
+        exit()
+    associate_button.whenPressed = associate
+    F.edit()
+    form.current_grid.display()
+    form.current_grid.refresh()
+
+
 def editSubnet(form, subnet, form_color='STANDOUT'):
     name = subnet[0]
     F = displayPopup(name="{}".format(name))
@@ -641,18 +681,30 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
+    test = F.add_widget(
+        npyscreen.ButtonPress,
+        name="ASSOCIATE ROUTE TABLE"
+    )
     delete = F.add_widget(
         npyscreen.ButtonPress,
         name="DELETE",
     )
+
+    def associateRoutetable():
+        associateRouteTable(form, name)
+        form.current_grid.h_refresh(None)
+        exit()
+
     def delete_cb():
         val = main.GATEWAY.DeleteSubnet(SubnetId=name)
         form.current_grid.h_refresh(None)
         exit()
     delete.whenPressed = delete_cb
+    test.whenPressed = associateRoutetable
     F.edit()
     form.current_grid.display()
     form.current_grid.refresh()
+
 
 def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
