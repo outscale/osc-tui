@@ -95,7 +95,7 @@ class InstancesGridLBU(InstancesGrid):
         summary = list()
         lbu = None
         for lbu_tmp in main.LBUs:
-            if lbu_tmp['Tags'][0]['Key'] == 'name' and lbu_tmp['LoadBalancerName'] == main.LBU:
+            if lbu_tmp['LoadBalancerName'] == main.LBU:
                 lbu = lbu_tmp
                 break
         for vm in self.vms:
