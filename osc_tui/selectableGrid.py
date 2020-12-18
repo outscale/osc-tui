@@ -68,6 +68,12 @@ class SelectableGrid(npyscreen.GridColTitles):
         else:
             self.h_move_line_up(input)
 
+
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            cell.color = "GOODHL"
+
     def h_move_cell_right(self, inpt):
         if len(self.values) > 0:
             # Check y
