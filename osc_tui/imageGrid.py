@@ -11,7 +11,7 @@ import virtualMachine
 class ImageGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["ID", "Description", "Size (Gb)", "Volume"]
+        self.col_titles = ["Name", "ID", "Description", "Type"]
 
         def on_selection(line):
             popup.editImage(self.form, line)
@@ -22,6 +22,6 @@ class ImageGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadImages(form=self.form)['Images']
         values = list()
         for g in groups:
-            values.append([g['ImageId'], g['Description'],
-                           g['ImageName'], g['ImageType']])
+            values.append([g['ImageName'], g['ImageId'], g['Description'],
+                           g['ImageType']])
         self.values = values
