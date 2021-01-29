@@ -9,6 +9,7 @@ import createVm
 import createVolume
 import createLoadbalancer
 import createVpcs
+import imageGrid
 import instancesGrid
 import keyPairsGrid
 import vpcsGrid
@@ -28,7 +29,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=9, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=10, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -162,10 +163,10 @@ class MainForm(npyscreen.FormBaseNew):
         def build_line(size):
             out = ''
             for i in range(0, size):
-                out = out + '─'
+                out = out + '-'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS LBUs VPCs REFRESH EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs REFRESH EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -195,6 +196,8 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'SNAPSHOT':
             CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
             menu_desc.append('CREATE NEW')
+        elif MODE == 'IMAGES':
+            CURRENT_GRID_CLASS = imageGrid.ImageGrid
         elif MODE == 'LBUs':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
             menu_desc.append('CREATE NEW')
