@@ -804,3 +804,32 @@ def editKeypair(form, line, form_color='STANDOUT'):
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
+
+
+def editImage(form, image, form_color='STANDOUT'):
+    name = image[0]
+    id = image[1]
+
+    F = displayPopup(name="Image: {} {}".format(id, name))
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+    F.on_ok = exit
+
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="DELETE",
+    )
+
+    def delete_cb():
+        try:
+            val = main.GATEWAY.DeleteImage(ImageId=id)
+        except BaseException:
+            raise
+        form.current_grid.h_refresh(None)
+        exit()
+
+    delete.whenPressed = delete_cb
+    F.edit()
+    form.current_grid.display()
