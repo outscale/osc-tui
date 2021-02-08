@@ -12,7 +12,7 @@ import virtualMachine
 class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["ID", "Type", 'Size (Gb)', 'Subregion', 'Linked To']
+        self.col_titles = ["ID", "Type", 'Size (Gb)', 'Subregion', 'Linked To', "Device Name"]
 
         def on_selection(line):
             popup.editVolume(self.form, line)
@@ -23,9 +23,11 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadVolumes(form=self.form)['Volumes']
         values = list()
         for g in groups:
-            VmId = g["LinkedVolumes"][0]["VmId"] if g["LinkedVolumes"] else "Unlinked"
+            VolLink = g["LinkedVolumes"]
+            VmId = VolLink[0]["VmId"] if VolLink else "Unlinked"
+            DName = VolLink[0]["DeviceName"] if VolLink else "No Dev Today"
             values.append([g["VolumeId"], g["VolumeType"],
-                           g["Size"], g['SubregionName'], VmId])
+                           g["Size"], g['SubregionName'], VmId, DName])
         self.values = values
 
 
