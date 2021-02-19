@@ -182,7 +182,6 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == "SECURITY-VM":
             CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
-        elif MODE == "SECURITY-VM":
             menu_desc.append('ADD SEC-GROUP')
         elif MODE == 'SECURITY-RULES':
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
