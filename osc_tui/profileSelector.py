@@ -134,6 +134,17 @@ class ProfileSelector(npyscreen.ActionFormV2):
 
         bt = self.add_widget(npyscreen.ButtonPress, name="NEW PROFILE")
         bt.whenPressed = new
+        logo = """
+
+             █████╗  ██████╗ █████╗       ████████╗██╗   ██╗██╗
+            ██╔══██╗██╔════╝██╔══██╗      ╚══██╔══╝██║   ██║██║
+            ██║  ██║╚█████╗ ██║  ╚═╝█████╗   ██║   ██║   ██║██║
+            ██║  ██║ ╚═══██╗██║  ██╗╚════╝   ██║   ██║   ██║██║
+            ╚█████╔╝██████╔╝╚█████╔╝         ██║   ╚██████╔╝██║
+             ╚════╝ ╚═════╝  ╚════╝          ╚═╝    ╚═════╝ ╚═╝
+"""
+        self.add_widget(npyscreen.MultiLineEdit, value=logo,
+                        editable=False, multiline=True)
 
     def create_control_buttons(self):
         self._add_button(
