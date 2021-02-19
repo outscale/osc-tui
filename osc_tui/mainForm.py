@@ -102,7 +102,7 @@ class mainMenu(npyscreen.MultiLineAction):
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_LOADBALANCER")
                         return
-                elif MODE == 'VPCs':
+                elif MODE == 'VPCs(nets)':
                     if act_on_this == 'CREATE NEW':
                         self.form.parentApp.addForm(
                             "CREATE_VPCs",
@@ -166,7 +166,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '-'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs REFRESH EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs(nets) REFRESH EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -201,7 +201,7 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'LBUs':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
             menu_desc.append('CREATE NEW')
-        elif MODE == 'VPCs':
+        elif MODE == 'VPCs(nets)':
             CURRENT_GRID_CLASS = vpcsGrid.vpcsGrid
             menu_desc.append('CREATE NEW')
         elif MODE == 'SUBNET':
