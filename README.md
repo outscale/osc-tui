@@ -48,6 +48,13 @@ Finally build and install the package:<br>
 
 * `sudo python3 setup.py build install`
 
+# Distributions Package
+
+## Arch Linux
+```
+yay -Sy osc-tui-git # you can repalce yay by any AUR helper
+```
+
 # Contributing
 
 Just a few rules:<br>
