@@ -1,3 +1,4 @@
+import time 
 
 import npyscreen
 import pyperclip
@@ -21,7 +22,19 @@ class InstancesGrid(selectableGrid.SelectableGrid):
     def refresh(self):
         if main.GATEWAY:
             self.refreshing = True
-            data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
+
+            retry = True
+            retries = 0
+            while retry and (retries <= 2):
+                try:            
+                    data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
+                    retry = False
+                except TypeError:
+                    print("API Error occured")
+                    time.sleep(0.5)
+                    retries += 1
+                    retry = True
+ 
             self.vms = list()
             main.VMs = dict()
             for vm in data:
