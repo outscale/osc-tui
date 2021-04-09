@@ -45,7 +45,7 @@ def exit():
 # APPLICATION CLASS
 
 
-class App(npyscreen.StandardApp):
+class App(npyscreen.NPSAppManaged):
     def onStart(self):
         npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
