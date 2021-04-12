@@ -21,20 +21,12 @@ class InstancesGrid(selectableGrid.SelectableGrid):
 
     def refresh(self):
         if main.GATEWAY:
-            self.refreshing = True
-
-            retry = True
-            retries = 0
-            while retry and (retries <= 2):
-                try:            
-                    data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
-                    retry = False
-                except TypeError:
-                    print("API Error occured")
-                    time.sleep(0.5)
-                    retries += 1
-                    retry = True
- 
+            self.refreshing = True           
+            reply = main.GATEWAY.ReadVms(form=self.form)
+            while reply == None:
+                reply = main.GATEWAY.ReadVms(form=self.form)
+                time.sleep(0.5)
+            data = reply["Vms"]
             self.vms = list()
             main.VMs = dict()
             for vm in data:
