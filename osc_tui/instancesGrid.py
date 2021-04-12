@@ -1,3 +1,4 @@
+import time
 
 import npyscreen
 import pyperclip
@@ -20,8 +21,12 @@ class InstancesGrid(selectableGrid.SelectableGrid):
 
     def refresh(self):
         if main.GATEWAY:
-            self.refreshing = True
-            data = main.GATEWAY.ReadVms(form=self.form)["Vms"]
+            self.refreshing = True           
+            reply = main.GATEWAY.ReadVms(form=self.form)
+            while reply == None:
+                reply = main.GATEWAY.ReadVms(form=self.form)
+                time.sleep(0.5)
+            data = reply["Vms"]
             self.vms = list()
             main.VMs = dict()
             for vm in data:
