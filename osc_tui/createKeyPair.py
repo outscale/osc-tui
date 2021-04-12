@@ -3,6 +3,8 @@ import main
 import popup
 import os
 
+from os.path import expanduser
+
 # This file is here for creating a keypair and downloading the generated private key.
 # Currently, it downloads it on ~/Downloads.
 # Later, we will be able to create a key from an existing private key, and to install created keys in
@@ -32,6 +34,11 @@ class CreateKeyPair(npyscreen.FormBaseNew):
 
         self.inspector = None
 
+        def write_key(path, private_key):
+            key_file = open(os.path.expanduser(path), 'w')
+            key_file.write(private_key)
+            key_file.close()
+
         def create():
             if(NAME.get_value()):
                 res = main.GATEWAY.CreateKeypair(
@@ -40,10 +47,18 @@ class CreateKeyPair(npyscreen.FormBaseNew):
                 if 'Errors' not in res and 'Keypair' in res:
                     private_key = res['Keypair']['PrivateKey']
                     name = res['Keypair']['KeypairName']
-                    path = '~/Downloads/' + name + ".rsa"
-                    key_file = open(os.path.expanduser(path), 'w')
-                    key_file.write(private_key)
-                    key_file.close()
+                    home = expanduser('~')
+                    if os.path.isdir(home+"/Downloads"):
+                        path = '~/Downloads/' + name + ".rsa"
+                        write_key(path, private_key) 
+                    else:
+                        if os.path.isdir(home+"/.osc/keypair"):
+                            path = "~/.osc/keypair/" + name + ".rsa"
+                            write_key(path, private_key) 
+                        else:
+                            os.makedirs(home + "/.osc/keypair")
+                            path = "~/.osc/keypair/" + name + ".rsa"
+                            write_key(path, private_key)
                     npyscreen.notify_confirm(
                         "Private key successfully downloaded and stored in " + path, "Success!")
                     back()
