@@ -19,7 +19,7 @@ class InstancesGrid(selectableGrid.SelectableGrid):
             popup.editInstance(self.form, line)
         self.on_selection = on_selection_cb
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         if main.GATEWAY:
             self.refreshing = True
             tries = 0
@@ -93,7 +93,7 @@ class InstancesGridLBU(InstancesGrid):
             popup.editInstanceInLBU(self.form, line)
         self.on_selection = on_selection_cb
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         main.LBUs = main.GATEWAY.ReadLoadBalancers(form=self.form)[
             'LoadBalancers']
         super().refresh()

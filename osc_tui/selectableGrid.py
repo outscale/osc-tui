@@ -33,8 +33,8 @@ class SelectableGrid(npyscreen.GridColTitles):
     def time(self):
         return int(round(time.time() * 1000))
 
-    def h_refresh(self, inpt):
-        self.refresh()
+    def h_refresh(self, inpt, name_filter=None):
+        self.refresh(name_filter=name_filter)
         self.display()
 
     # Each time we change the selected line, we select the new one.
@@ -115,5 +115,5 @@ class SelectableGrid(npyscreen.GridColTitles):
     # The func to override in order to refresh the screen.
     # Do not use it directly!
     # If you need to manually trigger a refresh... use self.h_refresh(None)
-    def refresh(self):
+    def refresh(self, name_filter=None):
         pass

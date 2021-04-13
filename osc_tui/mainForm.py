@@ -46,6 +46,7 @@ class mainMenu(npyscreen.MultiLineAction):
     def actionHighlighted(self, act_on_this, key_press):
         if key_press == 10:
 
+            global FILTER
             if self.form:
                 global MODE
                 if MODE == 'INSTANCES-LBU':
@@ -117,6 +118,11 @@ class mainMenu(npyscreen.MultiLineAction):
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VPCs")
                         return
+                elif MODE == 'Images':
+                    if act_on_this == 'Filter':
+                        popup.addFilter(self.form)
+                        return
+                        
                 elif MODE == 'Subnets':
                     if act_on_this == 'Subnets':
                         self.form.parentApp.addForm(
@@ -185,7 +191,7 @@ class MainForm(npyscreen.FormBaseNew):
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
-        self.rowOffset = 16
+        self.rowOffset = MENU_WIDTH
         if MODE == "Vms":
             CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
             menu_desc.append('Create new')
@@ -212,6 +218,7 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('Create new')
         elif MODE == 'Images':
             CURRENT_GRID_CLASS = imageGrid.ImageGrid
+            menu_desc.append('Filter')
         elif MODE == 'LoadBalancers':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
             menu_desc.append('Create new')

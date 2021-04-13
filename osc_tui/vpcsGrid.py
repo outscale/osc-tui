@@ -18,7 +18,7 @@ class vpcsGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         groups = main.GATEWAY.ReadNets(form=self.form)[
             'Nets']
         values = list()
@@ -38,7 +38,7 @@ class subnetGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         groups = main.GATEWAY.ReadSubnets(
             Filters={"NetIds": [popup.SUBNETID]})['Subnets']
         values = list()

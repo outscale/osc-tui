@@ -25,7 +25,7 @@ class VolumeGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         groups = main.GATEWAY.ReadVolumes(form=self.form)['Volumes']
         values = list()
         for g in groups:
@@ -47,7 +47,7 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         id = main.VM["VmId"]
         volume = main.GATEWAY.ReadVolumes(
             form=self.form, Filters={

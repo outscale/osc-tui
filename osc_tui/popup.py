@@ -480,6 +480,20 @@ def newSecurityGroup(form, form_color='STANDOUT'):
     form.current_grid.h_refresh(None)
     form.current_grid.display()
 
+def addFilter(form, form_color='STANDOUT'):
+    F = ConfirmCancelPopup(name='Filter', color=form_color)
+    F.preserve_selected_widget = True
+    F.add_widget(npyscreen.Textfield, value="Name Filter (exemple: 'Arch *'):", editable=False)
+    name = F.add_widget(npyscreen.Textfield, value="*", editable=True)
+
+    def exit():
+        form.current_grid.h_refresh(None, name_filter=name.value)
+        form.current_grid.display()
+        F.editing = False
+
+    F.on_ok = exit
+    F.edit()
+    
 
 def editVolume(form, volume, form_color='STANDOUT'):
     type = volume[1]

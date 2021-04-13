@@ -18,7 +18,7 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
             popup.editSecurityGroupRule(self.form, line)
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         if main.GATEWAY:
             self.refreshing = True
             data = main.GATEWAY.ReadSecurityGroups(

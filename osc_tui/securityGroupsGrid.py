@@ -19,7 +19,7 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         groups = main.GATEWAY.ReadSecurityGroups(form=self.form)[
             "SecurityGroups"]
         values = list()
@@ -43,7 +43,7 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         id = main.VM["VmId"]
         data = main.GATEWAY.ReadVms()["Vms"]
         main.VMs = dict()

@@ -12,7 +12,7 @@ class Grid(selectableGrid.SelectableGrid):
         super().__init__(screen, *args, **keywords)
         self.col_titles = ["Id", "AccepterNet", "State"]
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         groups = main.GATEWAY.ReadNetPeerings(form=self.form)['NetPeerings']
         values = list()
         for g in groups:

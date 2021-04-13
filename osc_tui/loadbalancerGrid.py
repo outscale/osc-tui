@@ -19,7 +19,7 @@ class loadbalancerGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self):
+    def refresh(self, name_filter=None):
         main.LBUs = list()
         self.values = list()
         groups = main.GATEWAY.ReadLoadBalancers(form=self.form)
