@@ -21,11 +21,13 @@ class InstancesGrid(selectableGrid.SelectableGrid):
 
     def refresh(self):
         if main.GATEWAY:
-            self.refreshing = True           
+            self.refreshing = True
+            tries = 0
             reply = main.GATEWAY.ReadVms(form=self.form)
-            while reply == None:
-                reply = main.GATEWAY.ReadVms(form=self.form)
+            while reply == None and tries < 10:
                 time.sleep(0.5)
+                reply = main.GATEWAY.ReadVms(form=self.form)
+                tries += 1
             data = reply["Vms"]
             self.vms = list()
             main.VMs = dict()
