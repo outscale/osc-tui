@@ -52,13 +52,10 @@ class CreateKeyPair(npyscreen.FormBaseNew):
                         path = '~/Downloads/' + name + ".rsa"
                         write_key(path, private_key) 
                     else:
-                        if os.path.isdir(home+"/.osc/keypair"):
-                            path = "~/.osc/keypair/" + name + ".rsa"
-                            write_key(path, private_key) 
-                        else:
+                        if not os.path.isdir(home+"/.osc/keypair"):
                             os.makedirs(home + "/.osc/keypair")
-                            path = "~/.osc/keypair/" + name + ".rsa"
-                            write_key(path, private_key)
+                        path = "~/.osc/keypair/" + name + ".rsa"
+                        write_key(path, private_key)
                     npyscreen.notify_confirm(
                         "Private key successfully downloaded and stored in " + path, "Success!")
                     back()
