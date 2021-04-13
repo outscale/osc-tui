@@ -9,6 +9,7 @@ import createVm
 import createVolume
 import createLoadbalancer
 import createVpcs
+import createNetAccessPoint
 import imageGrid
 import instancesGrid
 import keyPairsGrid
@@ -120,6 +121,14 @@ class mainMenu(npyscreen.MultiLineAction):
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_SUBNET")
                         return
+                elif MODE == 'NET-ACCESS-POINT':
+                    if act_on_this == 'CREATE NEW':
+                        self.form.parentApp.addForm(
+                            "CREATE_NET-ACCESS-POINT",
+                            createNetAccessPoint.CreateNetAccessPoint,
+                            name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_NET-ACCESS-POINT")
+                        return
                 if act_on_this == "EXIT":
                     main.kill_threads()
                     self.form.parentApp.switchForm("MAIN")
@@ -207,6 +216,7 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == 'NET-ACCESS-POINT':
             CURRENT_GRID_CLASS = netAccesssPoint.Grid
+            menu_desc.append('CREATE NEW')
         elif MODE == 'GPU':
             CURRENT_GRID_CLASS = flexibleGPU.Grid
         elif MODE == 'SUBNET':
