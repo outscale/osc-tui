@@ -1,4 +1,3 @@
-
 import curses
 import textwrap
 from threading import Thread
@@ -825,6 +824,34 @@ def editImage(form, image, form_color='STANDOUT'):
     def delete_cb():
         try:
             val = main.GATEWAY.DeleteImage(ImageId=id)
+        except BaseException:
+            raise
+        form.current_grid.h_refresh(None)
+        exit()
+
+    delete.whenPressed = delete_cb
+    F.edit()
+    form.current_grid.display()
+
+def editNetAccessPoint(form, line, form_color='STANDOUT'):
+    id = line[0]
+
+    F = displayPopup(name="Net Access Point: {}".format(id))
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+
+    delete = F.add_widget(
+        npyscreen.ButtonPress,
+        name="DELETE"
+    )
+
+    def delete_cb():
+        try:
+            val = main.GATEWAY.DeleteNetAccessPoint(NetAccessPointId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
