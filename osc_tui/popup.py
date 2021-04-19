@@ -844,10 +844,20 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
 
     F.on_ok = exit
 
+    edit = F.add_widget(
+        npyscreen.ButtonPress,
+        name="EDIT"
+    )
+    
     delete = F.add_widget(
         npyscreen.ButtonPress,
         name="DELETE"
     )
+
+    def edit_cb():
+        form.current_grid.h_refresh(None)
+        exit()
+        editRouteTable(form, id) 
 
     def delete_cb():
         try:
@@ -857,6 +867,90 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
         form.current_grid.h_refresh(None)
         exit()
 
+    edit.whenPressed = edit_cb 
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
+
+def editRouteTable(form, point_id, form_color='STANDOUT'):
+    global ROUTE_MULTISELECT 
+    global net_route_table 
+    global all_route_tables 
+
+    id = point_id
+
+    F = ConfirmCancelPopup(name="Edit route table(s): {}".format(id))
+    F.preserve_selected_widget = True
+    F.DEFAULT_LINES = 40
+
+    def exit():
+        F.editing = False
+
+    def ok():
+        new_route =  [
+            ROUTE_MULTISELECT.get_values()[i]
+            for i in ROUTE_MULTISELECT.get_value()
+        ]
+        
+        deleted_route = []
+        added_route = []
+
+        for r in new_route:
+            if r not in net_route_table:
+                added_route.append(r)
+                
+        for route in all_route_tables:
+            if route not in new_route:
+                if route in net_route_table:
+                    deleted_route.append(route)
+
+        if not deleted_route and not added_route:
+            npyscreen.notify_confirm("Nothing as changed")
+        else:
+            res = main.GATEWAY.UpdateNetAccessPoint(
+                NetAccessPointId=id,
+                AddRouteTableIds=added_route,
+                RemoveRouteTableIds=deleted_route
+            )
+
+            if "Error" in res:
+                npyscreen.notify_confirm(str(res["Errors"]))
+            else:
+                npyscreen.notify_confirm(
+                    "Route table(s) changed succesfully"
+                )
+                
+            exit()
+    
+    F.on_ok = ok
+    F.on_cencel = exit
+
+    net_access_point = main.GATEWAY.ReadNetAccessPoints(
+        form=form,
+        Filters={'NetAccessPointIds':[id]}
+    )['NetAccessPoints']
+    net_route_table = net_access_point[0]['RouteTableIds']
+
+    routes_reply = main.GATEWAY.ReadRouteTables(form=form)['RouteTables']
+    all_route_tables = []
+    for r in routes_reply:
+        all_route_tables.append(r['RouteTableId'])
+
+    selected_routes = []
+    for r in net_route_table:
+        for index, route in enumerate(all_route_tables):
+            if r == route:
+                selected_routes.append(index)
+
+    ROUTE_MULTISELECT = F.add_widget(
+        npyscreen.TitleMultiSelect,
+        name="SELECT ROUTE TABLE(S)",
+        value=selected_routes,
+        values=all_route_tables,
+        max_height=4,
+        scroll_exit=True
+    )
+    F.edit()
+    form.current_grid.display()
+    
+    

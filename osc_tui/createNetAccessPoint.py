@@ -102,7 +102,8 @@ class CreateNetAccessPoint(npyscreen.FormBaseNew):
             npyscreen.TitleMultiSelect,
             name="SELECT ROUTE TABLE(S)",
             values=routes_vals,
-            max_height=len(routes_vals)+2
+            max_height=6,
+            scroll_exit=True
         )
         self.add_widget(
             npyscreen.ButtonPress,
