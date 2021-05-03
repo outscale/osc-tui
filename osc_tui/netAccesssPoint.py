@@ -22,3 +22,14 @@ class Grid(selectableGrid.SelectableGrid):
             values.append([g['NetAccessPointId'], g['NetId'], g['ServiceName'],
                            g['State']])
         self.values = values
+
+    def custom_print_cell(self, cell, cell_value):
+        #Cheking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            state = self.values[y][3]
+            cell.highlight_whole_widget = True
+            if state == "deleted":
+                cell.color = "DANGER"
+            else:
+                cell.color = "GOODHL"
