@@ -16,6 +16,7 @@ import keyPairsGrid
 import vpcsGrid
 import main
 import netAccesssPoint
+import netPeering
 import flexibleGPU
 import popup
 import securityGroupsGrid
@@ -32,7 +33,7 @@ CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
 
 class mainMenu(npyscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=12, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=13, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -177,7 +178,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '-'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs(nets) NET-ACCESS-POINT GPU REFRESH EXIT " +
+            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs(nets) NET-ACCESS-POINT NET-PEERING GPU REFRESH EXIT " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -217,6 +218,8 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'NET-ACCESS-POINT':
             CURRENT_GRID_CLASS = netAccesssPoint.Grid
             menu_desc.append('CREATE NEW')
+        elif MODE == 'NET-PEERING':
+            CURRENT_GRID_CLASS = netPeering.Grid
         elif MODE == 'GPU':
             CURRENT_GRID_CLASS = flexibleGPU.Grid
         elif MODE == 'SUBNET':
