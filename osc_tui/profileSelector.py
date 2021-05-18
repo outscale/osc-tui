@@ -15,12 +15,13 @@ import mainForm
 import popup
 
 home = str(Path.home())
+dst_file = home + '/.osc/config.json'
 
 OAPI_CREDENTIALS = dict()
 
 
 def save_credentials(form):
-    file = home + "/.oapi_credentials"
+    file = dst_file
     with open(file, "w") as filetowrite:
         filetowrite.write(json.dumps(OAPI_CREDENTIALS))
     form.parentApp.addForm("MAIN", ProfileSelector, name="osc-tui")
@@ -101,9 +102,17 @@ class ProfileSelector(npyscreen.ActionFormV2):
         preloader.Preloader.init()
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
         global OAPI_CREDENTIALS
+        global dst_file
         OAPI_CREDENTIALS = dict()
-        if os.path.isfile(home + "/.oapi_credentials"):
-            configFile = open(home + "/.oapi_credentials")
+        have_file = False
+        if os.path.isfile(dst_file):
+            have_file = True
+        elif os.path.isfile(home + "/.oapi_credentials"):
+            dst_file = home + "/.oapi_credentials"
+            have_file = True
+
+        if have_file:
+            configFile = open(dst_file)
             OAPI_CREDENTIALS = json.loads(configFile.read())
             configFile.close()
             self.add_widget(
