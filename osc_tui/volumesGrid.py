@@ -13,7 +13,7 @@ class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.col_titles = [
-            "ID",
+            "Id",
             "Type",
             'Size (Gb)',
             'Subregion',

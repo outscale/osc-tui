@@ -31,7 +31,7 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
 class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["ID", "Name"]
+        self.col_titles = ["Id", "Name"]
         groups = main.VM["SecurityGroups"]
         values = list()
         for g in groups:
