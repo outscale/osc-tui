@@ -11,7 +11,7 @@ import virtualMachine
 class SnapshotGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["ID", "Description", "Size (Gb)", "Volume"]
+        self.col_titles = ["Id", "Description", "Size (Gb)", "Volume"]
 
         def on_selection(line):
             popup.editSnapshot(self.form, line)

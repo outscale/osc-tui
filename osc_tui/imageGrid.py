@@ -11,7 +11,7 @@ import virtualMachine
 class ImageGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["Name", "ID", "Description", "Type", "Owner"]
+        self.col_titles = ["Name", "Id", "Description", "Type", "Owner"]
 
         def on_selection(line):
             popup.editImage(self.form, line)

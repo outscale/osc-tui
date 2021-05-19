@@ -8,7 +8,7 @@ import selectableGrid
 class Grid(selectableGrid.SelectableGrid):
     def __init__(self, screen,  *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["Id", "Net ID", "Service Name", "State"]
+        self.col_titles = ["Id", "Net Id", "Service Name", "State"]
 
         def on_selection(line):
             popup.editNetAccessPoint(self.form, line)

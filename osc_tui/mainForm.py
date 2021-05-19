@@ -46,18 +46,18 @@ class mainMenu(npyscreen.MultiLineAction):
             if self.form:
                 global MODE
                 if MODE == 'INSTANCES-LBU':
-                    if act_on_this == "CREATE NEW":
+                    if act_on_this == "Create new":
                         npyscreen.notify_confirm("Not implemented yet :/")
                         return
-                elif MODE == 'INSTANCES':
-                    if act_on_this == "CREATE NEW":
+                elif MODE == 'Vms':
+                    if act_on_this == "Create new":
                         self.form.parentApp.addForm("CREATE_VM",
                                                     createVm.CreateVm,
                                                     name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VM")
                         return
-                elif MODE == 'SECURITY':
-                    if act_on_this == "CREATE NEW":
+                elif MODE == 'Security':
+                    if act_on_this == "Create new":
                         popup.newSecurityGroup(self.form)
                         return
                 elif MODE == 'SECURITY-VM':
@@ -65,10 +65,10 @@ class mainMenu(npyscreen.MultiLineAction):
                         popup.addSecurityGroupToVm(self.form)
                         return
                 elif MODE == 'SECURITY-RULES':
-                    if act_on_this == "CREATE NEW":
+                    if act_on_this == "Create new":
                         popup.newSecurityGroupRule(self.form)
                         return
-                    elif act_on_this == 'ADD SSH MY IP':
+                    elif act_on_this == 'Add my ssh IP':
                         main.GATEWAY.CreateSecurityGroupRule(
                             form=self.form,
                             FromPortRange=22,
@@ -80,61 +80,61 @@ class mainMenu(npyscreen.MultiLineAction):
                         self.form.current_grid.h_refresh(None)
                         self.form.current_grid.display()
                         return
-                elif MODE == 'VOLUMES':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'Volumes':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_VOLUME", createVolume.CreateVolume, name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VOLUME")
                         return
-                elif MODE == 'SNAPSHOT':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'Snapshots':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_SNAPSHOT")
                         return
-                elif MODE == 'KEYPAIRS':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'Keypairs':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_KEYPAIR")
                         return
-                elif MODE == 'LBUs':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'LoadBalancers':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_LOADBALANCER",
                             createLoadbalancer.CreateLoadbalancer,
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_LOADBALANCER")
                         return
-                elif MODE == 'VPCs(nets)':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'Nets':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_VPCs",
                             createVpcs.createVpcs,
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VPCs")
                         return
-                elif MODE == 'SUBNET':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'Subnets':
+                    if act_on_this == 'Subnets':
                         self.form.parentApp.addForm(
                             "CREATE_SUBNET",
                             createVpcs.createSubnet,
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_SUBNET")
                         return
-                elif MODE == 'NET-ACCESS-POINT':
-                    if act_on_this == 'CREATE NEW':
+                elif MODE == 'NetAccessPoints':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_NET-ACCESS-POINT",
                             createNetAccessPoint.CreateNetAccessPoint,
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_NET-ACCESS-POINT")
                         return
-                if act_on_this == "EXIT":
+                if act_on_this == "Quit":
                     main.kill_threads()
                     self.form.parentApp.switchForm("MAIN")
                     return
-                elif act_on_this == "REFRESH":
+                elif act_on_this == "Refresh":
                     if hasattr(self.form, 'current_grid'):
                         self.form.current_grid.h_refresh(None)
                         self.form.current_grid.display()
@@ -178,56 +178,56 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '-'
             return out
         menu_desc = (
-            "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs(nets) NET-ACCESS-POINT NET-PEERING GPU REFRESH EXIT " +
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets NetAccessPoints NetPeering Gpus Refresh Quit " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = 16
-        if MODE == "INSTANCES":
+        if MODE == "Vms":
             CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
-            menu_desc.append('CREATE NEW')
+            menu_desc.append('Create new')
         elif MODE == "INSTANCES-LBU":
             CURRENT_GRID_CLASS = instancesGrid.InstancesGridLBU
             menu_desc.append('CREATE NEW')
-        elif MODE == "SECURITY":
+        elif MODE == "Security":
             CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGrid
-            menu_desc.append('CREATE NEW')
+            menu_desc.append('Create new')
         elif MODE == "SECURITY-VM":
             CURRENT_GRID_CLASS = securityGroupsGrid.SecurityGroupsGridForOneInstance
             menu_desc.append('ADD SEC-GROUP')
         elif MODE == 'SECURITY-RULES':
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
-            menu_desc.append('CREATE NEW')
-            menu_desc.append('ADD SSH MY IP')
-        elif MODE == 'VOLUMES':
+            menu_desc.append('Create new')
+            menu_desc.append('Add ssh my IP')
+        elif MODE == 'Volumes':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
-            menu_desc.append('CREATE NEW')
+            menu_desc.append('Create new')
         elif MODE == 'VOLUMES-VM':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGridForOneInstance
-        elif MODE == 'SNAPSHOT':
+        elif MODE == 'Snapshots':
             CURRENT_GRID_CLASS = snapshotGrid.SnapshotGrid
-            menu_desc.append('CREATE NEW')
-        elif MODE == 'IMAGES':
+            menu_desc.append('Create new')
+        elif MODE == 'Images':
             CURRENT_GRID_CLASS = imageGrid.ImageGrid
-        elif MODE == 'LBUs':
+        elif MODE == 'LoadBalancers':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
-            menu_desc.append('CREATE NEW')
-        elif MODE == 'VPCs(nets)':
+            menu_desc.append('Create new')
+        elif MODE == 'Nets':
             CURRENT_GRID_CLASS = vpcsGrid.vpcsGrid
-            menu_desc.append('CREATE NEW')
-        elif MODE == 'NET-ACCESS-POINT':
+            menu_desc.append('Create new')
+        elif MODE == 'NetAccessPoints':
             CURRENT_GRID_CLASS = netAccesssPoint.Grid
             menu_desc.append('CREATE NEW')
-        elif MODE == 'NET-PEERING':
+        elif MODE == 'NetPeering':
             CURRENT_GRID_CLASS = netPeering.Grid
         elif MODE == 'GPU':
             CURRENT_GRID_CLASS = flexibleGPU.Grid
-        elif MODE == 'SUBNET':
+        elif MODE == 'Subnets':
             CURRENT_GRID_CLASS = vpcsGrid.subnetGrid
-            menu_desc.append('CREATE NEW')
-        elif MODE == 'KEYPAIRS':
+            menu_desc.append('Create new')
+        elif MODE == 'Keypairs':
             CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid
-            menu_desc.append('CREATE NEW')
+            menu_desc.append('Create new')
         self.add_widget(
             mainMenu,
             form=self,
