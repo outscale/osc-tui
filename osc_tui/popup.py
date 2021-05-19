@@ -954,3 +954,21 @@ def editRouteTable(form, point_id, form_color='STANDOUT'):
     form.current_grid.display()
     
     
+def showHelp(arg):
+    F = displayPopup(name = "Help")
+    F.preserve_selected_widget = True
+
+    ft = F.add_widget(
+        npyscreen.Pager,
+        )
+    ft.values = [
+        "Exit    : Ctrl+Q",
+        "Refresh : Ctrl+R",
+        "Help    : Ctrl+H\n",
+    ]
+    
+    def ok():
+        exit()
+
+    F.on_ok = ok
+    F.edit()
