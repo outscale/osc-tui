@@ -259,8 +259,17 @@ class MainForm(npyscreen.FormBaseNew):
         super().draw_form()
         MAXX, _ = self.curses_pad.getmaxyx()
         self.curses_pad.vline(1, 15, curses.ACS_VLINE, MAXX - 2)
-
+    
     def reload(self):
         main.kill_threads()
         self.parentApp.addForm("Cockpit", MainForm, name="osc-tui")
         self.parentApp.switchForm("Cockpit")
+
+    def quit():
+        main.kill_threads()
+        exit()
+        
+    def set_up_handlers(self):
+        super().set_up_handlers()
+        self.add_handlers({"^Q": quit})
+        self.add_handlers({"^H": popup.showHelp})
