@@ -49,7 +49,7 @@ def exit():
 
 class App(npyscreen.NPSAppManaged):
     def onStart(self):
-        npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
+        npyscreen.setTheme(npyscreen.Themes.DefaultTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
                      name="osc-tui")
 
