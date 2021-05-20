@@ -267,3 +267,12 @@ class MainForm(npyscreen.FormBaseNew):
         main.kill_threads()
         self.parentApp.addForm("Cockpit", MainForm, name="osc-tui")
         self.parentApp.switchForm("Cockpit")
+
+    def quit():
+        main.kill_threads()
+        exit()
+        
+    def set_up_handlers(self):
+        super().set_up_handlers()
+        self.add_handlers({"^Q": quit})
+        self.add_handlers({"^H": popup.showHelp})
