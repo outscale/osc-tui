@@ -54,10 +54,18 @@ class App(npyscreen.NPSAppManaged):
 
 # LET'S RUN
 if __name__ == "__main__":
-    APP = App()
-    APP.run()
+    try:
+        APP = App()
+        APP.run()
+    except KeyboardInterrupt:
+        kill_threads()
+        sys.exit(130)
 
 
 def main():
-    APP = App()
-    APP.run()
+    try:
+        APP = App()
+        APP.run()
+    except KeyboardInterrupt:
+        kill_threads()
+        sys.exit(130)
