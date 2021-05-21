@@ -175,7 +175,7 @@ class MainForm(npyscreen.FormBaseNew):
         def build_line(size):
             out = ''
             for i in range(0, size):
-                out = out + '-'
+                out = out + '‎'
             return out
         menu_desc = (
             "INSTANCES SECURITY VOLUMES SNAPSHOT KEYPAIRS IMAGES LBUs VPCs(nets) NET-ACCESS-POINT NET-PEERING GPU REFRESH EXIT " +
