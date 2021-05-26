@@ -40,7 +40,7 @@ class mainMenu(npyscreen.MultiLineAction):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
-        self.scroll_exit = True
+        self.scroll_exit = False
         self.draw_line_at = draw_line_at
 
     def actionHighlighted(self, act_on_this, key_press):
