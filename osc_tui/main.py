@@ -52,20 +52,15 @@ class App(npyscreen.NPSAppManaged):
                      name="osc-tui")
 
 
-# LET'S RUN
-if __name__ == "__main__":
-    try:
-        APP = App()
-        APP.run()
-    except KeyboardInterrupt:
-        kill_threads()
-        sys.exit(130)
-
-
 def main():
     try:
         APP = App()
         APP.run()
     except KeyboardInterrupt:
         kill_threads()
+        print("Program quit by Ctrl-C")
         sys.exit(130)
+
+# LET'S RUN
+if __name__ == "__main__":
+    main()
