@@ -5,6 +5,8 @@ import sys
 import npyscreen
 from requests import get
 
+from osc_sdk_python import authentication
+
 import inputForm
 import profileSelector
 
@@ -51,8 +53,30 @@ class App(npyscreen.NPSAppManaged):
         self.addForm("MAIN", profileSelector.ProfileSelector,
                      name="osc-tui")
 
+def help():
+    print(
+"""
+usage: osc-tui [OPTION]
 
-def main():
+-v, --version:  print version
+-h, --help:     print this help
+"""
+    )
+
+def main(argc, argv):
+    if argc > 1:
+        for i in range(1, argc):
+            a = argv[i]
+            if a == "--version" or a == "-v":
+                print("osc-tui: ", VERSION, " osc-sdk-python: ", authentication.VERSION)
+                return 0
+            elif a == "--help" or a =="-h":
+                help()
+                return 0
+            else:
+                print("unknow argument: ", a)
+                help()
+                return 1
     try:
         APP = App()
         APP.run()
@@ -60,7 +84,8 @@ def main():
         kill_threads()
         print("Program quit by Ctrl-C")
         sys.exit(130)
+    return 0
 
 # LET'S RUN
 if __name__ == "__main__":
-    main()
+    sys.exit(main(len(sys.argv), sys.argv))
