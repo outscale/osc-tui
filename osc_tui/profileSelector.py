@@ -169,3 +169,11 @@ class ProfileSelector(npyscreen.ActionFormV2):
 
     def on_cancel(self):
         main.exit()
+
+    def quit():
+        main.kill_threads()
+        exit()
+        
+    def set_up_handlers(self):
+        super().set_up_handlers()
+        self.add_handlers({"q": quit})
