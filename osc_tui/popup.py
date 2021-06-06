@@ -962,9 +962,10 @@ def showHelp(arg):
         npyscreen.Pager,
         )
     ft.values = [
-        "Exit    : Ctrl+Q",
-        "Refresh : Ctrl+R",
-        "Help    : Ctrl+H\n",
+        "Return to profile : q",
+        "Exit              : Ctrl+Q",
+        "Refresh           : F5",
+        "Help              : Ctrl+H\n",
     ]
     
     def ok():
