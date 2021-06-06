@@ -149,7 +149,7 @@ class mainMenu(npyscreen.MultiLineAction):
                 else:
                     SELECTED_BUTTON = self.cursor_line
                 self.form.reload()
-
+    
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({curses.KEY_RIGHT: self.h_exit_down})
@@ -268,11 +268,13 @@ class MainForm(npyscreen.FormBaseNew):
         self.parentApp.addForm("Cockpit", MainForm, name="osc-tui")
         self.parentApp.switchForm("Cockpit")
 
-    def quit():
+    def quit_key(form, key_val):
         main.kill_threads()
-        exit()
+        form.parentApp.switchForm("MAIN")
         
     def set_up_handlers(self):
         super().set_up_handlers()
+        self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
-        self.add_handlers({"^H": popup.showHelp})
+        self.add_handlers({"h": popup.showHelp})
+
