@@ -31,9 +31,9 @@ MODE = "INSTANCES"
 SELECTED_BUTTON = 0
 CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
-LINE_SEPARATOR_COL = 17
 MENU_WIDTH = 16
-GRID_START_COL = 19
+LINE_SEPARATOR_COL = MENU_WIDTH + 1
+GRID_START_COL = MENU_WIDTH +3
 
 class mainMenu(npyscreen.MultiLineAction):
     def __init__(self, screen, form=None, draw_line_at=13, *args, **keywords):
