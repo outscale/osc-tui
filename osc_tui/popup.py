@@ -711,8 +711,8 @@ def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
         DEFAULT_LINES = 7
         DEFAULT_COLUMNS = 12
-        SHOW_ATX = int(term_size.columns / 2)
-        SHOW_ATY = int(term_size.lines / 2)
+        SHOW_ATX = int(term_size.columns / 2 - DEFAULT_LINES /2)
+        SHOW_ATY = int(term_size.lines / 2 - DEFAULT_COLUMNS / 2)
 
     def notify(message, title="Loading", form_color='STANDOUT',
                wrap=True, wide=False,
