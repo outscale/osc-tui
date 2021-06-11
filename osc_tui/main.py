@@ -63,7 +63,10 @@ usage: osc-tui [OPTION]
 """
     )
 
-def main(argc, argv):
+def main():
+    argc = len(sys.argv)
+    argv = sys.argv
+
     if argc > 1:
         for i in range(1, argc):
             a = argv[i]
@@ -88,4 +91,4 @@ def main(argc, argv):
 
 # LET'S RUN
 if __name__ == "__main__":
-    sys.exit(main(len(sys.argv), sys.argv))
+    sys.exit(main())
