@@ -967,7 +967,7 @@ def showHelp(arg):
         "Return to profile : q",
         "Exit              : Ctrl+Q",
         "Refresh           : F5",
-        "Help              : Ctrl+H\n",
+        "Help              : h\n",
     ]
     
     def ok():
