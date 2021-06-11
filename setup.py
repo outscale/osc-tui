@@ -5,7 +5,7 @@ os.system('./configure.sh --release')
 
 setup(
     name='osc-tui',
-    version="0.1",
+    version="21.05.0",
     packages=find_packages(),
     author='Outscale SAS',
     author_email='opensource@outscale.com',

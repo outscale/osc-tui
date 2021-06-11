@@ -61,4 +61,6 @@ Just a few rules:<br>
 * Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive osc_tui/*.py`).
 * Add external dependencies as less as possible.
 
-
+when release a new version:
+* update VERSION in osc_tui/main.py and setup.py
+* VERSION format is time base, 2 first numbers are for years, 2 next one are for month, and 2 last are for revisions

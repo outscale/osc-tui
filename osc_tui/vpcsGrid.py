@@ -11,7 +11,7 @@ import virtualMachine
 class vpcsGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["ID", "CIDR", "DHCP Options ID"]
+        self.col_titles = ["Id", "CIDR", "DHCP Options Id"]
 
         def on_selection(line):
             popup.editVpcs(self.form, line)

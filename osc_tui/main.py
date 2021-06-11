@@ -5,6 +5,8 @@ import sys
 import npyscreen
 from requests import get
 
+from osc_sdk_python import authentication
+
 import inputForm
 import profileSelector
 
@@ -23,7 +25,7 @@ IP = get("https://api.ipify.org").text
 # Because it's cool but also a DDOS attack :)
 # So let's be cool with the API --> No auto refresh!
 POLL_ENABLED = False
-
+VERSION = 210500
 # GLOBALS METHODS
 
 
@@ -47,17 +49,43 @@ def exit():
 
 class App(npyscreen.NPSAppManaged):
     def onStart(self):
-        npyscreen.setTheme(npyscreen.Themes.ColorfulTheme)
+        npyscreen.setTheme(npyscreen.Themes.DefaultTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
                      name="osc-tui")
 
+def help():
+    print(
+"""
+usage: osc-tui [OPTION]
+
+-v, --version:  print version
+-h, --help:     print this help
+"""
+    )
+
+def main(argc, argv):
+    if argc > 1:
+        for i in range(1, argc):
+            a = argv[i]
+            if a == "--version" or a == "-v":
+                print("osc-tui: ", VERSION, " osc-sdk-python: ", authentication.VERSION)
+                return 0
+            elif a == "--help" or a =="-h":
+                help()
+                return 0
+            else:
+                print("unknow argument: ", a)
+                help()
+                return 1
+    try:
+        APP = App()
+        APP.run()
+    except KeyboardInterrupt:
+        kill_threads()
+        print("Program quit by Ctrl-C")
+        sys.exit(130)
+    return 0
 
 # LET'S RUN
 if __name__ == "__main__":
-    APP = App()
-    APP.run()
-
-
-def main():
-    APP = App()
-    APP.run()
+    sys.exit(main(len(sys.argv), sys.argv))

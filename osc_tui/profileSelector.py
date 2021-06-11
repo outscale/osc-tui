@@ -8,7 +8,7 @@ import preloader
 
 import npyscreen
 import requests
-from osc_sdk_python import Gateway
+from osc_sdk_python import *
 
 import main
 import mainForm
@@ -36,7 +36,7 @@ class CallbackFactory:
     def __call__(self):
         try:
             global res
-            main.GATEWAY = Gateway(**{"profile": self.name})
+            main.GATEWAY = Gateway(**{"profile": self.name, "user_agent": "osc-tui/" + str(main.VERSION) + " " + authentication.DEFAULT_USER_AGENT})
 
             # The following code is a little bit completely tricky :)
             # Here is the idea:
