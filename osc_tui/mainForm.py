@@ -181,7 +181,7 @@ class MainForm(npyscreen.FormBaseNew):
                 out = out + '‎'
             return out
         menu_desc = (
-            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets NetAccessPoints NetPeering Gpus Refresh Quit " +
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets NetAccessPoints NetPeering GPUs Refresh Quit " +
             build_line(15)).split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
@@ -223,7 +223,7 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('CREATE NEW')
         elif MODE == 'NetPeering':
             CURRENT_GRID_CLASS = netPeering.Grid
-        elif MODE == 'GPU':
+        elif MODE == 'GPUs':
             CURRENT_GRID_CLASS = flexibleGPU.Grid
         elif MODE == 'Subnets':
             CURRENT_GRID_CLASS = vpcsGrid.subnetGrid
