@@ -22,6 +22,7 @@ class SnapshotGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadSnapshots(form=self.form)['Snapshots']
         values = list()
         for g in groups:
-            values.append([g['SnapshotId'], g['Description'],
-                           g['VolumeSize'], g['VolumeId']])
+            vId = g['VolumeId'] if 'VolumeId' in g else "no volumes"
+            vSize = g['VolumeSize'] if 'VolumeSize' in g else "unknow"
+            values.append([g['SnapshotId'], g['Description'], vSize, vId])
         self.values = values
