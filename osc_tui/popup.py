@@ -18,6 +18,9 @@ ROUTE = None
 
 
 class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
+    term_size = os.get_terminal_size()
+    DEFAULT_COLUMNS = 100
+    SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
     def on_ok(self):
         self.value = True
 
@@ -26,6 +29,9 @@ class ConfirmCancelPopup(npyscreen.fmPopup.ActionPopup):
 
 
 class displayPopup(npyscreen.fmPopup.Popup):
+    term_size = os.get_terminal_size()
+    DEFAULT_COLUMNS = 100
+    SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
     def on_ok(self):
         self.editing = False
         self.value = True
@@ -725,8 +731,8 @@ def startLoading(form, refresh):
     class PendingPopup(fmForm.Form):
         DEFAULT_LINES = 7
         DEFAULT_COLUMNS = 12
-        SHOW_ATX = int(term_size.columns / 2 - DEFAULT_LINES /2)
-        SHOW_ATY = int(term_size.lines / 2 - DEFAULT_COLUMNS / 2)
+        SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
+        SHOW_ATY = int(term_size.lines / 2 - DEFAULT_LINES / 2)
 
     def notify(message, title="Loading", form_color='STANDOUT',
                wrap=True, wide=False,
