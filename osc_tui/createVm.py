@@ -132,7 +132,7 @@ class CreateVm(npyscreen.FormBaseNew):
         global IMG_COMBO
         IMG_COMBO = self.add_widget(
             npyscreen.TitleCombo,
-            name="Select Image",
+            name="Image",
             values=imgs_vals,
             value=IMG_COMBO.get_value() if IMG_COMBO else 0,
         )
@@ -143,14 +143,14 @@ class CreateVm(npyscreen.FormBaseNew):
             subregions_vals.append(subregion["SubregionName"])
         REGION = self.add_widget(
             npyscreen.TitleCombo,
-            name="Choose Region",
+            name="Region",
             values=subregions_vals,
             value=REGION.get_value() if REGION else 0,
         )
         global KEYPAIRS_COMBO
         KEYPAIRS_COMBO = self.add_widget(
             npyscreen.TitleCombo,
-            name="Choose Keypair",
+            name="Keypair",
             values=keyPairsNames,
             value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
         )
@@ -159,7 +159,7 @@ class CreateVm(npyscreen.FormBaseNew):
             cpu_vals = "GEN 2|GEN 3|GEN 4|GEN 5".split("|")
             CPU = self.add_widget(
                 npyscreen.TitleCombo,
-                name="Choose Cpu",
+                name="Cpu",
                 values=cpu_vals,
                 value=CPU.get_value() if CPU else 0,
             )
@@ -167,27 +167,27 @@ class CreateVm(npyscreen.FormBaseNew):
             perf_vals = "MEDIUM HIGH HIGHEST".split(" ")
             PERFORMANCE = self.add_widget(
                 npyscreen.TitleCombo,
-                name="Choose Performance",
+                name="Performance",
                 values=perf_vals,
                 value=PERFORMANCE.get_value() if PERFORMANCE else 0,
             )
             global SIZE
             SIZE = self.add_widget(
                 npyscreen.TitleText,
-                name="Enter disk size(Gb)",
+                name="disk size(Gb)",
                 value=SIZE.get_value() if SIZE else "10"
             )
             global CORE
             CORE = self.add_widget(
                 npyscreen.TitleText,
-                name="Choose a number of core",
+                name="number cores",
                 value=CORE.get_value() if CORE else "1"
             )
             actionOnShutdown = "stop restart terminate".split(" ")
             global AOS_COMBO
             AOS_COMBO = self.add_widget(
                 npyscreen.TitleCombo,
-                name="Action on shutdown",
+                name="Stop Action",
                 values=actionOnShutdown,
                 value=AOS_COMBO.get_value() if AOS_COMBO else 0,
             )
