@@ -27,7 +27,7 @@ import loadbalancerGrid
 import virtualMachine
 import volumesGrid
 
-MODE = "INSTANCES"
+MODE = "Vms"
 SELECTED_BUTTON = 0
 CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
 
@@ -58,7 +58,7 @@ class mainMenu(npyscreen.MultiLineAction):
                         self.form.parentApp.addForm("CREATE_VM",
                                                     createVm.CreateVm,
                                                     name="osc-tui")
-                        self.form.parentApp.switchForm("CREATE_VM")
+                        self.form.pasrentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'Security':
                     if act_on_this == "Create new":
@@ -150,10 +150,7 @@ class mainMenu(npyscreen.MultiLineAction):
                     return
                 MODE = act_on_this
                 global SELECTED_BUTTON
-                if act_on_this == 'INSTANCES' or act_on_this == 'SECURITY':
-                    SELECTED_BUTTON = 11
-                else:
-                    SELECTED_BUTTON = self.cursor_line
+                SELECTED_BUTTON = self.cursor_line
                 self.form.reload()
     
     def set_up_handlers(self):

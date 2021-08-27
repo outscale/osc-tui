@@ -81,7 +81,7 @@ class CallbackFactory:
             res = main.GATEWAY.ReadClientGateways(form=self.form)
             if "Errors" not in res:
                 preloader.Preloader.load_async()
-                mainForm.MODE = 'INSTANCES'
+                mainForm.MODE = 'Vms'
                 self.form.parentApp.addForm(
                     "Cockpit", mainForm.MainForm, name="osc-tui")
                 self.form.parentApp.switchForm("Cockpit")
