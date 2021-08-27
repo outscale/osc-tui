@@ -176,4 +176,5 @@ class ProfileSelector(npyscreen.ActionFormV2):
         
     def set_up_handlers(self):
         super().set_up_handlers()
+        self.add_handlers({"^Q": quit})
         self.add_handlers({"q": quit})
