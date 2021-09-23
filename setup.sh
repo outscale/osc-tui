@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e 
 git clone https://github.com/outscale-dev/osc-tui.git
 cd osc-tui
 git submodule update --init
@@ -8,7 +9,7 @@ source env/bin/activate
 python3 -m pip install pyperclip
 python3 -m pip install autopep8
 python3 -m pip install nuitka
-python3 -m pip install https://github.com/outscale/osc-sdk-python/releases/download/0.9.15/osc_sdk_python-0.9.15-py3-none-any.whl
+python3 -m pip install https://github.com/outscale/osc-sdk-python/releases/download/0.10.0/osc_sdk_python-0.10.0-py2.py3-none-any.whl
 cd npyscreen
 python3 setup.py build
 python3 setup.py install
