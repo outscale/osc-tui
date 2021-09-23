@@ -22,6 +22,8 @@ OAPI_CREDENTIALS = dict()
 
 def save_credentials(form):
     file = dst_file
+    if not os.path.exists(os.path.dirname(dst_file)):
+        os.makedirs(os.path.dirname(dst_file), mode=0o700)
     with open(file, "w") as filetowrite:
         filetowrite.write(json.dumps(OAPI_CREDENTIALS))
     form.parentApp.addForm("MAIN", ProfileSelector, name="osc-tui")
