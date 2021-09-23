@@ -123,8 +123,8 @@ class mainMenu(npyscreen.MultiLineAction):
                         popup.addFilter(self.form)
                         return
                         
-                elif MODE == 'Subnets':
-                    if act_on_this == 'Subnets':
+                elif MODE == 'SUBNET':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_SUBNET",
                             createVpcs.createSubnet,
@@ -229,7 +229,7 @@ class MainForm(npyscreen.FormBaseNew):
             CURRENT_GRID_CLASS = netPeering.Grid
         elif MODE == 'GPUs':
             CURRENT_GRID_CLASS = flexibleGPU.Grid
-        elif MODE == 'Subnets':
+        elif MODE == 'SUBNET':
             CURRENT_GRID_CLASS = vpcsGrid.subnetGrid
             menu_desc.append('Create new')
         elif MODE == 'Keypairs':
