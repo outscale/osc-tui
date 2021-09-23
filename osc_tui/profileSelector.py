@@ -62,10 +62,16 @@ class CallbackFactory:
 
                         def cb():
                             global result
-                            result = func(*args, **kwargs)
+                            try:
+                                result = func(*args, **kwargs)
+                            except requests.exceptions.HTTPError as e:
+                                npyscreen.notify_confirm("Error while submitting the request:\n\t- Code = {}\n\t- Reason = {}".format(e.response.status_code, e.response.reason), "ERROR")
                         popup.startLoading(form, cb)
                     else:
-                        result = func(*args, **kwargs)
+                        try:
+                            result = func(*args, **kwargs)
+                        except requests.exceptions.HTTPError as e:
+                                npyscreen.notify_confirm("Error while submitting the request:\n\t- Code = {}\n\t- Reason = {}".format(e.response.status_code, e.response.reason), "ERROR")
                     return result
 
                 return wrapped
