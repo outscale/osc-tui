@@ -12,7 +12,7 @@ jira==0.23
 npyscreen==4.9.1
 Nuitka==0.6.8.4
 oauthlib==3.1.0
-osc-sdk-python==0.9.15
+osc-sdk-python==0.10.0
 packaging==20.3
 pip-upgrader==1.4.15
 pycodestyle==2.5.0
