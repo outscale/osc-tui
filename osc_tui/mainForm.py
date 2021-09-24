@@ -284,5 +284,8 @@ class MainForm(npyscreen.FormBaseNew):
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})
-        self.add_handlers({"r": self.key_reload})
+        self.add_handlers({
+            "r"             : self.key_reload,
+            curses.KEY_F5   : self.key_reload
+        })
 
