@@ -276,9 +276,13 @@ class MainForm(npyscreen.FormBaseNew):
         main.kill_threads()
         form.parentApp.switchForm("MAIN")
         
+    def key_reload(form, _):
+        form.reload()
+
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})
+        self.add_handlers({"r": self.key_reload})
 
