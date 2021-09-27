@@ -3,6 +3,7 @@ import curses
 import npyscreen
 import pyperclip
 
+import createImage
 import createKeyPair
 import createSnapshot
 import createVm
@@ -58,7 +59,7 @@ class mainMenu(npyscreen.MultiLineAction):
                         self.form.parentApp.addForm("CREATE_VM",
                                                     createVm.CreateVm,
                                                     name="osc-tui")
-                        self.form.pasrentApp.switchForm("CREATE_VM")
+                        self.form.parentApp.switchForm("CREATE_VM")
                         return
                 elif MODE == 'Security':
                     if act_on_this == "Create new":
@@ -122,7 +123,11 @@ class mainMenu(npyscreen.MultiLineAction):
                     if act_on_this == 'Filter':
                         popup.addFilter(self.form)
                         return
-                        
+                    if act_on_this == 'Create new':
+                        self.form.parentApp.addForm(
+                            "CREATE_Images",createImage.CreateImage,name="osc-tui")
+                        self.form.parentApp.switchForm("CREATE_Images")
+                        return
                 elif MODE == 'Subnets':
                     if act_on_this == 'Subnets':
                         self.form.parentApp.addForm(
@@ -216,6 +221,7 @@ class MainForm(npyscreen.FormBaseNew):
         elif MODE == 'Images':
             CURRENT_GRID_CLASS = imageGrid.ImageGrid
             menu_desc.append('Filter')
+            menu_desc.append('Create new')
         elif MODE == 'LoadBalancers':
             CURRENT_GRID_CLASS = loadbalancerGrid.loadbalancerGrid
             menu_desc.append('Create new')
