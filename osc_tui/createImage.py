@@ -81,14 +81,14 @@ class CreateImage_frominstance(npyscreen.FormBaseNew):
         global VM_COMBO
         VM_COMBO = self.add_widget(
                 npyscreen.TitleCombo,
-                name="CHOOSE VM",
+                name="ORIGINAL VM",
                 values=vms_vals,
                 value=VM_COMBO.get_value() if VM_COMBO else 0,
             )
         global REBOOT
         REBOOT = self.add_widget(
             npyscreen.TitleCombo,
-            name="CHOOSE REBOOT",
+            name="REBOOT",
             values=["true", "false"],
             value=REBOOT.get_value() if REBOOT else 0,
         )
@@ -160,14 +160,14 @@ class CreateImage_fromsnapshot(npyscreen.FormBaseNew):
         global SNAPSHOT_COMBO
         SNAPSHOT_COMBO = self.add_widget(
             npyscreen.TitleCombo,
-            name="CHOOSE SNAPSHOT",
+            name="ORIGINAL SNAPSHOT",
             values=snapshots_vals,
             value=SNAPSHOT_COMBO.get_value() if SNAPSHOT_COMBO else 0,
         )
         global ARCHITECTURE
         ARCHITECTURE = self.add_widget(
             npyscreen.TitleCombo,
-            name="CHOOSE ARCHITECTURE",
+            name="ARCHITECTURE",
             values=["i386", "x86_64"],
             value=ARCHITECTURE.get_value() if ARCHITECTURE else 0,
         )
