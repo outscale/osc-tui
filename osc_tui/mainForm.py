@@ -129,7 +129,7 @@ class mainMenu(npyscreen.MultiLineAction):
                         self.form.parentApp.switchForm("CREATE_Images")
                         return
                 elif MODE == 'Subnets':
-                    if act_on_this == 'Subnets':
+                    if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_SUBNET",
                             createVpcs.createSubnet,

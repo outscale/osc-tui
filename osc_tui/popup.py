@@ -649,7 +649,7 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
 
     def subnetRead():
         exit()
-        mainForm.MODE = 'SUBNET'
+        mainForm.MODE = 'Subnets'
         form.reload()
 
     delete.whenPressed = delete_cb
