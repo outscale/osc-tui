@@ -986,7 +986,7 @@ def showHelp(arg):
     ft.values = [
         "Return to profile : q",
         "Exit              : Ctrl+Q",
-        "Refresh           : F5",
+        "Refresh           : F5 or r",
         "Help              : h\n",
     ]
     

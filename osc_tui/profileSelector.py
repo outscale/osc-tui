@@ -57,15 +57,17 @@ class CallbackFactory:
                     form = kwargs.get('form')
                     global result
                     result = None
+                    def cb():
+                        global result
+                        try:
+                            result = func(*args, **kwargs)
+                        except requests.exceptions.HTTPError as e:
+                            npyscreen.notify_confirm("Error while submitting the request:\n\t- Code = {}\n\t- Reason = {}".format(e.response.status_code, e.response.reason), title="ERROR")
                     if form:
                         kwargs.pop('form')
-
-                        def cb():
-                            global result
-                            result = func(*args, **kwargs)
                         popup.startLoading(form, cb)
                     else:
-                        result = func(*args, **kwargs)
+                        cb()
                     return result
 
                 return wrapped
