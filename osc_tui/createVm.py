@@ -95,6 +95,10 @@ class CreateVm(npyscreen.FormBaseNew):
                 else:
                     res = main.GATEWAY.CreateVms(
                         form=self,
+                        Placement={
+                            "SubregionName": REGION.get_values()[
+                                REGION.get_value()]
+                        },
                         ImageId=id, KeypairName=keypair)
                 if "Errors" in res:
                     npyscreen.notify_confirm(str(res["Errors"]))
