@@ -40,6 +40,8 @@ class CallbackFactory:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name, "user_agent": "osc-tui/" + str(main.VERSION) + " " + authentication.DEFAULT_USER_AGENT})
 
+            main.GATEWAY.log.config(type=LOG_MEMORY, what=LOG_KEEP_ONLY_LAST_REQ)
+
             # The following code is a little bit completely tricky :)
             # Here is the idea:
             # I want to hook all calls to the main.GATEWAY modules to automatically display the pending animation.
@@ -62,7 +64,11 @@ class CallbackFactory:
                         try:
                             result = func(*args, **kwargs)
                         except requests.exceptions.HTTPError as e:
-                            npyscreen.notify_confirm("Error while submitting the request:\n\t- Code = {}\n\t- Reason = {}".format(e.response.status_code, e.response.reason), title="ERROR")
+                            npyscreen.notify_confirm(
+                                "Error while submitting the request:\n{}\nCode: {}\nReason: {}".
+                                format(main.GATEWAY.log.str(),
+                                       e.response.status_code,
+                                       e.response.reason), title="ERROR")
                     if form:
                         kwargs.pop('form')
                         popup.startLoading(form, cb)
