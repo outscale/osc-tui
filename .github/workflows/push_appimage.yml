@@ -1,0 +1,29 @@
+name: Appimage Release
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: configure
+      run: ./configure.sh --dev
+      
+    - name: make
+      run: make appimage-bld/osc-tui-x86_64.AppImage
+      
+    - uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+          repo_token: "${{ secrets.TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            LICENSE
+            osc-tui-x86_64.AppImage
