@@ -13,7 +13,7 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: configure
-      run: ./configure.sh --dev
+      run: ./configure.sh --release
       
     - name: make
       run: make appimage-bld/osc-tui-x86_64.AppImage
