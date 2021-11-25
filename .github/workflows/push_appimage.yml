@@ -26,4 +26,4 @@ jobs:
           title: "Development Build"
           files: |
             LICENSE
-            osc-tui-x86_64.AppImage
+            appimage-bld/osc-tui-x86_64.AppImage
