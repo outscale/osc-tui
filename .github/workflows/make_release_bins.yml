@@ -1,6 +1,7 @@
 name: Appimage Create Release Binaries
 
 on:
+  push:
     tags:
       - "v*"
 
