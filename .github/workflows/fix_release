@@ -21,9 +21,8 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.TOKEN }}"
-          automatic_release_tag: "latest"
           prerelease: false
-          title: "Development Build"
+          title: "Fix Release"
           files: |
             LICENSE
             appimage-bld/osc-tui-x86_64.AppImage
