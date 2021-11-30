@@ -1,4 +1,4 @@
-name: Appimage Release
+name: Appimage CI Release
 
 on:
   push:
