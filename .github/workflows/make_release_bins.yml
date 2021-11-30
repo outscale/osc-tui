@@ -1,4 +1,4 @@
-name: Appimage Fix Release
+name: Appimage Create Release Binaries
 
 on:
     tags:
