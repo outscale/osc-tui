@@ -28,7 +28,6 @@ POLL_ENABLED = False
 VERSION = 211130
 # GLOBALS METHODS
 
-
 def add_thread(t):
     THREADS.append(t)
 
@@ -58,8 +57,9 @@ def help():
 """
 usage: osc-tui [OPTION]
 
--v, --version:  print version
--h, --help:     print this help
+-v, --version:          print version
+-h, --help:             print this help
+    --ascii-logo        use ascii for logo
 """
     )
 
@@ -76,10 +76,13 @@ def main():
             elif a == "--help" or a =="-h":
                 help()
                 return 0
+            elif a == "--ascii-logo":
+                profileSelector.ASCII_LOGO = True
             else:
                 print("unknow argument: ", a)
                 help()
                 return 1
+
     try:
         APP = App()
         APP.run()
