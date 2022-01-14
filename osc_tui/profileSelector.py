@@ -18,7 +18,7 @@ home = str(Path.home())
 dst_file = home + '/.osc/config.json'
 
 OAPI_CREDENTIALS = dict()
-
+ASCII_LOGO = False
 
 def save_credentials(form):
     file = dst_file
@@ -154,7 +154,7 @@ class ProfileSelector(npyscreen.ActionFormV2):
 
         bt = self.add_widget(npyscreen.ButtonPress, name="NEW PROFILE")
         bt.whenPressed = new
-        logo = """
+        logo_complex = """
 
              █████╗  ██████╗ █████╗       ████████╗██╗   ██╗██╗
             ██╔══██╗██╔════╝██╔══██╗      ╚══██╔══╝██║   ██║██║
@@ -163,6 +163,15 @@ class ProfileSelector(npyscreen.ActionFormV2):
             ╚█████╔╝██████╔╝╚█████╔╝         ██║   ╚██████╔╝██║
              ╚════╝ ╚═════╝  ╚════╝          ╚═╝    ╚═════╝ ╚═╝
 """
+        logo_simple = """
+           ___  ____   ____         _____ _   _ ___ 
+          / _ \/ ___| / ___|       |_   _| | | |_ _|
+         | | | \___ \| |     _____   | | | | | || | 
+         | |_| |___) | |___ |_____|  | | | |_| || | 
+          \___/|____/ \____|         |_|  \___/|___|
+"""
+
+        logo = logo_complex if not ASCII_LOGO else logo_simple
         self.add_widget(npyscreen.MultiLineEdit, value=logo,
                         editable=False, multiline=True)
 
