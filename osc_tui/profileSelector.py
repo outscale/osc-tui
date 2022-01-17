@@ -14,6 +14,8 @@ import main
 import mainForm
 import popup
 
+import traceback
+
 home = str(Path.home())
 dst_file = home + '/.osc/config.json'
 
@@ -88,20 +90,26 @@ class CallbackFactory:
                         setattr(main.GATEWAY, method_name, wrapped)
 
             # now let's check if the profile worked:
-            res = main.GATEWAY.ReadClientGateways(form=self.form)
-            if "Errors" not in res:
-                preloader.Preloader.load_async()
-                mainForm.MODE = 'Vms'
-                self.form.parentApp.addForm(
-                    "Cockpit", mainForm.MainForm, name="osc-tui")
-                self.form.parentApp.switchForm("Cockpit")
-            else:
-                should_destroy_profile = npyscreen.notify_yes_no(
-                    "Credentials are not valids.\nDo you want do delete this profile?", "ERROR", )
-                if should_destroy_profile:
-                    global OAPI_CREDENTIALS
-                    del OAPI_CREDENTIALS[self.name]
-                    save_credentials(self.form)
+            try:
+                res = main.GATEWAY.ReadClientGateways(form=self.form)
+                if "Errors" not in res:
+                    preloader.Preloader.load_async()
+                    mainForm.MODE = 'Vms'
+                    self.form.parentApp.addForm(
+                        "Cockpit", mainForm.MainForm, name="osc-tui")
+                    self.form.parentApp.switchForm("Cockpit")
+                else:
+                    should_destroy_profile = npyscreen.notify_yes_no(
+                        "Credentials are not valids.\nDo you want do delete this profile?", "ERROR", )
+                    if should_destroy_profile:
+                        global OAPI_CREDENTIALS
+                        del OAPI_CREDENTIALS[self.name]
+                        save_credentials(self.form)
+            except Exception as e:
+                npyscreen.notify_confirm("Exeption trow: \"{}\"\nLog in ./osc-tui.log".format(str(e)))
+                traceback.print_exc(file=open("osc-tui.log", "w"))
+                main.kill_threads()
+                exit(1)
         except requests.ConnectionError:
             npyscreen.notify_confirm(
                 "Please check your internet connection.", "ERROR")
