@@ -151,7 +151,7 @@ class ProfileSelector(npyscreen.FormBaseNew):
                 OAPI_CREDENTIALS.update(aksk)
                 save_credentials(self)
 
-        bt = self.add_widget(npyscreen.ButtonPress, name="NEW PROFILE")
+        bt = self.add_widget(npyscreen.ButtonPress, name="New Profile")
         bt.whenPressed = new
 
         bt = self.add_widget(npyscreen.ButtonPress, name="Exit")
