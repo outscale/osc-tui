@@ -107,7 +107,7 @@ class CallbackFactory:
                 "Please check your internet connection.", "ERROR")
 
 
-class ProfileSelector(npyscreen.ActionFormV2):
+class ProfileSelector(npyscreen.FormBaseNew):
     def create(self):
         preloader.Preloader.init()
         self.how_exited_handers[npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
@@ -153,6 +153,10 @@ class ProfileSelector(npyscreen.ActionFormV2):
 
         bt = self.add_widget(npyscreen.ButtonPress, name="NEW PROFILE")
         bt.whenPressed = new
+
+        bt = self.add_widget(npyscreen.ButtonPress, name="Exit")
+        bt.whenPressed = main.exit
+
         logo = """
 
              █████╗  ██████╗ █████╗       ████████╗██╗   ██╗██╗
@@ -176,9 +180,6 @@ class ProfileSelector(npyscreen.ActionFormV2):
             - len(self.__class__.CANCEL_BUTTON_TEXT),
             None,
         )
-
-    def on_cancel(self):
-        main.exit()
 
     def quit():
         main.kill_threads()
