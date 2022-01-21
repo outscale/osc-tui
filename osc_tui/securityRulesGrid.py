@@ -28,25 +28,27 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
             values = list()
             if data:
                 for rule in data[0]["InboundRules"]:
-                    for ip in rule["IpRanges"]:
-                        values.append(
-                            [
-                                "Inbound",
-                                "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
-                                rule["FromPortRange"] if "FromPortRange" in rule else "all",
-                                rule["ToPortRange"] if "ToPortRange" in rule else "all",
-                                ip,
-                            ])
+                    if "IpRanges" in rule:
+                        for ip in rule["IpRanges"]:
+                            values.append(
+                                [
+                                    "Inbound",
+                                    "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
+                                    rule["FromPortRange"] if "FromPortRange" in rule else "all",
+                                    rule["ToPortRange"] if "ToPortRange" in rule else "all",
+                                    ip,
+                                ])
                 for rule in data[0]["OutboundRules"]:
-                    for ip in rule["IpRanges"]:
-                        values.append(
-                            [
-                                "Outbound",
-                                "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
-                                rule["FromPortRange"] if "FromPortRange" in rule else "all",
-                                rule["ToPortRange"] if "ToPortRange" in rule else "all",
-                                ip,
-                            ])
+                    if "IpRanges" in rule:
+                        for ip in rule["IpRanges"]:
+                            values.append(
+                                [
+                                    "Outbound",
+                                    "all" if rule["IpProtocol"] == "-1" else rule["IpProtocol"],
+                                    rule["FromPortRange"] if "FromPortRange" in rule else "all",
+                                    rule["ToPortRange"] if "ToPortRange" in rule else "all",
+                                    ip,
+                                ])
                 self.values = values
             self.values = values
 
