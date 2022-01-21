@@ -1,6 +1,7 @@
 import npyscreen
 import main
 import preloader
+import os
 
 # If advanced VM creation enabled.
 ADVANCED_MODE = False
@@ -25,6 +26,17 @@ REGION = None
 # Action On Shutdown combo box.
 AOS_COMBO = None
 
+LIST_THRESHOLD = 6
+POPUP_COLUMNS = 90
+
+class OscCombo(npyscreen.TitleCombo):
+    def __init__(self, *args, **keywords):
+        term_size = os.get_terminal_size()
+        keywords["popup_columns"] = POPUP_COLUMNS
+        keywords["popup_lines"] = 40
+        keywords["popup_atx"] = int(term_size.columns / 2 - POPUP_COLUMNS /2)
+        keywords["relx"] = LIST_THRESHOLD
+        super().__init__(*args, **keywords)
 
 class CreateVm(npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -132,10 +144,11 @@ class CreateVm(npyscreen.FormBaseNew):
         NAME = self.add_widget(
             npyscreen.TitleText,
             name="VM name:",
+            relx=LIST_THRESHOLD,
             value=NAME.get_value() if NAME else "")
         global IMG_COMBO
         IMG_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            OscCombo,
             name="Image",
             values=imgs_vals,
             value=IMG_COMBO.get_value() if IMG_COMBO else 0,
@@ -146,14 +159,14 @@ class CreateVm(npyscreen.FormBaseNew):
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
         REGION = self.add_widget(
-            npyscreen.TitleCombo,
+            OscCombo,
             name="Region",
             values=subregions_vals,
             value=REGION.get_value() if REGION else 0,
         )
         global KEYPAIRS_COMBO
         KEYPAIRS_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            OscCombo,
             name="Keypair",
             values=keyPairsNames,
             value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
@@ -162,7 +175,7 @@ class CreateVm(npyscreen.FormBaseNew):
             global CPU
             cpu_vals = "GEN 2|GEN 3|GEN 4|GEN 5".split("|")
             CPU = self.add_widget(
-                npyscreen.TitleCombo,
+                OscCombo,
                 name="Cpu",
                 values=cpu_vals,
                 value=CPU.get_value() if CPU else 0,
@@ -170,7 +183,7 @@ class CreateVm(npyscreen.FormBaseNew):
             global PERFORMANCE
             perf_vals = "MEDIUM HIGH HIGHEST".split(" ")
             PERFORMANCE = self.add_widget(
-                npyscreen.TitleCombo,
+                OscCombo,
                 name="Performance",
                 values=perf_vals,
                 value=PERFORMANCE.get_value() if PERFORMANCE else 0,
@@ -178,19 +191,21 @@ class CreateVm(npyscreen.FormBaseNew):
             global SIZE
             SIZE = self.add_widget(
                 npyscreen.TitleText,
+                relx=LIST_THRESHOLD,
                 name="disk size(Gb)",
                 value=SIZE.get_value() if SIZE else "10"
             )
             global CORE
             CORE = self.add_widget(
                 npyscreen.TitleText,
+                relx=LIST_THRESHOLD,
                 name="number cores",
                 value=CORE.get_value() if CORE else "1"
             )
             actionOnShutdown = "stop restart terminate".split(" ")
             global AOS_COMBO
             AOS_COMBO = self.add_widget(
-                npyscreen.TitleCombo,
+                OscCombo,
                 name="Stop Action",
                 values=actionOnShutdown,
                 value=AOS_COMBO.get_value() if AOS_COMBO else 0,
