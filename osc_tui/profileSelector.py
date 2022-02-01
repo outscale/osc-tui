@@ -40,7 +40,8 @@ class CallbackFactory:
             global res
             main.GATEWAY = Gateway(**{"profile": self.name, "user_agent": "osc-tui/" + str(main.VERSION) + " " + authentication.DEFAULT_USER_AGENT})
 
-            main.GATEWAY.log.config(type=LOG_MEMORY, what=LOG_KEEP_ONLY_LAST_REQ)
+            if hasattr(main.GATEWAY.log, "config"):
+                main.GATEWAY.log.config(type=LOG_MEMORY, what=LOG_KEEP_ONLY_LAST_REQ)
 
             # The following code is a little bit completely tricky :)
             # Here is the idea:
