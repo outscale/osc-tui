@@ -24,6 +24,7 @@ class SelectableGrid(npyscreen.GridColTitles):
         self.exit_right = True
         self.form = form
         self.h_refresh(None)
+        main.CURRENT_GRID = self
 
     def set_up_handlers(self):
         super().set_up_handlers()
@@ -33,8 +34,16 @@ class SelectableGrid(npyscreen.GridColTitles):
     def time(self):
         return int(round(time.time() * 1000))
 
-    def h_refresh(self, inpt, name_filter=None):
-        self.refresh(name_filter=name_filter)
+    def h_refresh(self, inpt, name_filter=None, skip_call=False):
+        if skip_call == False:
+            tries = 0
+            data = self.refresh_call(name_filter=name_filter)
+            while data == None and tries < 10:
+                time.sleep(0.5)
+                data = self.refresh_call(name_filter=name_filter)
+                tries += 1
+            self.data = data
+        self.refresh()
         self.display()
 
     # Each time we change the selected line, we select the new one.

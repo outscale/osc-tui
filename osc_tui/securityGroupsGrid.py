@@ -19,9 +19,11 @@ class SecurityGroupsGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self, name_filter=None):
-        groups = main.GATEWAY.ReadSecurityGroups(form=self.form)[
-            "SecurityGroups"]
+    def refresh_call(self, name_filter=None):
+        return main.GATEWAY.ReadSecurityGroups(form=self.form)["SecurityGroups"]
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), ["SecurityGroupId", "SecurityGroupName"])
         values = list()
         for g in groups:
             values.append([g["SecurityGroupId"], g["SecurityGroupName"]])
@@ -43,7 +45,7 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self, name_filter=None):
+    def refresh_call(self, name_filter=None):
         id = main.VM["VmId"]
         data = main.GATEWAY.ReadVms()["Vms"]
         main.VMs = dict()
@@ -51,6 +53,10 @@ class SecurityGroupsGridForOneInstance(selectableGrid.SelectableGrid):
             main.VMs.update({vm["VmId"]: vm})
         main.VM = main.VMs[id]
         groups = main.VM["SecurityGroups"]
+        return groups
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), ["SecurityGroupId", "SecurityGroupName"])
         values = list()
         for g in groups:
             values.append([g["SecurityGroupId"], g["SecurityGroupName"]])

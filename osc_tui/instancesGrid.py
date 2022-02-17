@@ -19,18 +19,24 @@ class InstancesGrid(selectableGrid.SelectableGrid):
             popup.editInstance(self.form, line)
         self.on_selection = on_selection_cb
 
-    def refresh(self, name_filter=None):
+    def refresh_call(self, name_filter=None):
+        reply = main.GATEWAY.ReadVms(form=self.form)
+        if reply == None:
+            return None
+        return reply["Vms"]
+
+
+    def refresh(self):
         if main.GATEWAY:
             self.refreshing = True
-            tries = 0
-            reply = main.GATEWAY.ReadVms(form=self.form)
-            while reply == None and tries < 10:
-                time.sleep(0.5)
-                reply = main.GATEWAY.ReadVms(form=self.form)
-                tries += 1
-            data = reply["Vms"]
+
             self.vms = list()
             main.VMs = dict()
+            data = main.do_search(self.data.copy(), ["State", "VmId", "VmType",
+                                              "PrivateIp", "PublicIp",
+                                              "KeypairName"],
+                                  name_as_tag=True, az=True)
+
             for vm in data:
                 _vm = virtualMachine.VirtualMachine(vm)
                 if _vm.status == "running":
