@@ -18,8 +18,14 @@ class KeyPairsGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
+    def refresh_call(self, name_filter=None):
+        groups = main.GATEWAY.ReadKeypairs(form=self.form)
+        if groups is None:
+            return None
+        return groups['Keypairs']
+
     def refresh(self, name_filter=None):
-        groups = main.GATEWAY.ReadKeypairs(form=self.form)['Keypairs']
+        groups = main.do_search(self.data.copy(), ['KeypairName', 'KeypairFingerprint'])
         values = list()
         for g in groups:
             values.append([g['KeypairName'], g['KeypairFingerprint']])

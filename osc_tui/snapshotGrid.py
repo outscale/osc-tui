@@ -18,8 +18,12 @@ class SnapshotGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self, name_filter=None):
-        groups = main.GATEWAY.ReadSnapshots(form=self.form)['Snapshots']
+    def refresh_call(self, name_filter=None):
+        return main.GATEWAY.ReadSnapshots(form=self.form)['Snapshots']
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), ["SnapshotId", "Description",
+                                                   "VolumeId", "VolumeSize"])
         values = list()
         for g in groups:
             vId = g['VolumeId'] if 'VolumeId' in g else "no volumes"

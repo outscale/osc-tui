@@ -12,8 +12,14 @@ class Grid(selectableGrid.SelectableGrid):
         super().__init__(screen, *args, **keywords)
         self.col_titles = ["Id", "Generation", "Model Name", "State"]
 
-    def refresh(self, name_filter=None):
-        groups = main.GATEWAY.ReadFlexibleGpus(form=self.form)['FlexibleGpus']
+    def refresh_call(self, name_filter=None):
+        ret =  main.GATEWAY.ReadFlexibleGpus(form=self.form)
+        if ret:
+            return ret['FlexibleGpus']
+        return None
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), ['FlexibleGpuId', 'Generation', 'ModelName', 'State'])
         values = list()
         for g in groups:
             values.append([g['FlexibleGpuId'], g['Generation'],

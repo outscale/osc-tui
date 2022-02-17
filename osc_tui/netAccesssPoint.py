@@ -15,8 +15,12 @@ class Grid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
         
-    def refresh(self, name_filter=None):
-        groups = main.GATEWAY.ReadNetAccessPoints(form=self.form)['NetAccessPoints']
+    def refresh_call(self, name_filter=None):
+        return main.GATEWAY.ReadNetAccessPoints(form=self.form)['NetAccessPoints']
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), "NetAccessPointId", "NetId", 'ServiceName',
+                                "State")
         values = list()
         for g in groups:
             values.append([g['NetAccessPointId'], g['NetId'], g['ServiceName'],

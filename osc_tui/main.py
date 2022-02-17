@@ -10,6 +10,8 @@ from osc_sdk_python import authentication
 import inputForm
 import profileSelector
 
+import time
+
 # GLOBALS ATTRIBUTES
 APP = None
 GATEWAY = None
@@ -28,6 +30,9 @@ POLL_ENABLED = False
 VERSION = 211130
 # GLOBALS METHODS
 
+CURRENT_GRID=None
+SEARCH_FILTER=""
+
 def add_thread(t):
     THREADS.append(t)
 
@@ -42,6 +47,38 @@ def exit():
     kill_threads()
     sys.exit(0)
 
+
+def do_search(array, lookup_list, name_as_tag=False, az=False, state_msg=False, accepted_net=False):
+    if len(SEARCH_FILTER) < 1:
+        return array
+    to_remove = []
+
+    for val in array:
+        is_okay = False
+
+        if state_msg and 'State' in val and val['State']['Message'].find(SEARCH_FILTER) != -1:
+            is_okay = True
+
+        if accepted_net and "AccepterNet" in val and val["AccepterNet"]["NetId"].find(SEARCH_FILTER) != -1:
+            is_okay = True
+
+        if name_as_tag and len(val["Tags"]) > 0 and val["Tags"][0]["Value"].find(SEARCH_FILTER) != -1:
+            is_okay = True
+
+        if az and "Placement" in val and val["Placement"]["SubregionName"].find(SEARCH_FILTER) != -1:
+            is_okay = True
+
+        if is_okay == False:
+            for s in lookup_list:
+                if (s in val) and str(val[s]).find(SEARCH_FILTER) != -1:
+                    is_okay = True
+                    break
+        if is_okay == False:
+            to_remove.append(val)
+
+    for to_rm in to_remove:
+        array.remove(to_rm)
+    return array
 
 # APPLICATION CLASS
 

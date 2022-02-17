@@ -25,8 +25,15 @@ class VolumeGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self, name_filter=None):
-        groups = main.GATEWAY.ReadVolumes(form=self.form)['Volumes']
+    def refresh_call(self, name_filter=None):
+        groups = main.GATEWAY.ReadVolumes(form=self.form)
+        if groups is None:
+            return None
+        return groups['Volumes']
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType',
+                                                   'Size', 'SubregionName'])
         values = list()
         for g in groups:
             VolLink = g["LinkedVolumes"]
@@ -47,12 +54,20 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
-    def refresh(self, name_filter=None):
+    def refresh_call(self, name_filter=None):
         id = main.VM["VmId"]
-        volume = main.GATEWAY.ReadVolumes(
+        groups = main.GATEWAY.ReadVolumes(
             form=self.form, Filters={
                 'LinkVolumeVmIds': [id]})
-        groups = volume['Volumes']
+        if groups is None:
+            return None
+        return groups['Volumes']
+
+
+    def refresh(self):
+        id = main.VM["VmId"]
+        groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType',
+                                                   'Size', 'SubregionName'])
         values = list()
         for g in groups:
             values.append([g["VolumeId"], g["VolumeType"],

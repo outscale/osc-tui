@@ -974,8 +974,26 @@ def editRouteTable(form, point_id, form_color='STANDOUT'):
     )
     F.edit()
     form.current_grid.display()
+
+
+def slashSearch(arg):
+    form_color='STANDOUT'
+    F = ConfirmCancelPopup(name='Search', color=form_color)
+    F.preserve_selected_widget = True
+    F.add_widget(npyscreen.Textfield, value="Search:", editable=False)
+    name = F.add_widget(npyscreen.Textfield, value="", editable=True)
+
+    def exit():
+        main.SEARCH_FILTER=name.value
+        if main.CURRENT_GRID:
+            g = main.CURRENT_GRID
+            g.h_refresh(None, skip_call=True)
+            g.display()
+        F.editing = False
+    F.on_ok = exit
+    F.edit()
     
-    
+
 def showHelp(arg):
     F = displayPopup(name = "Help")
     F.preserve_selected_widget = True
