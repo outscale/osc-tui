@@ -1,0 +1,25 @@
+name: Generate binaries on PR
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: configure
+      run: ./configure.sh --release
+      
+    - name: make
+      run: make appimage-bld/osc-tui-x86_64.AppImage
+      
+    - uses: "actions/upload-artifact@v2"
+      with:
+          name: build
+          path: appimage-bld/osc-tui-x86_64.AppImage
