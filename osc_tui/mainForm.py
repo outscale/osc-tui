@@ -230,7 +230,7 @@ class MainForm(npyscreen.FormBaseNew):
             menu_desc.append('Create new')
         elif MODE == 'NetAccessPoints':
             CURRENT_GRID_CLASS = netAccesssPoint.Grid
-            menu_desc.append('CREATE NEW')
+            menu_desc.append('Create new')
         elif MODE == 'NetPeering':
             CURRENT_GRID_CLASS = netPeering.Grid
         elif MODE == 'GPUs':
