@@ -43,6 +43,14 @@ class SelectableGrid(npyscreen.GridColTitles):
                 data = self.refresh_call(name_filter=name_filter)
                 tries += 1
             self.data = data
+        new_name = "osc-tui"
+        if len(main.SEARCH_FILTER) > 0:
+            new_name += "( search: \"" + main.SEARCH_FILTER + '" )'
+        if name_filter is not None:
+            new_name += "( filter: \"" + name_filter + '" )'
+        if new_name != self.form.name:
+            self.form.name = new_name
+            self.form.draw_form()
         self.refresh()
         self.display()
 
