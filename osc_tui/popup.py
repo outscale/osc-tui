@@ -1006,6 +1006,7 @@ def showHelp(arg):
         "Return to profile : q",
         "Exit              : Ctrl+Q",
         "Refresh           : F5 or r",
+        "Search in Fields  : /",
         "Help              : h\n",
     ]
     
