@@ -981,6 +981,7 @@ def slashSearch(arg):
     F = ConfirmCancelPopup(name='Search', color=form_color)
     F.preserve_selected_widget = True
     F.add_widget(npyscreen.Textfield, value="Search:", editable=False)
+    F.add_widget(npyscreen.Textfield, value="(Empty string to reset)", editable=False)
     name = F.add_widget(npyscreen.Textfield, value="", editable=True)
 
     def exit():

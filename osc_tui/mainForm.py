@@ -267,7 +267,7 @@ class MainForm(npyscreen.FormBaseNew):
     def on_screen(self):
         super().on_screen()
 
-    def draw_form(self, ):
+    def draw_form(self):
         _, MAXX = self.curses_pad.getmaxyx()
         super().draw_form()
         MAXX, _ = self.curses_pad.getmaxyx()
