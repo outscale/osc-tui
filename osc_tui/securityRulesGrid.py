@@ -18,13 +18,19 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
             popup.editSecurityGroupRule(self.form, line)
         self.on_selection = on_selection
 
-    def refresh(self, name_filter=None):
+    def refresh_call(self, name_filter=None):
         if main.GATEWAY:
-            self.refreshing = True
-            data = main.GATEWAY.ReadSecurityGroups(
+            return main.GATEWAY.ReadSecurityGroups(
                 form=self.form, Filters={
                     "SecurityGroupIds": [
                         main.SECURITY_GROUP]})["SecurityGroups"]
+        else:
+            return None
+
+    def refresh(self, name_filter=None):
+        if main.GATEWAY:
+            self.refreshing = True
+            data = self.data.copy()
             values = list()
             if data:
                 for rule in data[0]["InboundRules"]:
