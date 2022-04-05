@@ -47,9 +47,6 @@ class CreateVolume(npyscreen.FormBaseNew):
                 return
             else:
                 id = ID_LIST[SNAPSHOT_COMBO.get_value()]
-                snapshot = SNAPSHOT_COMBO.get_values()[
-                    SNAPSHOT_COMBO.get_value()
-                ]
                 subregionName = SUBREGION.get_values()[
                     SUBREGION.get_value()
                 ]
@@ -75,8 +72,8 @@ class CreateVolume(npyscreen.FormBaseNew):
                 back()
 
         snapshots = main.GATEWAY.ReadSnapshots(form=self)["Snapshots"]
-        snapshots_vals = []
-        ID_LIST = []
+        snapshots_vals = ["None"]
+        ID_LIST = [None]
         for snap in snapshots:
             name = snap["Tags"][0]["Value"] if snap["Tags"] else "Unkown"
             snapshots_vals.append(
