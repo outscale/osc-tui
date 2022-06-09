@@ -6,6 +6,7 @@ import npyscreen
 
 import main
 import popup
+import mainForm
 
 # Initially it was designed to have a thread that auto refresh... However, even if it worked fine, if too many people does it, it looks like a DDOS attack.
 # So now, use [F5] key to refreesh, a find a button called refresh.
@@ -43,7 +44,7 @@ class SelectableGrid(npyscreen.GridColTitles):
                 data = self.refresh_call(name_filter=name_filter)
                 tries += 1
             self.data = data
-        new_name = "osc-tui"
+        new_name = "osc-tui " + mainForm.MODE 
         if len(main.SEARCH_FILTER) > 0:
             new_name += "( search: \"" + main.SEARCH_FILTER + '" )'
         if name_filter is not None:
