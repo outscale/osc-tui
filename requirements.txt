@@ -25,7 +25,7 @@ rollbar==0.15.0
 rope==1.2.0
 ruamel.yaml==0.17.21
 six==1.16.0
-smmap==3.0.2
+smmap==5.0.0
 terminaltables==3.1.0
 tlslite==0.4.9
 urllib3==1.26.5
