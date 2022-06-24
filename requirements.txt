@@ -1,4 +1,4 @@
-argcomplete==1.11.1
+argcomplete==2.0.0
 argh==0.26.2
 autopep8==1.5
 certifi==2019.11.28
