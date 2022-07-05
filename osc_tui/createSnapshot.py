@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 import main
 
 # All VOLUME_COMBO box.
@@ -11,7 +11,7 @@ NAME = None
 DESCRIPTION = None
 
 
-class CreateSnapshot(npyscreen.FormBaseNew):
+class CreateSnapshot(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -34,7 +34,7 @@ class CreateSnapshot(npyscreen.FormBaseNew):
         def create():
 
             if VOLUME_COMBO.get_value() is None:
-                npyscreen.notify_confirm(
+                oscscreen.notify_confirm(
                     "No volume selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -54,7 +54,7 @@ class CreateSnapshot(npyscreen.FormBaseNew):
                     Description=DESCRIPTION.get_value(),
                 )
                 if "Errors" in res:
-                    npyscreen.notify_confirm(str(res["Errors"]))
+                    oscscreen.notify_confirm(str(res["Errors"]))
                 else:
                     snapshotId = res["Snapshot"]["SnapshotId"]
                     main.GATEWAY.CreateTags(
@@ -76,23 +76,23 @@ class CreateSnapshot(npyscreen.FormBaseNew):
 
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="Snapshot name:",
             value=NAME.get_value() if NAME else "")
         global VOLUME_COMBO
         VOLUME_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE VOLUME",
             values=volumes_vals,
             value=VOLUME_COMBO.get_value() if VOLUME_COMBO else 0,
         )
         global DESCRIPTION
         DESCRIPTION = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="Snapshot description:",
             value=DESCRIPTION.get_value() if DESCRIPTION else ""
         )
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE").whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back

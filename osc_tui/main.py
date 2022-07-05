@@ -2,7 +2,7 @@
 # encoding: utf-8
 import sys
 
-import npyscreen
+import oscscreen
 from requests import get
 
 from osc_sdk_python import authentication
@@ -83,9 +83,9 @@ def do_search(array, lookup_list, name_as_tag=False, az=False, state_msg=False, 
 # APPLICATION CLASS
 
 
-class App(npyscreen.NPSAppManaged):
+class App(oscscreen.NPSAppManaged):
     def onStart(self):
-        npyscreen.setTheme(npyscreen.Themes.DefaultTheme)
+        oscscreen.setTheme(oscscreen.Themes.DefaultTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
                      name="osc-tui")
 

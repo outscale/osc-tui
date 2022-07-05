@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 import main
 import preloader
 import os
@@ -29,7 +29,7 @@ AOS_COMBO = None
 LIST_THRESHOLD = 6
 POPUP_COLUMNS = 90
 
-class OscCombo(npyscreen.TitleCombo):
+class OscCombo(oscscreen.TitleCombo):
     def __init__(self, *args, **keywords):
         term_size = os.get_terminal_size()
         keywords["popup_columns"] = POPUP_COLUMNS
@@ -38,7 +38,7 @@ class OscCombo(npyscreen.TitleCombo):
         keywords["relx"] = LIST_THRESHOLD
         super().__init__(*args, **keywords)
 
-class CreateVm(npyscreen.FormBaseNew):
+class CreateVm(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -55,7 +55,7 @@ class CreateVm(npyscreen.FormBaseNew):
             ADVANCED_MODE = not ADVANCED_MODE
             self.reload()
 
-        self.add_widget(npyscreen.ButtonPress, name="SHOW " +
+        self.add_widget(oscscreen.ButtonPress, name="SHOW " +
                         ("ADVANCED" if not ADVANCED_MODE else "BASIC") +
                         " SETTINGS", ).whenPressed = switchMode
 
@@ -83,7 +83,7 @@ class CreateVm(npyscreen.FormBaseNew):
         def create():
 
             if IMG_COMBO.get_value() is None or KEYPAIRS_COMBO.get_value() is None:
-                npyscreen.notify_confirm(
+                oscscreen.notify_confirm(
                     "No image/keypair selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -113,7 +113,7 @@ class CreateVm(npyscreen.FormBaseNew):
                         },
                         ImageId=id, KeypairName=keypair)
                 if "Errors" in res:
-                    npyscreen.notify_confirm(str(res["Errors"]))
+                    oscscreen.notify_confirm(str(res["Errors"]))
                 else:
                     vmId = res["Vms"][0]["VmId"]
                     main.GATEWAY.CreateTags(
@@ -142,7 +142,7 @@ class CreateVm(npyscreen.FormBaseNew):
             keyPairsNames.append(keyPair["KeypairName"])
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="VM name:",
             relx=LIST_THRESHOLD,
             value=NAME.get_value() if NAME else "")
@@ -190,14 +190,14 @@ class CreateVm(npyscreen.FormBaseNew):
             )
             global SIZE
             SIZE = self.add_widget(
-                npyscreen.TitleText,
+                oscscreen.TitleText,
                 relx=LIST_THRESHOLD,
                 name="disk size(Gb)",
                 value=SIZE.get_value() if SIZE else "10"
             )
             global CORE
             CORE = self.add_widget(
-                npyscreen.TitleText,
+                oscscreen.TitleText,
                 relx=LIST_THRESHOLD,
                 name="number cores",
                 value=CORE.get_value() if CORE else "1"
@@ -215,6 +215,6 @@ class CreateVm(npyscreen.FormBaseNew):
             create()
             back()
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE").whenPressed = creation
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back

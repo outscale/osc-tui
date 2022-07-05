@@ -1,6 +1,6 @@
 import time
 
-import npyscreen
+import oscscreen
 import pyperclip
 
 import createVm

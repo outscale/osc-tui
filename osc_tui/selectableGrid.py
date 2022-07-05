@@ -2,7 +2,7 @@ import curses
 import threading
 import time
 
-import npyscreen
+import oscscreen
 
 import main
 import popup
@@ -12,7 +12,7 @@ import mainForm
 # So now, use [F5] key to refreesh, a find a button called refresh.
 
 
-class SelectableGrid(npyscreen.GridColTitles):
+class SelectableGrid(oscscreen.GridColTitles):
     def __init__(self, screen, form, on_selection=None, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.scroll_exit = True

@@ -1,6 +1,6 @@
 import curses
 
-import npyscreen
+import oscscreen
 import pyperclip
 
 import createImage
@@ -36,7 +36,7 @@ MENU_WIDTH = 16
 LINE_SEPARATOR_COL = MENU_WIDTH + 1
 GRID_START_COL = MENU_WIDTH +3
 
-class mainMenu(npyscreen.MultiLineAction):
+class mainMenu(oscscreen.MultiLineAction):
     def __init__(self, screen, form=None, draw_line_at=13, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
@@ -52,7 +52,7 @@ class mainMenu(npyscreen.MultiLineAction):
                 global MODE
                 if MODE == 'INSTANCES-LBU':
                     if act_on_this == "Create new":
-                        npyscreen.notify_confirm("Not implemented yet :/")
+                        oscscreen.notify_confirm("Not implemented yet :/")
                         return
                 elif MODE == 'Vms':
                     if act_on_this == "Create new":
@@ -178,7 +178,7 @@ class mainMenu(npyscreen.MultiLineAction):
             super().h_cursor_line_up(input)
 
 
-class MainForm(npyscreen.FormBaseNew):
+class MainForm(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 

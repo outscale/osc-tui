@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 
 import main
 
@@ -11,7 +11,7 @@ SERVICE_COMBO = None
 # Multiline selection
 ROUTES_MULTISELECT = None
 
-class CreateNetAccessPoint(npyscreen.FormBaseNew):
+class CreateNetAccessPoint(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -37,7 +37,7 @@ class CreateNetAccessPoint(npyscreen.FormBaseNew):
             if (not ROUTES_MULTISELECT.get_value()
                 or VPC_COMBO.get_value() is None
                 or SERVICE_COMBO.get_value() is None):
-                npyscreen.notify_confirm(
+                oscscreen.notify_confirm(
                     "No vcp/service or routes selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -64,7 +64,7 @@ class CreateNetAccessPoint(npyscreen.FormBaseNew):
                     ServiceName=service
                 )
                 if "Errors" in res:
-                    npyscreen.notify_confirm(str(res["Errors"]))
+                    oscscreen.notify_confirm(str(res["Errors"]))
                 back()
                 
 
@@ -85,31 +85,31 @@ class CreateNetAccessPoint(npyscreen.FormBaseNew):
         
         global VPC_COMBO
         VPC_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE A VPC",
             values=vpcs_vals,
             value=VPC_COMBO.get_value() if VPC_COMBO else 0
         )
         global SERVICE_COMBO
         SERVICE_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE A SERVICE",
             values=services_vals,
             value=SERVICE_COMBO.get_value() if SERVICE_COMBO else 0
         )
         global ROUTES_MULTISELECT
         ROUTES_MULTISELECT  = self.add_widget(
-            npyscreen.TitleMultiSelect,
+            oscscreen.TitleMultiSelect,
             name="SELECT ROUTE TABLE(S)",
             values=routes_vals,
             max_height=6,
             scroll_exit=True
         )
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE"
             ).whenPressed = create
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="EXIT"
             ).whenPressed = back

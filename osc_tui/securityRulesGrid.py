@@ -1,7 +1,7 @@
 
 import createVm
 import main
-import npyscreen
+import oscscreen
 import popup
 import pyperclip
 import selectableGrid

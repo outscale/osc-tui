@@ -10,7 +10,7 @@ python3 -m pip install pyperclip
 python3 -m pip install autopep8
 python3 -m pip install nuitka
 python3 -m pip install https://github.com/outscale/osc-sdk-python/releases/download/0.10.0/osc_sdk_python-0.10.0-py2.py3-none-any.whl
-cd npyscreen
+cd oscscreen
 python3 setup.py build
 python3 setup.py install
 cd ..

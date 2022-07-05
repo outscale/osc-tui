@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 import main
 import popup
 import os
@@ -16,7 +16,7 @@ BACKENDPORT = None
 LOADBALANCERPORT = None
 
 
-class CreateLoadbalancer(npyscreen.FormBaseNew):
+class CreateLoadbalancer(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -53,7 +53,7 @@ class CreateLoadbalancer(npyscreen.FormBaseNew):
 
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="loadbalancer's name:",
             value=NAME.get_value() if NAME else ""
         )
@@ -63,7 +63,7 @@ class CreateLoadbalancer(npyscreen.FormBaseNew):
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
         SUBREGION = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE A SUBREGION",
             values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0
@@ -71,25 +71,25 @@ class CreateLoadbalancer(npyscreen.FormBaseNew):
         global PROTOCOL
         protocol_value = "HTTP HTTPS TCP SSL UDP".split(" ")
         PROTOCOL = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE A LOAD BALANCER PROTOCOL",
             values=protocol_value,
             value=PROTOCOL.get_value() if PROTOCOL else 0
         )
         global BACKENDPORT
         BACKENDPORT = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="CHOOSE THE BACKEND PORT (between 1 and 65535)",
             value=BACKENDPORT.get_value() if BACKENDPORT else "1"
         )
         global LOADBALANCERPORT
         LOADBALANCERPORT = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="CHOOSE THE LOADBALANCER PORT (between 1 and 65535)",
             value=LOADBALANCERPORT.get_value() if LOADBALANCERPORT else "1"
         )
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE"
         ).whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
