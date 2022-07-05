@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 import main
 import popup
 import os
@@ -12,7 +12,7 @@ CIDRSUBNET = None
 SUBREGION = None
 
 
-class createVpcs(npyscreen.FormBaseNew):
+class createVpcs(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -42,17 +42,17 @@ class createVpcs(npyscreen.FormBaseNew):
 
         global CIDR
         CIDR = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="CIDR (for example:10.0.0.0/16)",
             value=CIDR.get_value() if CIDR else "")
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE"
         ).whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
 
 
-class createSubnet(npyscreen.FormBaseNew):
+class createSubnet(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -84,7 +84,7 @@ class createSubnet(npyscreen.FormBaseNew):
 
         global CIDR
         CIDRSUBNET = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="CIDR (for example:10.0.0.0/16)",
             value=CIDR.get_value() if CIDR else "")
         global SUBREGION
@@ -93,13 +93,13 @@ class createSubnet(npyscreen.FormBaseNew):
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
         SUBREGION = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE SUBREGION",
             values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0,
         )
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE"
         ).whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back

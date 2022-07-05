@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 import main
 import popup
 import os
@@ -14,7 +14,7 @@ from os.path import expanduser
 NAME = None
 
 
-class CreateKeyPair(npyscreen.FormBaseNew):
+class CreateKeyPair(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -56,19 +56,19 @@ class CreateKeyPair(npyscreen.FormBaseNew):
                             os.makedirs(home + "/.osc/keypair")
                         path = "~/.osc/keypair/" + name + ".rsa"
                         write_key(path, private_key)
-                    npyscreen.notify_confirm(
+                    oscscreen.notify_confirm(
                         "Private key successfully downloaded and stored in " + path, "Success!")
                     back()
                     return
-            npyscreen.notify_confirm(
+            oscscreen.notify_confirm(
                 "You must type a valid keypair name.", "Error!")
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="Keypair's name:",
             value=NAME.get_value() if NAME else "")
         global VOLUME_COMBO
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE").whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back

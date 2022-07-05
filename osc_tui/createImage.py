@@ -1,5 +1,5 @@
 from time import sleep
-import npyscreen
+import oscscreen
 import createImage
 import main
 
@@ -16,7 +16,7 @@ ARCHITECTURE = None
 # Choose reboot VM
 REBOOT=None
 
-class CreateImage_frominstance(npyscreen.FormBaseNew):
+class CreateImage_frominstance(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -39,7 +39,7 @@ class CreateImage_frominstance(npyscreen.FormBaseNew):
         def create():
 
             if VM_COMBO.get_value() is None:
-                npyscreen.notify_confirm(
+                oscscreen.notify_confirm(
                     "No instance selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -61,7 +61,7 @@ class CreateImage_frominstance(npyscreen.FormBaseNew):
                     NoReboot=reboot,
                 )
                 if "Errors" in res:
-                    npyscreen.notify_confirm(str(res["Errors"]))
+                    oscscreen.notify_confirm(str(res["Errors"]))
                 back_cockpit()
 
         vms = main.GATEWAY.ReadVms(form=self)["Vms"]
@@ -75,29 +75,29 @@ class CreateImage_frominstance(npyscreen.FormBaseNew):
             VM_list.append(vm["VmId"])
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="Image name:",
             value=NAME.get_value() if NAME else "")
         global VM_COMBO
         VM_COMBO = self.add_widget(
-                npyscreen.TitleCombo,
+                oscscreen.TitleCombo,
                 name="ORIGINAL VM",
                 values=vms_vals,
                 value=VM_COMBO.get_value() if VM_COMBO else 0,
             )
         global REBOOT
         REBOOT = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="REBOOT",
             values=["true", "false"],
             value=REBOOT.get_value() if REBOOT else 0,
         )
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE").whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
 
-class CreateImage_fromsnapshot(npyscreen.FormBaseNew):
+class CreateImage_fromsnapshot(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -120,7 +120,7 @@ class CreateImage_fromsnapshot(npyscreen.FormBaseNew):
         def create():
 
             if SNAPSHOT_COMBO.get_value() is None:
-                npyscreen.notify_confirm(
+                oscscreen.notify_confirm(
                     "No snapshot selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -140,7 +140,7 @@ class CreateImage_fromsnapshot(npyscreen.FormBaseNew):
                 ,BlockDeviceMappings=[{"Bsu": {"SnapshotId": id}, "DeviceName": "/dev/sda1"}]
                 ,RootDeviceName="/dev/sda1", Architecture=archi)
                 if "Errors" in res:
-                    npyscreen.notify_confirm(str(res["Errors"]))
+                    oscscreen.notify_confirm(str(res["Errors"]))
                 back_cockpit()
 
         snapshots = main.GATEWAY.ReadSnapshots(form=self)["Snapshots"]
@@ -154,29 +154,29 @@ class CreateImage_fromsnapshot(npyscreen.FormBaseNew):
             ID_LIST.append(snap["SnapshotId"])
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="Image name:",
             value=NAME.get_value() if NAME else "")
         global SNAPSHOT_COMBO
         SNAPSHOT_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="ORIGINAL SNAPSHOT",
             values=snapshots_vals,
             value=SNAPSHOT_COMBO.get_value() if SNAPSHOT_COMBO else 0,
         )
         global ARCHITECTURE
         ARCHITECTURE = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="ARCHITECTURE",
             values=["i386", "x86_64"],
             value=ARCHITECTURE.get_value() if ARCHITECTURE else 0,
         )
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE").whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
 
-class CreateImage(npyscreen.FormBaseNew):
+class CreateImage(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -200,9 +200,9 @@ class CreateImage(npyscreen.FormBaseNew):
             self.parentApp.switchForm("CREATEIMAGE_FROMINSTANCE")
 
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="Create from snapshot").whenPressed=switch_fromsnapshot
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="Create from vms").whenPressed = switch_frominstance
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back

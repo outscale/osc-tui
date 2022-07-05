@@ -1,4 +1,4 @@
-import npyscreen
+import oscscreen
 
 import main
 
@@ -16,7 +16,7 @@ SUBREGION = None
 SIZE = None
 
 
-class CreateVolume(npyscreen.FormBaseNew):
+class CreateVolume(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -36,7 +36,7 @@ class CreateVolume(npyscreen.FormBaseNew):
         def create():
 
             if SNAPSHOT_COMBO.get_value() is None or SUBREGION.get_value() is None:
-                npyscreen.notify_confirm(
+                oscscreen.notify_confirm(
                     "No snapshot/subregion selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -61,7 +61,7 @@ class CreateVolume(npyscreen.FormBaseNew):
                     VolumeType=volumeType
                 )
                 if "Errors" in res:
-                    npyscreen.notify_confirm(str(res["Errors"]))
+                    oscscreen.notify_confirm(str(res["Errors"]))
                 else:
                     volumeId = res["Volume"]["VolumeId"]
                     main.GATEWAY.CreateTags(
@@ -83,19 +83,19 @@ class CreateVolume(npyscreen.FormBaseNew):
 
         global NAME
         NAME = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="Volume name:",
             value=NAME.get_value() if NAME else "")
         global SNAPSHOT_COMBO
         SNAPSHOT_COMBO = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE SNAPSHOT",
             values=snapshots_vals,
             value=SNAPSHOT_COMBO.get_value() if SNAPSHOT_COMBO else 0,
         )
         global TYPE
         TYPE = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE A TYPE",
             values=["standard", "io1", "gp2"],
             value=TYPE.get_value() if TYPE else 0,
@@ -106,19 +106,19 @@ class CreateVolume(npyscreen.FormBaseNew):
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
         SUBREGION = self.add_widget(
-            npyscreen.TitleCombo,
+            oscscreen.TitleCombo,
             name="CHOOSE A SUBREGION",
             values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0
         )
         global SIZE
         SIZE = self.add_widget(
-            npyscreen.TitleText,
+            oscscreen.TitleText,
             name="CHOOSE A SIZE (gib)",
             value=SIZE.get_value() if SIZE else "10"
         )
 
         self.add_widget(
-            npyscreen.ButtonPress,
+            oscscreen.ButtonPress,
             name="CREATE").whenPressed = create
-        self.add_widget(npyscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back

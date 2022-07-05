@@ -1,6 +1,6 @@
-all: npyscreen/README.md osc-tui
+all: oscscreen/README.md osc-tui
 
-npyscreen/README.md:
+oscscreen/README.md:
 	git submodule update --init
 
 appimage-bld/create.sh:
@@ -12,7 +12,7 @@ osc-tui-x86_64.AppImage: appimage-bld/osc-tui-x86_64.AppImage
 appimage-bld/osc-tui-x86_64.AppImage: appimage-bld/create.sh
 	cd appimage-bld/ && ./create.sh --wget-appimagetool --source-path=../ 
 
-osc-tui: npyscreen/README.md
+osc-tui: oscscreen/README.md
 	python3 -m nuitka osc_tui/main.py -o exe --follow-imports --include-package=urllib3 -o osc-tui
 install:
 	cp osc-tui /usr/local/bin
