@@ -28,4 +28,4 @@ six==1.16.0
 smmap==5.0.0
 terminaltables==3.1.10
 tlslite==0.4.9
-urllib3==1.26.5
+urllib3==1.26.11
