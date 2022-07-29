@@ -37,7 +37,7 @@ LINE_SEPARATOR_COL = MENU_WIDTH + 1
 GRID_START_COL = MENU_WIDTH +3
 
 class mainMenu(oscscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=13, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=11, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -189,8 +189,7 @@ class MainForm(oscscreen.FormBaseNew):
                 out = out + '‎'
             return out
         menu_desc = (
-            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets NetAccessPoints NetPeering GPUs Refresh Quit " +
-            build_line(15)).split()
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets NetAccessPoints NetPeering GPUs " + build_line(15) + " Refresh Quit").split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = MENU_WIDTH
