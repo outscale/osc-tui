@@ -18,7 +18,7 @@ CPU = None
 # Performance
 PERFORMANCE = None
 # Textbox for memory in gib
-SIZE = None
+RAM_SIZE = None
 # Textbox for number of core
 CORE = None
 # List of all Subregions
@@ -68,7 +68,7 @@ class CreateVm(oscscreen.FormBaseNew):
         def create_vmtype():
             cpu = CPU.get_values()[CPU.get_value()]
             perf = PERFORMANCE.get_values()[PERFORMANCE.get_value()]
-            size = SIZE.get_value()
+            size = RAM_SIZE.get_value()
             core = CORE.get_value()
             if perf == "MEDIUM":
                 performance = "3"
@@ -188,12 +188,12 @@ class CreateVm(oscscreen.FormBaseNew):
                 values=perf_vals,
                 value=PERFORMANCE.get_value() if PERFORMANCE else 0,
             )
-            global SIZE
-            SIZE = self.add_widget(
+            global RAM_SIZE
+            RAM_SIZE = self.add_widget(
                 oscscreen.TitleText,
                 relx=LIST_THRESHOLD,
-                name="disk size(Gb)",
-                value=SIZE.get_value() if SIZE else "10"
+                name="Ram(Gb)",
+                value=RAM_SIZE.get_value() if RAM_SIZE else "10"
             )
             global CORE
             CORE = self.add_widget(
