@@ -15,7 +15,7 @@ oauthlib==3.2.0
 osc-sdk-python==0.18.0
 packaging==21.3
 pip-upgrader==1.4.15
-pycodestyle==2.8.0
+pycodestyle==2.9.0
 pyparsing==3.0.9
 pyperclip==1.8.2
 python-dateutil==2.8.2
