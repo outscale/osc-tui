@@ -22,6 +22,8 @@ dst_file = home + '/.osc/config.json'
 OAPI_CREDENTIALS = dict()
 ASCII_LOGO = False
 
+MODE="Vms"
+
 def save_credentials(form):
     file = dst_file
     if not os.path.exists(os.path.dirname(dst_file)):
@@ -95,7 +97,7 @@ class CallbackFactory:
                 res = main.GATEWAY.ReadClientGateways(form=self.form)
                 if "Errors" not in res:
                     preloader.Preloader.load_async()
-                    mainForm.MODE = 'Vms'
+                    mainForm.MODE = MODE
                     self.form.parentApp.addForm(
                         "Cockpit", mainForm.MainForm, name="osc-tui")
                     self.form.parentApp.switchForm("Cockpit")
