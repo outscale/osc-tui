@@ -24,6 +24,8 @@ ASCII_LOGO = False
 
 MODE="Vms"
 
+PROFILE=None
+
 def save_credentials(form):
     file = dst_file
     if not os.path.exists(os.path.dirname(dst_file)):
@@ -119,6 +121,7 @@ class CallbackFactory:
 
 
 class ProfileSelector(oscscreen.ActionFormV2):
+    to_call=None
     def create(self):
         preloader.Preloader.init()
         self.how_exited_handers[oscscreen.wgwidget.EXITED_ESCAPE] = main.exit
@@ -146,6 +149,8 @@ class ProfileSelector(oscscreen.ActionFormV2):
                 bt = self.add_widget(oscscreen.ButtonPress, name="->" + str(c))
                 btns.append(bt)
                 bt.whenPressed = CallbackFactory(self, str(c))
+                if str(c) == PROFILE:
+                    self.to_call=bt
 
         def new():
             aksk = popup.readAKSK()
@@ -208,3 +213,11 @@ class ProfileSelector(oscscreen.ActionFormV2):
         super().set_up_handlers()
         self.add_handlers({"^Q": quit})
         self.add_handlers({"q": quit})
+
+
+    def on_screen(self):
+        if self.to_call != None:
+            self.to_call.whenPressed()
+            self.to_call=None
+        else:
+            super().on_screen()

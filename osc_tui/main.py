@@ -98,6 +98,7 @@ usage: osc-tui [OPTION]
 
 -v, --version:          print version
 -h, --help:             print this help
+    --profile PROFILE   select default profile
     --mode MODE         select default mode
     --ascii-logo        use ascii for logo
 """
@@ -123,6 +124,12 @@ def main():
                     print("--mode require an argument !!!", file=sys.stderr)
                     return 1
                 profileSelector.MODE = argv[i]
+            elif a == "--profile":
+                i += 1
+                if i == argc:
+                    print("--profile require an argument !!!", file=sys.stderr)
+                    return 1
+                profileSelector.PROFILE = argv[i]
             elif a == "--ascii-logo":
                 profileSelector.ASCII_LOGO = True
             else:
