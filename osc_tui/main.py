@@ -33,6 +33,8 @@ VERSION = 211130
 CURRENT_GRID=None
 SEARCH_FILTER=""
 
+
+
 def add_thread(t):
     THREADS.append(t)
 
@@ -96,6 +98,7 @@ usage: osc-tui [OPTION]
 
 -v, --version:          print version
 -h, --help:             print this help
+    --mode MODE         select default mode
     --ascii-logo        use ascii for logo
 """
     )
@@ -105,7 +108,8 @@ def main():
     argv = sys.argv
 
     if argc > 1:
-        for i in range(1, argc):
+        i = 1
+        while i < argc:
             a = argv[i]
             if a == "--version" or a == "-v":
                 print("osc-tui: ", VERSION, " osc-sdk-python: ", authentication.VERSION)
@@ -113,12 +117,19 @@ def main():
             elif a == "--help" or a =="-h":
                 help()
                 return 0
+            elif a == "--mode":
+                i += 1
+                if i == argc:
+                    print("--mode require an argument !!!", file=sys.stderr)
+                    return 1
+                profileSelector.MODE = argv[i]
             elif a == "--ascii-logo":
                 profileSelector.ASCII_LOGO = True
             else:
                 print("unknow argument: ", a)
                 help()
                 return 1
+            i += 1
 
     try:
         APP = App()
