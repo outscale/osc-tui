@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 # encoding: utf-8
 import sys
+import os
+import json
 
 import oscscreen
 from requests import get
@@ -98,7 +100,7 @@ usage: osc-tui [OPTION]
 
 -v, --version:          print version
 -h, --help:             print this help
-    --profile PROFILE   select default profile
+    --profile [PROFILE] select default profile, list all profiles if PROFILE not found
     --mode MODE         select default mode
     --ascii-logo        use ascii for logo
 """
@@ -127,8 +129,17 @@ def main():
             elif a == "--profile":
                 i += 1
                 if i == argc:
-                    print("--profile require an argument !!!", file=sys.stderr)
-                    return 1
+                    if os.path.isfile(profileSelector.dst_file):
+                        configFile = open(profileSelector.dst_file)
+                        OAPI_CREDENTIALS = json.loads(configFile.read())
+                        print("Profiles:")
+                        for c in OAPI_CREDENTIALS:
+                            print(str(c))
+                    else:
+                        print("{} not found, can't read profile !!!".
+                              format(profileSelector.dst_file),
+                              file=sys.stderr)
+                    return 0
                 profileSelector.PROFILE = argv[i]
             elif a == "--ascii-logo":
                 profileSelector.ASCII_LOGO = True
