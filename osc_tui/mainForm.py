@@ -208,7 +208,7 @@ class MainForm(oscscreen.FormBaseNew):
         elif MODE == 'SECURITY-RULES':
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
             menu_desc.append('Create new')
-            menu_desc.append('Add ssh my IP')
+            menu_desc.append('Add my ssh IP')
         elif MODE == 'Volumes':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
             menu_desc.append('Create new')
