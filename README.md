@@ -6,6 +6,29 @@
 
 Designed to be a POC of a Outscale's Cockpit inside the terminal using curses.<br/>The officially supported python version is currently 3.<br/> The code is currently a bit dirty... Maybe big changes are coming!<br>To refresh any table, press [F5].<br>Feel free to suggest oher architectures, libs...<br/>The `src/` folder contains the project's sources.<br/>The ```tests/``` folder contain some crappy code used to test API calls or any other things...
 
+# Costum Rules
+
+osc-tui support some very simple "costum rule" store in `~/.osc/osc-tui-rules.json`
+
+Examples:
+```json
+{
+    "Val de heim": {
+	"mode": "SECURITY-RULES",
+	"ports": [2456, 2457],
+	"protocols": ["udp", "tcp"]
+    },
+    "Mie raft": {
+	"mode": "SECURITY-RULES",
+	"ports": [25565],
+	"protocols": ["udp", "tcp"]
+    }
+}
+```
+
+Will add 2 options `Val de heim` and `Mie raft` to the SECURITY-RULES menu.
+when thoses menu are call, osc-tui will ask for an IP, and allow each protocols for each ports describe in "ports" and in "protocols"
+
 # Installation
 
 You will need to install python3:<br>
