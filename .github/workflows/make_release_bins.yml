@@ -17,7 +17,9 @@ jobs:
       run: ./configure.sh --release
       
     - name: make
-      run: make appimage-bld/osc-tui-x86_64.AppImage
+      run: |
+       make appimage-bld/osc-tui-x86_64.AppImage
+       ./appimage-bld/osc-tui-x86_64.AppImage --help
       
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
