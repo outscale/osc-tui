@@ -1,4 +1,5 @@
 import curses
+import ipaddress
 
 import oscscreen
 import pyperclip
@@ -27,6 +28,7 @@ import snapshotGrid
 import loadbalancerGrid
 import virtualMachine
 import volumesGrid
+import guiRules
 
 MODE = "Vms"
 SELECTED_BUTTON = 0
@@ -85,6 +87,30 @@ class mainMenu(oscscreen.MultiLineAction):
                         self.form.current_grid.h_refresh(None)
                         self.form.current_grid.display()
                         return
+                    if guiRules.RULES is not None and MODE in guiRules.RULES:
+                        for name in guiRules.RULES[MODE]:
+                            if act_on_this == name:
+                                rule=guiRules.RULES[MODE][name]
+                                ipstr=popup.readString(name="Enter IP:")
+                                try:
+                                    ip=ipaddress.ip_network(ipstr)
+                                    for p in rule["ports"]:
+                                        for proto in rule["protocols"]:
+                                            main.GATEWAY.CreateSecurityGroupRule(
+                                                form=self.form,
+                                                FromPortRange=p,
+                                                IpProtocol=proto,
+                                                IpRange=str(ip),
+                                                ToPortRange=p,
+                                                SecurityGroupId=main.SECURITY_GROUP,
+                                                Flow="Inbound"
+                                            )
+                                    self.form.current_grid.h_refresh(None)
+                                    self.form.current_grid.display()
+                                except ValueError:
+                                    oscscreen.notify_confirm("{} is not an IP :/".format(ipstr))
+                                return
+
                 elif MODE == 'Volumes':
                     if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
@@ -209,6 +235,9 @@ class MainForm(oscscreen.FormBaseNew):
             CURRENT_GRID_CLASS = securityRulesGrid.SecurityRulesGrid
             menu_desc.append('Create new')
             menu_desc.append('Add my ssh IP')
+            if guiRules.RULES is not None and MODE in guiRules.RULES:
+                for name in guiRules.RULES[MODE]:
+                    menu_desc.append(name)
         elif MODE == 'Volumes':
             CURRENT_GRID_CLASS = volumesGrid.VolumeGrid
             menu_desc.append('Create new')

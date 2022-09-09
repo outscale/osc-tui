@@ -37,9 +37,8 @@ class displayPopup(oscscreen.fmPopup.Popup):
         self.value = True
 
 
-def readString(form_color='STANDOUT'):
-
-    F = ConfirmCancelPopup(name='', color=form_color)
+def readString(name='', form_color='STANDOUT'):
+    F = ConfirmCancelPopup(name=name, color=form_color)
     F.preserve_selected_widget = True
     tf = F.add(oscscreen.Textfield)
     tf.width = tf.width - 1
