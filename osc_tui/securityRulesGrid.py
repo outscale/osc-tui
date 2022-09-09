@@ -33,7 +33,10 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
             data = self.data.copy()
             values = list()
             if data:
-                for rule in data[0]["InboundRules"]:
+                irules = main.do_search(data[0]["InboundRules"].copy(),  ["IpProtocol", "FromPortRange", "ToPortRange", "IpRanges"])
+                orules = main.do_search(data[0]["OutboundRules"].copy(),  ["IpProtocol", "FromPortRange", "ToPortRange", "IpRanges"])
+
+                for rule in irules:
                     if "IpRanges" in rule:
                         for ip in rule["IpRanges"]:
                             values.append(
@@ -44,7 +47,7 @@ class SecurityRulesGrid(selectableGrid.SelectableGrid):
                                     rule["ToPortRange"] if "ToPortRange" in rule else "all",
                                     ip,
                                 ])
-                for rule in data[0]["OutboundRules"]:
+                for rule in orules:
                     if "IpRanges" in rule:
                         for ip in rule["IpRanges"]:
                             values.append(
