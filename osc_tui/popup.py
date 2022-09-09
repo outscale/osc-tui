@@ -31,6 +31,7 @@ class ConfirmCancelPopup(oscscreen.fmPopup.ActionPopup):
 class displayPopup(oscscreen.fmPopup.Popup):
     term_size = os.get_terminal_size()
     DEFAULT_COLUMNS = 100
+    OK_BUTTON_TEXT = 'BACK'
     SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
     def on_ok(self):
         self.editing = False
