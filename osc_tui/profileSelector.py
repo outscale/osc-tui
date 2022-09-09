@@ -26,6 +26,8 @@ MODE="Vms"
 
 PROFILE=None
 
+RULES=None
+
 def save_credentials(form):
     file = dst_file
     if not os.path.exists(os.path.dirname(dst_file)):

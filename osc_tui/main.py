@@ -11,6 +11,7 @@ from osc_sdk_python import authentication
 
 import inputForm
 import profileSelector
+import guiRules
 
 import time
 
@@ -34,8 +35,6 @@ VERSION = 211130
 
 CURRENT_GRID=None
 SEARCH_FILTER=""
-
-
 
 def add_thread(t):
     THREADS.append(t)
@@ -150,6 +149,7 @@ def main():
             i += 1
 
     try:
+        guiRules.parse()
         APP = App()
         APP.run()
     except KeyboardInterrupt:
