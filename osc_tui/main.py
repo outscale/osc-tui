@@ -94,8 +94,7 @@ class App(oscscreen.NPSAppManaged):
 
 def help():
     print(
-"""
-usage: osc-tui [OPTION]
+"""usage: osc-tui [OPTION]
 
 -v, --version:          print version
 -h, --help:             print this help
