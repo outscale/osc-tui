@@ -11,7 +11,7 @@ idna==3.3
 jira==3.2.0
 oscscreen==4.9.1
 Nuitka==1.0
-oauthlib==3.2.0
+oauthlib==3.2.1
 osc-sdk-python==0.20.0
 packaging==21.3
 pip-upgrader==1.4.15
