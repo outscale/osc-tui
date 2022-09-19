@@ -44,6 +44,48 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         self.values = values
 
 
+class VolumeEdit(oscscreen.FormBaseNew):
+    volume=None
+    size=10
+    size_wid=None
+    LIST_THRESHOLD=4
+
+    def __init__(self, *args, **keywords):
+        self.volume = keywords["volume"]
+        self.size = self.volume[2]
+        super().__init__(*args, **keywords)
+
+    def reload(self):
+        main.kill_threads()
+        self.parentApp.addForm("Volumes-Edit", CreateVolume, name="osc-tui")
+        self.parentApp.switchForm("Volumes-Edit")
+
+    def back(self):
+        main.kill_threads()
+        self.parentApp.switchForm("Cockpit")
+
+    def update(self):
+        id=self.volume[0]
+        main.GATEWAY.UpdateVolume(VolumeId=id,
+                                  Size=int(self.size_wid.get_value()))
+        self.back()
+
+    def create(self):
+
+        self.size_wid = self.add_widget(
+            oscscreen.TitleText,
+            relx=self.LIST_THRESHOLD,
+            name="size",
+            value=str(self.size)
+        )
+
+        self.add_widget(oscscreen.ButtonPress,
+                        name="UPDATE").whenPressed = self.update
+        self.add_widget(oscscreen.ButtonPress,
+                        name="EXIT").whenPressed = self.back
+
+
+
 class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)

@@ -11,6 +11,7 @@ from oscscreen import *
 import requests
 import main
 import mainForm
+from volumesGrid import VolumeEdit 
 
 SUBNETID = None
 ROUTE = None
@@ -500,8 +501,8 @@ def addFilter(form, form_color='STANDOUT'):
     
 
 def editVolume(form, volume, form_color='STANDOUT'):
-    type = volume[1]
     id = volume[0]
+    type = volume[1]
     size = volume[2]
     vm_id = volume[4]
 
@@ -520,6 +521,13 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
     def edit_cb():
         exit()
+        form.parentApp.addForm("Volume-Edit",
+                               VolumeEdit,
+                               volume=volume,
+                               name="osc-tui Volume-Edit {}".format(id))
+        form.parentApp.switchForm("Volume-Edit")
+        mainForm.MODE = "Volume-Edit"
+        return
 
     delete = F.add_widget(
         oscscreen.ButtonPress,
@@ -560,9 +568,10 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     )
 
     def edit_cb():
+        # SNAPSHOT-EDIT not yet implemented
+        # mainForm.MODE = "SNAPSHOT-EDIT"
+        # form.reload()
         exit()
-        mainForm.MODE = "SNAPSHOT-EDIT"
-        form.reload()
 
     delete = F.add_widget(
         oscscreen.ButtonPress,
