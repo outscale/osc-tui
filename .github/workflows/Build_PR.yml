@@ -18,8 +18,8 @@ jobs:
       
     - name: make
       run: |
-       make appimage-bld/osc-tui-x86_64.AppImage
-       ./appimage-bld/osc-tui-x86_64.AppImage --help
+       make osc-tui-x86_64.AppImage
+       ./osc-tui-x86_64.AppImage --help
       
     - uses: "actions/upload-artifact@v2"
       with:
