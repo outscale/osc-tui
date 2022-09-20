@@ -1,7 +1,7 @@
 argcomplete==2.0.0
 argh==0.26.2
 autopep8==1.6.0
-certifi==2022.6.15
+certifi==2022.9.14
 chardet==5.0.0
 colorclass==2.2.2
 docopt==0.6.2
@@ -10,7 +10,7 @@ GitPython==3.1.27
 idna==3.3
 jira==3.2.0
 oscscreen==4.9.1
-Nuitka==1.0
+Nuitka==1.0.7
 oauthlib==3.2.1
 osc-sdk-python==0.20.0
 packaging==21.3
