@@ -1,5 +1,4 @@
 import curses
-import textwrap
 from threading import Thread
 import os
 
@@ -246,8 +245,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
 
     def delete_cb():
         try:
-            val = main.GATEWAY.DeleteSecurityGroup(
-                form=form, SecurityGroupId=id)
+            main.GATEWAY.DeleteSecurityGroup(form=form, SecurityGroupId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
@@ -339,7 +337,7 @@ def editInstanceInLBU(form, sg, form_color='STANDOUT'):
 
 
 def addSecurityGroupToVm(form, form_color='STANDOUT'):
-    id = main.SECURITY_GROUP
+    main.SECURITY_GROUP
     F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)
     F.preserve_selected_widget = True
     groups = main.VM["SecurityGroups"]
@@ -364,7 +362,7 @@ def addSecurityGroupToVm(form, form_color='STANDOUT'):
         for g in groups:
             values.append(g["SecurityGroupId"])
         values.append(new_sg.values[new_sg.value])
-        res = main.GATEWAY.UpdateVm(
+        main.GATEWAY.UpdateVm(
             form=form,
             VmId=main.VM["VmId"],
             SecurityGroupIds=values)
@@ -684,7 +682,7 @@ def associateRouteTable(form, subnet):
 
     def associate():
         id_route = ROUTE.get_values()[ROUTE.get_value()]
-        res = main.GATEWAY.LinkRouteTable(
+        main.GATEWAY.LinkRouteTable(
             RouteTableId=id_route, SubnetId=subnet)
         exit()
     associate_button.whenPressed = associate
