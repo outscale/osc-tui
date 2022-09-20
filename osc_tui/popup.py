@@ -756,32 +756,32 @@ def startLoading(form, refresh):
     i = 0
     while waiting:
         frames = [
-            "   |/\n"
+            "   |/\n" +
             "   +\n",
 
-            r"  \|  \n"
+            r"  \|  \n" +
             "   +\n",
 
-            "  \\ \n"
+            "  \\ \n" +
             " --+ \n",
 
-            "    \n"
-            " --+ \n"
+            "    \n" +
+            " --+ \n" +
             "  /",
 
-            " \n"
-            "   + \n"
+            " \n" +
+            "   + \n" +
             "  /|",
 
-            "  \n"
-            "   + \n"
+            "  \n" +
+            "   + \n" +
             "   |\\",
 
-            "  \n"
-            "   +--\n"
+            "  \n" +
+            "   +--\n" +
             "    \\",
 
-            "    /\n"
+            "    /\n" +
             "   +-- \n"
         ]
         notify(frames[i], wide=True)
