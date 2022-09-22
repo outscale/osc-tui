@@ -82,10 +82,16 @@ yay -Sy osc-tui-git # you can replace yay by any AUR helper
 
 # Contributing
 
-Just a few rules:<br>
+## Just a few rules:<br>
 * Format correctly your code (you can do `autopep8 --in-place --aggressive --aggressive osc_tui/*.py`).
 * Add external dependencies as less as possible.
 
-when release a new version:
+## Release plan:
+Release are time base, up to now, we had no release plan, from now on, we will release a new version every 3 month, if there is any commits. 
+
+if a major security issue happen, we'll backport the patch and create an update of old version with an updated revision. 
+
+## when release a new version:
 * update VERSION in osc_tui/main.py and setup.py
 * VERSION format is time base, 2 first numbers are for years, 2 next one are for month, and 2 last are for revisions
+* push a tag at the current version, a runner should build the appimage.
