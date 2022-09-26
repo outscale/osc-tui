@@ -38,6 +38,14 @@ MENU_WIDTH = 16
 LINE_SEPARATOR_COL = MENU_WIDTH + 1
 GRID_START_COL = MENU_WIDTH +3
 
+def swicthToVolumeEdit(form, id, volume):
+    form.parentApp.addForm("Volume-Edit",
+                           volumesGrid.VolumeEdit,
+                           volume=volume,
+                           name="osc-tui Volume-Edit {}".format(id))
+    form.parentApp.switchForm("Volume-Edit")
+
+
 class mainMenu(oscscreen.MultiLineAction):
     def __init__(self, screen, form=None, draw_line_at=11, *args, **keywords):
         super().__init__(screen, *args, **keywords)

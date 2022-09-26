@@ -57,8 +57,8 @@ class VolumeEdit(oscscreen.FormBaseNew):
 
     def reload(self):
         main.kill_threads()
-        self.parentApp.addForm("Volumes-Edit", CreateVolume, name="osc-tui")
-        self.parentApp.switchForm("Volumes-Edit")
+        self.parentApp.addForm("Volume-Edit", CreateVolume, name="osc-tui")
+        self.parentApp.switchForm("Volume-Edit")
 
     def back(self):
         main.kill_threads()

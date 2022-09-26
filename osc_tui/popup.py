@@ -11,7 +11,6 @@ from oscscreen import *
 import requests
 import main
 import mainForm
-from volumesGrid import VolumeEdit 
 
 SUBNETID = None
 ROUTE = None
@@ -521,12 +520,8 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
     def edit_cb():
         exit()
-        form.parentApp.addForm("Volume-Edit",
-                               VolumeEdit,
-                               volume=volume,
-                               name="osc-tui Volume-Edit {}".format(id))
-        form.parentApp.switchForm("Volume-Edit")
         mainForm.MODE = "Volume-Edit"
+        mainForm.swicthToVolumeEdit(form, id, volume)
         return
 
     delete = F.add_widget(
