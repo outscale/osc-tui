@@ -1,3 +1,5 @@
+#!/bin/bash
+
 if [ "$#" -ne 1 ];then
     echo "Must have only one argument, either --dev or --release."
     exit
