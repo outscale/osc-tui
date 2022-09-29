@@ -1,6 +1,6 @@
 import threading
-import main
-import popup
+from osc_tui import main
+from osc_tui import popup
 
 # The static class managing data preloading.
 

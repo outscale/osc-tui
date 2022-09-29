@@ -1,6 +1,6 @@
 import oscscreen
 
-import main
+from osc_tui import main
 
 # All images combo box.
 SNAPSHOT_COMBO = None

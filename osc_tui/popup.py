@@ -9,8 +9,8 @@ import pyperclip
 from oscscreen import *
 
 import requests
-import main
-import mainForm
+from osc_tui import main
+from osc_tui import mainForm
 
 SUBNETID = None
 ROUTE = None

@@ -53,8 +53,10 @@ You will need to install python3:<br>
 
 Move to the osc-tui folder, then run:
 
+* `python3 -m venv env`
 * `source env/bin/activate`to activate the virtual env.
-* `python3 osc_tui/main.py`
+* `pip install -e .`
+* then just call `osc-tui`
 
 Then you can deactivate the virtual env:
 
@@ -62,16 +64,9 @@ Then you can deactivate the virtual env:
 
 # Packaging the app with pip (BETA, WIP).
 
-We will need to rename some imports so we have a script for that: `configure.sh`.<br>
-This script is ran by the `setup.py`to move in `--release`config.<br>
-If you want to be able again to run directly the python file, you will have to do first:
-* `./configure.sh --dev`
-It will rename back all imports.
+build and install the package:<br>
 
-
-Finally build and install the package:<br>
-
-* `sudo python3 setup.py build install`
+* `python3 setup.py build install`
 
 # Distributions Package
 
