@@ -4,31 +4,31 @@ import ipaddress
 import oscscreen
 import pyperclip
 
-import createImage
-import createKeyPair
-import createSnapshot
-import createVm
-import createVolume
-import createLoadbalancer
-import createVpcs
-import createNetAccessPoint
-import imageGrid
-import instancesGrid
-import keyPairsGrid
-import vpcsGrid
-import main
-import netAccesssPoint
-import netPeering
-import flexibleGPU
-import popup
-import securityGroupsGrid
-import securityRulesGrid
-import selectableGrid
-import snapshotGrid
-import loadbalancerGrid
-import virtualMachine
-import volumesGrid
-import guiRules
+from osc_tui import createImage
+from osc_tui import createKeyPair
+from osc_tui import createSnapshot
+from osc_tui import createVm
+from osc_tui import createVolume
+from osc_tui import createLoadbalancer
+from osc_tui import createVpcs
+from osc_tui import createNetAccessPoint
+from osc_tui import imageGrid
+from osc_tui import instancesGrid
+from osc_tui import keyPairsGrid
+from osc_tui import vpcsGrid
+from osc_tui import main
+from osc_tui import netAccesssPoint
+from osc_tui import netPeering
+from osc_tui import flexibleGPU
+from osc_tui import popup
+from osc_tui import securityGroupsGrid
+from osc_tui import securityRulesGrid
+from osc_tui import selectableGrid
+from osc_tui import snapshotGrid
+from osc_tui import loadbalancerGrid
+from osc_tui import virtualMachine
+from osc_tui import volumesGrid
+from osc_tui import guiRules
 
 MODE = "Vms"
 SELECTED_BUTTON = 0

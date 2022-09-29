@@ -1,6 +1,6 @@
 import oscscreen
-import main
-import preloader
+from osc_tui import main
+from osc_tui import preloader
 import os
 
 # If advanced VM creation enabled.

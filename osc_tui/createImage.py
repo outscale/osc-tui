@@ -1,7 +1,7 @@
 from time import sleep
 import oscscreen
-import createImage
-import main
+from osc_tui import createImage
+from osc_tui import main
 
 # All images combo box.
 SNAPSHOT_COMBO = None

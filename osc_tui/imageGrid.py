@@ -2,11 +2,11 @@ import oscscreen
 import pyperclip
 import time
 
-import createVm
-import main
-import popup
-import selectableGrid
-import virtualMachine
+from osc_tui import createVm
+from osc_tui import main
+from osc_tui import popup
+from osc_tui import selectableGrid
+from osc_tui import virtualMachine
 
 
 class ImageGrid(selectableGrid.SelectableGrid):

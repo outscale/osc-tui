@@ -9,9 +9,9 @@ from requests import get
 
 from osc_sdk_python import authentication
 
-import inputForm
-import profileSelector
-import guiRules
+from osc_tui import inputForm
+from osc_tui import profileSelector
+from osc_tui import guiRules
 
 import time
 

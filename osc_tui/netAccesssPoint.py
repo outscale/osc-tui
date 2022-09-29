@@ -1,9 +1,9 @@
 import oscscreen
 import pyperclip
 
-import main
-import popup
-import selectableGrid
+from osc_tui import main
+from osc_tui import popup
+from osc_tui import selectableGrid
 
 class Grid(selectableGrid.SelectableGrid):
     def __init__(self, screen,  *args, **keywords):
