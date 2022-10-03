@@ -112,7 +112,9 @@ class CreateVm(oscscreen.FormBaseNew):
                                 REGION.get_value()]
                         },
                         ImageId=id, KeypairName=keypair)
-                if "Errors" in res:
+                if res is None:
+                    return
+                elif "Errors" in res:
                     oscscreen.notify_confirm(str(res["Errors"]))
                 else:
                     vmId = res["Vms"][0]["VmId"]
