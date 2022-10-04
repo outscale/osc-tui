@@ -6,6 +6,12 @@
 
 Designed to be a POC of a Outscale's Cockpit inside the terminal using curses.<br/>The officially supported python version is currently 3.<br/> The code is currently a bit dirty... Maybe big changes are coming!<br>To refresh any table, press [F5].<br>Feel free to suggest oher architectures, libs...<br/>The `src/` folder contains the project's sources.<br/>The ```tests/``` folder contain some crappy code used to test API calls or any other things...
 
+# arguments
+* `--help`: show help
+* `--profile [PROFILE]`: auto-choose the profile, and skip selection screen, just list all profiles if no profile pass as argument
+* `--mode MODE`: jump directly to a mode (like Vms, Images, Security...)
+* `--ascii-logo`: use ascii logo, instead of UTF one.
+
 # Costum Rules
 
 osc-tui support some very simple "costum rule" store in `~/.osc/osc-tui-rules.json`
