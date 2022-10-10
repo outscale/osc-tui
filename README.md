@@ -37,17 +37,7 @@ when thoses menu are call, osc-tui will ask for an IP, and allow each protocols 
 
 # Installation
 
-You will need to install python3:<br>
-
-* Python3 (https://www.python.org/downloads/).
-
-## Clone, setup, build and install:
-
-* `curl https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh | bash -s -- -y`
-
-## Clone and setup only:
-
-* `curl https://raw.githubusercontent.com/outscale-dev/osc-tui/master/setup.sh | bash -s -- -n`
+You can either use pip on macos/windows/linux, the appimage in release, or the AUR on Arch Linux
 
 # Running the client.
 
