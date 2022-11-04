@@ -19,6 +19,8 @@ CPU = None
 PERFORMANCE = None
 # Textbox for memory in gib
 RAM_SIZE = None
+# Textbox for disk in gib
+DISK_SIZE = None
 # Textbox for number of core
 CORE = None
 # List of all Subregions
@@ -99,11 +101,25 @@ class CreateVm(oscscreen.FormBaseNew):
                 res = ""
                 if ADVANCED_MODE:
                     vmtype = create_vmtype()
+                    disk_size = DISK_SIZE.get_value()
+                    bdm = None
+                    if disk_size != "Default":
+                        bdm =  [
+                            {
+                                "DeviceName":"/dev/sda1",
+                                "Bsu":{
+                                    "VolumeSize": int(disk_size)
+                                }
+                            }
+                        ]
+
                     res = main.GATEWAY.CreateVms(
                         form=self, ImageId=id, KeypairName=keypair, VmType=vmtype, Placement={
-                            "SubregionName": REGION.get_values()[
-                                REGION.get_value()]}, VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[
-                            AOS_COMBO.get_value()], )
+                            "SubregionName": REGION.get_values()[REGION.get_value()]
+                        },
+                        BlockDeviceMappings=bdm,
+                        VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[AOS_COMBO.get_value()],
+                    )
                 else:
                     res = main.GATEWAY.CreateVms(
                         form=self,
@@ -194,6 +210,13 @@ class CreateVm(oscscreen.FormBaseNew):
                 relx=LIST_THRESHOLD,
                 name="Ram(Gb)",
                 value=RAM_SIZE.get_value() if RAM_SIZE else "10"
+            )
+            global DISK_SIZE
+            DISK_SIZE = self.add_widget(
+                oscscreen.TitleText,
+                relx=LIST_THRESHOLD,
+                name="Disk(Gib)",
+                value=DISK_SIZE.get_value() if DISK_SIZE else "Default"
             )
             global CORE
             CORE = self.add_widget(
