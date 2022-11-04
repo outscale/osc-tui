@@ -13,6 +13,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: install fuse
+      run: |
+        sudo apt-get update --fix-missing
+        sudo apt-get install -y -f -o Acquire::Retries=3 fuse
+
     - name: configure
       run: ./configure.sh --release
       
