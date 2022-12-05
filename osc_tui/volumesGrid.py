@@ -53,6 +53,7 @@ class VolumeEdit(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         self.volume = keywords["volume"]
         self.size = self.volume[2]
+        self.type = self.volume[1]
         super().__init__(*args, **keywords)
 
     def reload(self):
@@ -67,6 +68,7 @@ class VolumeEdit(oscscreen.FormBaseNew):
     def update(self):
         id=self.volume[0]
         main.GATEWAY.UpdateVolume(VolumeId=id,
+                                  VolumeType=self.type_wid.get_values()[self.type_wid.get_value()],
                                   Size=int(self.size_wid.get_value()))
         self.back()
 
@@ -77,6 +79,22 @@ class VolumeEdit(oscscreen.FormBaseNew):
             relx=self.LIST_THRESHOLD,
             name="size",
             value=str(self.size)
+        )
+
+        tval = None
+        i = 0
+        type_values = ['standard', 'gp2', 'io1']
+        for t in type_values:
+            if t == self.type:
+                tval = i
+            i += 1
+
+        self.type_wid = self.add_widget(
+            oscscreen.TitleCombo,
+            relx=self.LIST_THRESHOLD,
+            name="type",
+            value=tval,
+            values=type_values
         )
 
         self.add_widget(oscscreen.ButtonPress,
