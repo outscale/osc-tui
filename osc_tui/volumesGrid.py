@@ -18,7 +18,8 @@ class VolumeGrid(selectableGrid.SelectableGrid):
             'Size (Gb)',
             'Subregion',
             'Linked To',
-            "Device Name"]
+            "Device Name",
+            'iops']
 
         def on_selection(line):
             popup.editVolume(self.form, line)
@@ -33,14 +34,14 @@ class VolumeGrid(selectableGrid.SelectableGrid):
 
     def refresh(self):
         groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType',
-                                                   'Size', 'SubregionName'])
+                                                   'Size', 'SubregionName', 'Iops'])
         values = list()
         for g in groups:
             VolLink = g["LinkedVolumes"]
             VmId = VolLink[0]["VmId"] if VolLink else "Unlinked"
             DName = VolLink[0]["DeviceName"] if VolLink else "No Dev Today"
             values.append([g["VolumeId"], g["VolumeType"],
-                           g["Size"], g['SubregionName'], VmId, DName])
+                           g["Size"], g['SubregionName'], VmId, DName, g['Iops'] if 'Iops' in g else '??'])
         self.values = values
 
 
@@ -48,11 +49,13 @@ class VolumeEdit(oscscreen.FormBaseNew):
     volume=None
     size=10
     size_wid=None
+    iops=None
     LIST_THRESHOLD=4
 
     def __init__(self, *args, **keywords):
         self.volume = keywords["volume"]
         self.size = self.volume[2]
+        self.iops = self.volume[6]
         self.type = self.volume[1]
         super().__init__(*args, **keywords)
 
@@ -67,9 +70,16 @@ class VolumeEdit(oscscreen.FormBaseNew):
 
     def update(self):
         id=self.volume[0]
+        iops_dst = self.iops_wid.get_value() if self.iops != self.iops_wid.get_value() else None
+        t = self.type_wid.get_values()[self.type_wid.get_value()]
+        if iops_dst:
+            if iops_dst.isnumeric() == False or t == 'standard':
+                iops_dst = None
+            else:
+                iops_dst = int(iops_dst)
         main.GATEWAY.UpdateVolume(VolumeId=id,
-                                  VolumeType=self.type_wid.get_values()[self.type_wid.get_value()],
-                                  Size=int(self.size_wid.get_value()))
+                                  VolumeType=t,
+                                  Size=int(self.size_wid.get_value()), Iops=iops_dst)
         self.back()
 
     def create(self):
@@ -79,6 +89,13 @@ class VolumeEdit(oscscreen.FormBaseNew):
             relx=self.LIST_THRESHOLD,
             name="size",
             value=str(self.size)
+        )
+
+        self.iops_wid = self.add_widget(
+            oscscreen.TitleText,
+            relx=self.LIST_THRESHOLD,
+            name="iops",
+            value=str(self.iops)
         )
 
         tval = None

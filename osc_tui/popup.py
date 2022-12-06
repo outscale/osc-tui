@@ -504,6 +504,8 @@ def editVolume(form, volume, form_color='STANDOUT'):
     type = volume[1]
     size = volume[2]
     vm_id = volume[4]
+    #device_name = volume[5]
+    #iops = volume[6]
 
     F = displayPopup(
         name="{} ({}), {}gib, linked to: {}".format(id, type, size, vm_id))
