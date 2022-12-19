@@ -84,5 +84,6 @@ if a major security issue happen, we'll backport the patch and create an update 
 
 ## when release a new version:
 * update VERSION in osc_tui/main.py and setup.py
+* update automatic_release_tag in .github/workflows/make_release_bins.yml (note having to do this is a bug and could be simplify)
 * VERSION format is time base, 2 first numbers are for years, 2 next one are for month, and 2 last are for revisions
 * push a tag at the current version, a runner should build the appimage.

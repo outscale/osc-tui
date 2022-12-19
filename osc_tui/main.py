@@ -30,7 +30,7 @@ IP = get("https://api.ipify.org").text
 # Because it's cool but also a DDOS attack :)
 # So let's be cool with the API --> No auto refresh!
 POLL_ENABLED = False
-VERSION = 220900
+VERSION = 221200
 # GLOBALS METHODS
 
 CURRENT_GRID=None
