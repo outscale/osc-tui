@@ -6,7 +6,7 @@ chardet==5.0.0
 colorclass==2.2.2
 docopt==0.6.2
 gitdb==4.0.9
-GitPython==3.1.27
+GitPython==3.1.30
 idna==3.3
 jira==3.2.0
 Nuitka==1.0.7
