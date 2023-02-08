@@ -9,7 +9,7 @@ gitdb==4.0.9
 GitPython==3.1.27
 idna==3.3
 jira==3.2.0
-Nuitka==1.0.7
+Nuitka==1.4.4
 oauthlib==3.2.1
 osc-sdk-python==0.20.0
 packaging==21.3
