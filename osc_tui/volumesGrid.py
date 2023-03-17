@@ -8,7 +8,6 @@ from osc_tui import popup
 from osc_tui import selectableGrid
 from osc_tui import virtualMachine
 
-
 class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
@@ -44,6 +43,55 @@ class VolumeGrid(selectableGrid.SelectableGrid):
                            g["Size"], g['SubregionName'], VmId, DName, g['Iops'] if 'Iops' in g else '??'])
         self.values = values
 
+
+class VolumeLink(oscscreen.FormBaseNew):
+    LIST_THRESHOLD=4
+    volume=None
+    def __init__(self, *args, **keywords):
+        self.volume = keywords["volume"]
+        super().__init__(*args, **keywords)
+
+    def reload(self):
+        main.kill_threads()
+        self.parentApp.addForm("Volume-Link", CreateVolume, name="osc-tui")
+        self.parentApp.switchForm("Volume-Link")
+
+    def back(self):
+        main.kill_threads()
+        self.parentApp.switchForm("Cockpit")
+
+    def update(self):
+        id=self.volume[0]
+        main.GATEWAY.LinkVolume(VolumeId=id,
+                                VmId=self.link_to_wid.get_values()[self.link_to_wid.get_value()][0],
+                                DeviceName="/dev/" + self.alias_wid.get_value())
+        self.back()
+
+    def create(self):
+        vms = main.readVms()
+        vms_lst = []
+        for vm in vms:
+            name = vm["Tags"][0]["Value"] if len(vm["Tags"]) else "(a Vm with no Name)"
+            vms_lst.append([vm["VmId"], name])
+
+        self.alias_wid = self.add_widget(
+            oscscreen.TitleText,
+            name="Alias(xvdX):",
+            relx=self.LIST_THRESHOLD,
+            value="xvd")
+
+        self.link_to_wid = self.add_widget(
+            oscscreen.TitleCombo,
+            relx=self.LIST_THRESHOLD,
+            name="target vm",
+            value=0,
+            values=vms_lst
+        )
+
+        self.add_widget(oscscreen.ButtonPress,
+                        name="LINK").whenPressed = self.update
+        self.add_widget(oscscreen.ButtonPress,
+                        name="EXIT").whenPressed = self.back
 
 class VolumeEdit(oscscreen.FormBaseNew):
     volume=None

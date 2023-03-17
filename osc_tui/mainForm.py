@@ -45,6 +45,13 @@ def swicthToVolumeEdit(form, id, volume):
                            name="osc-tui Volume-Edit {}".format(id))
     form.parentApp.switchForm("Volume-Edit")
 
+def swicthToVolumeLink(form, id, volume):
+    form.parentApp.addForm("Volume-Link",
+                           volumesGrid.VolumeLink,
+                           volume=volume,
+                           name="osc-tui Volume-Link {}".format(id))
+    form.parentApp.switchForm("Volume-Link")
+
 
 class mainMenu(oscscreen.MultiLineAction):
     def __init__(self, screen, form=None, draw_line_at=11, *args, **keywords):

@@ -526,6 +526,28 @@ def editVolume(form, volume, form_color='STANDOUT'):
         mainForm.swicthToVolumeEdit(form, id, volume)
         return
 
+    if vm_id == "Unlinked":
+        link = F.add_widget(
+            oscscreen.ButtonPress,
+            name="LINK",
+        )
+    else:
+        unlink = F.add_widget(
+            oscscreen.ButtonPress,
+            name="UNLINK",
+        )
+
+    def link_cb():
+        exit()
+        mainForm.MODE = "Volume-Link"
+        mainForm.swicthToVolumeLink(form, id, volume)
+        return
+
+    def unlink_cb():
+        main.GATEWAY.UnlinkVolume(VolumeId=id)
+        exit()
+        return
+
     delete = F.add_widget(
         oscscreen.ButtonPress,
         name="DELETE",
@@ -539,6 +561,10 @@ def editVolume(form, volume, form_color='STANDOUT'):
         form.current_grid.h_refresh(None)
         exit()
 
+    if vm_id == "Unlinked":
+        link.whenPressed = link_cb
+    else:
+        unlink.whenPressed = unlink_cb
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
 

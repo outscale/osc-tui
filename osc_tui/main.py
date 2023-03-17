@@ -36,6 +36,13 @@ VERSION = 221200
 CURRENT_GRID=None
 SEARCH_FILTER=""
 
+def readVms():
+    reply = GATEWAY.ReadVms()
+    if reply == None:
+        return None
+    return reply["Vms"]
+
+
 def add_thread(t):
     THREADS.append(t)
 

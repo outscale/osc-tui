@@ -20,10 +20,7 @@ class InstancesGrid(selectableGrid.SelectableGrid):
         self.on_selection = on_selection_cb
 
     def refresh_call(self, name_filter=None):
-        reply = main.GATEWAY.ReadVms(form=self.form)
-        if reply == None:
-            return None
-        return reply["Vms"]
+        return main.readVms()
 
 
     def refresh(self):
