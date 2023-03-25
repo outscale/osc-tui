@@ -22,7 +22,9 @@ jobs:
       run: ./configure.sh --release
       
     - name: make
-      run: make appimage-bld/osc-tui-x86_64.AppImage
+      run: |
+       make osc-tui-x86_64.AppImage
+       ./osc-tui-x86_64.AppImage --help
       
     - uses: "actions/upload-artifact@v2"
       with:
