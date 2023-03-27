@@ -4,7 +4,7 @@ import os
 
 setup(
     name='osc-tui',
-    version="22.12.0",
+    version="23.03.0",
     packages=find_packages(),
     author='Outscale SAS',
     author_email='opensource@outscale.com',
