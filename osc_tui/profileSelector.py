@@ -87,14 +87,21 @@ class CallbackFactory:
 
                 return wrapped
 
+            def get_action_wrapper(*args, **kwargs):
+                action_name = args[0]
+                wrapped = decorator(self.gtw_get_action(action_name))
+                return wrapped
+
             # So now we iterate over all methods of the GATEWAY that are not prefixed by "__"
             # and basically we decorate them.
             for method_name in dir(main.GATEWAY):
-                if not method_name.startswith("__"):
+                if method_name == "_action":
                     attr = getattr(main.GATEWAY, method_name)
-                    if(callable(attr)):
-                        wrapped = decorator(attr)
-                        setattr(main.GATEWAY, method_name, wrapped)
+                    wrapped = decorator(attr)
+                    setattr(main.GATEWAY, method_name, wrapped)
+                elif method_name == "_get_action":
+                    self.gtw_get_action = main.GATEWAY._get_action
+                    setattr(main.GATEWAY, '_get_action', get_action_wrapper)
 
             # now let's check if the profile worked:
             try:
