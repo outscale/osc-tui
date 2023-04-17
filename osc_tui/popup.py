@@ -1037,6 +1037,7 @@ def showHelp(arg):
         "Exit              : Ctrl+Q",
         "Refresh           : F5 or r",
         "Search in Fields  : /",
+        "search in Menu    : l",
         "Help              : h\n",
     ]
     
