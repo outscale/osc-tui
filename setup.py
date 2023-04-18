@@ -13,6 +13,10 @@ setup(
     entry_points={'console_scripts': ['osc-tui = osc_tui.main:main']},
     install_requires=[
         'setuptools',
+        "requests>=2.28.1",
+        "osc-sdk-python>=0.22.0",
+        "pyperclip>=1.8.0",
+        'oscscreen @ git+https://github.com/outscale/npyscreen.git@master#egg=oscscreen',
         'requests'
     ],
 )
