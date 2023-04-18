@@ -12,6 +12,8 @@ import requests
 from osc_tui import main
 from osc_tui import mainForm
 
+from osc_sdk_python import Gateway
+
 SUBNETID = None
 ROUTE = None
 
@@ -73,6 +75,36 @@ def readAKSK(form_color='STANDOUT'):
             values=regions_list,
             value=0,
         )
+        
+        retriver = F.add_widget(
+            oscscreen.ButtonPress,
+            name="Fill Using Loggin/Password",
+        )
+        def retriver_cb():
+            F = ConfirmCancelPopup(name="Login/password", color=form_color)
+            F.preserve_selected_widget = True
+            log = F.add(oscscreen.TitleText, name="login")
+            passwd = F.add(oscscreen.TitleText, name="password")
+            F.edit()
+            if F.value is True:
+                gw = Gateway(email=log.value, password=passwd.value,
+                             region=REGION.values[REGION.value])
+                try:
+                    ret = gw.ReadAccessKeys()
+                    acessKeys=ret["AccessKeys"]
+                    ak.value=acessKeys[len(acessKeys) - 1]["AccessKeyId"]
+                    ret = gw.ReadSecretAccessKey(AccessKeyId=ak.value)
+                    sk.value=ret["AccessKey"]["SecretKey"]
+                    if name.value == '':
+                        name.value=log.value
+
+                except requests.exceptions.HTTPError as e:
+                    oscscreen.notify_confirm(
+                        "Error while submitting the request, authentification fail ?")
+            else:
+                return None
+
+        retriver.whenPressed = retriver_cb
         #ak.width = ak.width - 1
         F.edit()
         if F.value is True:
