@@ -145,9 +145,13 @@ class ProfileSelector(oscscreen.ActionFormV2):
             have_file = True
 
         if have_file:
-            configFile = open(dst_file)
-            OAPI_CREDENTIALS = json.loads(configFile.read())
-            configFile.close()
+            try:
+                configFile = open(dst_file)
+                OAPI_CREDENTIALS = json.loads(configFile.read())
+                configFile.close()
+            except json.decoder.JSONDecodeError:
+                oscscreen.notify_confirm("Fail to decode '{}', json most-likely broken".format(dst_file))
+                exit(1)
             self.add_widget(
                 oscscreen.Textfield,
                 value="Please select a cockpit profile:",
