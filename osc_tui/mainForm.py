@@ -4,6 +4,8 @@ import ipaddress
 import oscscreen
 import pyperclip
 
+import graphviz
+
 from osc_tui import createImage
 from osc_tui import createKeyPair
 from osc_tui import createSnapshot
@@ -81,8 +83,11 @@ class mainMenu(oscscreen.MultiLineAction):
                         self.form.parentApp.switchForm("CREATE_VM")
                         return
                     if act_on_this == 'Visual Graph':
-                        osc_diagram(ak=main.GATEWAY.access_key(), sk=main.GATEWAY.secret_key(),
-                                    format=["png"])
+                        try:
+                            osc_diagram(ak=main.GATEWAY.access_key(), sk=main.GATEWAY.secret_key(),
+                                        format=["png"])
+                        except graphviz.backend.ExecutableNotFound:
+                            oscscreen.notify_confirm("Fail to generate graph, did you install graphviz ?")
                         return
 
                 elif MODE == 'Security':
