@@ -14,9 +14,11 @@ setup(
     install_requires=[
         'setuptools',
         "requests>=2.28.1",
-        "osc-sdk-python>=0.22.0",
+        #"osc-sdk-python>=0.22.0",
         "pyperclip>=1.8.0",
-        'oscscreen @ git+https://github.com/outscale/npyscreen.git@master#egg=oscscreen',
+        'osc_diagram @ git+https://github.com/outscale-mgo/osc-diagram@master#egg=osc_diagram',
+        'oscscreen @ git+https://github.com/outscale/npyscreen.git@master',
+        "osc-sdk-python @ git+https://github.com/outscale/osc-sdk-python.git@master",
         'requests'
     ],
 )

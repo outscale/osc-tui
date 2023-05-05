@@ -30,6 +30,8 @@ from osc_tui import virtualMachine
 from osc_tui import volumesGrid
 from osc_tui import guiRules
 
+from osc_diagram import osc_diagram
+
 MODE = "Vms"
 SELECTED_BUTTON = 0
 CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
@@ -78,6 +80,11 @@ class mainMenu(oscscreen.MultiLineAction):
                                                     name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_VM")
                         return
+                    if act_on_this == 'Visual Graph':
+                        osc_diagram(ak=main.GATEWAY.access_key(), sk=main.GATEWAY.secret_key(),
+                                    format=["png"])
+                        return
+
                 elif MODE == 'Security':
                     if act_on_this == "Create new":
                         popup.newSecurityGroup(self.form)
@@ -237,6 +244,7 @@ class MainForm(oscscreen.FormBaseNew):
         if MODE == "Vms":
             CURRENT_GRID_CLASS = instancesGrid.InstancesGrid
             menu_desc.append('Create new')
+            menu_desc.append('Visual Graph')
         elif MODE == "INSTANCES-LBU":
             CURRENT_GRID_CLASS = instancesGrid.InstancesGridLBU
             menu_desc.append('CREATE NEW')
