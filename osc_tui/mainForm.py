@@ -6,6 +6,8 @@ import pyperclip
 
 import graphviz
 
+import osc_sdk_python
+
 from osc_tui import createImage
 from osc_tui import createKeyPair
 from osc_tui import createSnapshot
@@ -88,6 +90,9 @@ class mainMenu(oscscreen.MultiLineAction):
                                         format=["png"])
                         except graphviz.backend.ExecutableNotFound:
                             oscscreen.notify_confirm("Fail to generate graph, did you install graphviz ?")
+                        except osc_sdk_python.outscale_gateway.ActionNotExists:
+                            oscscreen.notify_confirm("osc-sdk-python is too old for this feature")
+                            
                         return
 
                 elif MODE == 'Security':
