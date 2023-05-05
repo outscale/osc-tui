@@ -9,7 +9,7 @@ from osc_tui import popup
 from osc_tui import selectableGrid
 from osc_tui import virtualMachine
 
-
+#authentication.VERSION
 class InstancesGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
