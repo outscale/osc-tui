@@ -58,7 +58,7 @@ def readAKSK(form_color='STANDOUT'):
         F.preserve_selected_widget = True
         name = F.add(oscscreen.TitleText, name="NAME:")
         ak = F.add(oscscreen.TitleText, name="ACCESS KEY:")
-        sk = F.add(oscscreen.TitleText, name="SECRET KEY:")
+        sk = F.add(oscscreen.TitlePassword, name="SECRET KEY:")
         regions = requests.post(
             "https://api.eu-west-2.outscale.com/api/latest/ReadRegions")
         regions_list = []
@@ -84,7 +84,7 @@ def readAKSK(form_color='STANDOUT'):
             F = ConfirmCancelPopup(name="Login/password", color=form_color)
             F.preserve_selected_widget = True
             log = F.add(oscscreen.TitleText, name="login")
-            passwd = F.add(oscscreen.TitleText, name="password")
+            passwd = F.add(oscscreen.TitlePassword, name="password")
             F.edit()
             if F.value is True:
                 gw = Gateway(email=log.value, password=passwd.value,
