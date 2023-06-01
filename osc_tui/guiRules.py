@@ -25,6 +25,8 @@ def objectify():
                 "ports": rule["ports"],
                 "protocols": rule["protocols"]
             }
+            if "ips" in rule:
+                ret[rule["mode"]][rule_name]["ips"] = rule["ips"]
     return ret
 
 def parse():

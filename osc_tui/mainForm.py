@@ -123,22 +123,29 @@ class mainMenu(oscscreen.MultiLineAction):
                         for name in guiRules.RULES[MODE]:
                             if act_on_this == name:
                                 rule=guiRules.RULES[MODE][name]
-                                ipstr=popup.readString(name="Enter IP:")
+                                ips=[]
+                                print(rule)
+                                if "ips" in rule:
+                                    ips=rule["ips"]
+                                else:
+                                    ipstr=popup.readString(name="Enter IP:")
+                                    ips.append(ipstr)
                                 try:
-                                    ip=ipaddress.ip_network(ipstr)
-                                    for p in rule["ports"]:
-                                        for proto in rule["protocols"]:
-                                            main.GATEWAY.CreateSecurityGroupRule(
-                                                form=self.form,
-                                                FromPortRange=p,
-                                                IpProtocol=proto,
-                                                IpRange=str(ip),
-                                                ToPortRange=p,
-                                                SecurityGroupId=main.SECURITY_GROUP,
-                                                Flow="Inbound"
-                                            )
-                                    self.form.current_grid.h_refresh(None)
-                                    self.form.current_grid.display()
+                                    for ipstr in ips:
+                                        ip=ipaddress.ip_network(ipstr)
+                                        for p in rule["ports"]:
+                                            for proto in rule["protocols"]:
+                                                main.GATEWAY.CreateSecurityGroupRule(
+                                                    form=self.form,
+                                                    FromPortRange=p,
+                                                    IpProtocol=proto,
+                                                    IpRange=str(ip),
+                                                    ToPortRange=p,
+                                                    SecurityGroupId=main.SECURITY_GROUP,
+                                                    Flow="Inbound"
+                                                )
+                                                self.form.current_grid.h_refresh(None)
+                                                self.form.current_grid.display()
                                 except ValueError:
                                     oscscreen.notify_confirm("{} is not an IP :/".format(ipstr))
                                 return
