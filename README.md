@@ -29,7 +29,14 @@ Examples:
 	"mode": "SECURITY-RULES",
 	"ports": [25565],
 	"protocols": ["udp", "tcp"]
+    },
+    "ssh ips": {
+    "mode": "SECURITY-RULES",
+    "ips": ["41.41.41.41", "43.43.43.43"],
+    "ports": [25565],
+    "protocols": ["udp", "tcp"]
     }
+
 }
 ```
 
