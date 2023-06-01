@@ -128,7 +128,12 @@ def main():
             elif a == "--mode":
                 i += 1
                 if i == argc:
-                    print("--mode require an argument !!!", file=sys.stderr)
+                    print(
+"""
+--mode require an argument !!!, mode list:
+Vms,Volumes,Snapshots,Keypairs,LoadBalancers,Nets,Security
+Images,NetAccessPoints,NetPeering,GPUs
+""")
                     return 1
                 profileSelector.MODE = argv[i]
             elif a == "--profile":
