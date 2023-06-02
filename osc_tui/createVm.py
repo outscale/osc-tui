@@ -27,6 +27,8 @@ CORE = None
 REGION = None
 # Action On Shutdown combo box.
 AOS_COMBO = None
+# security groups
+SG = None
 
 LIST_THRESHOLD = 6
 POPUP_COLUMNS = 90
@@ -101,6 +103,9 @@ class CreateVm(oscscreen.FormBaseNew):
                 res = ""
                 if ADVANCED_MODE:
                     vmtype = create_vmtype()
+                    sg = None
+                    if SG.get_value() > 0:
+                        sg = [SG.get_values()[SG.get_value()]]
                     disk_size = DISK_SIZE.get_value()
                     bdm = None
                     if disk_size != "Default":
@@ -117,6 +122,7 @@ class CreateVm(oscscreen.FormBaseNew):
                         form=self, ImageId=id, KeypairName=keypair, VmType=vmtype, Placement={
                             "SubregionName": REGION.get_values()[REGION.get_value()]
                         },
+                        SecurityGroups=sg,
                         BlockDeviceMappings=bdm,
                         VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[AOS_COMBO.get_value()],
                     )
@@ -190,6 +196,18 @@ class CreateVm(oscscreen.FormBaseNew):
             value=KEYPAIRS_COMBO.get_value() if KEYPAIRS_COMBO else 0,
         )
         if ADVANCED_MODE:
+            global SG
+            sg_vals = ["default"]
+            sgs = main.GATEWAY.ReadSecurityGroups(form=self)["SecurityGroups"]
+            for s in sgs:
+                if s["SecurityGroupName"] != "default":
+                    sg_vals.append(s["SecurityGroupName"])
+            SG = self.add_widget(
+                OscCombo,
+                name="SG",
+                values=sg_vals,
+                value=SG.get_value() if SG else 0,
+            )
             global CPU
             cpu_vals = "GEN 2|GEN 3|GEN 4|GEN 5".split("|")
             CPU = self.add_widget(
