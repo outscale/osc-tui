@@ -92,7 +92,9 @@ class mainMenu(oscscreen.MultiLineAction):
                             oscscreen.notify_confirm("Fail to generate graph, did you install graphviz ?")
                         except osc_sdk_python.outscale_gateway.ActionNotExists:
                             oscscreen.notify_confirm("osc-sdk-python is too old for this feature")
-                            
+
+                        except:
+                            oscscreen.notify_confirm("osc-diagram fail for an unknow reason...(the lib is very young)")
                         return
 
                 elif MODE == 'Security':
