@@ -196,7 +196,7 @@ class CreateVm(oscscreen.FormBaseNew):
                 OscCombo,
                 name="Cpu",
                 values=cpu_vals,
-                value=CPU.get_value() if CPU else 0,
+                value=CPU.get_value() if CPU else 3,
             )
             global PERFORMANCE
             perf_vals = "MEDIUM HIGH HIGHEST".split(" ")
