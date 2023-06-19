@@ -26,7 +26,10 @@ LBUs = None
 VPCs = None
 SECURITY_GROUP = None
 SECURITY_RULE = None
-IP = get("https://api.ipify.org").text
+try:
+    IP = get("https://api.ipify.org").text
+except:
+    IP="UNKNOW"
 # Because it's cool but also a DDOS attack :)
 # So let's be cool with the API --> No auto refresh!
 POLL_ENABLED = False
