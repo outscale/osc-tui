@@ -78,7 +78,7 @@ build and install the package:<br>
 
 ## Arch Linux
 ```
-yay -Sy osc-tui-git # you can replace yay by any AUR helper
+yay -Sy osc-tui-git # you can replace yay by any AUR helper, like paru
 ```
 
 # Contributing
