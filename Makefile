@@ -10,7 +10,7 @@ osc-tui-x86_64.AppImage: appimage-bld/osc-tui-x86_64.AppImage
 	cp appimage-bld/osc-tui-x86_64.AppImage osc-tui-x86_64.AppImage
 
 appimage-bld/osc-tui-x86_64.AppImage: appimage-bld/create.sh
-	cd appimage-bld/ && ./create.sh --wget-appimagetool --source-path=../ 
+	cd appimage-bld/ && ./create.sh --wget-appimagetool --source-path=../ --py3_ver=3.11
 
 osc-tui: oscscreen/README.md
 	python3 -m nuitka osc_tui/main.py -o exe --follow-imports --include-package=urllib3 -o osc-tui
