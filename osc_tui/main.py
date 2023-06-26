@@ -1,3 +1,4 @@
+
 #!/usr/bin/env python3
 # encoding: utf-8
 import sys
@@ -33,7 +34,7 @@ except:
 # Because it's cool but also a DDOS attack :)
 # So let's be cool with the API --> No auto refresh!
 POLL_ENABLED = False
-VERSION = 230300
+VERSION = 230600
 # GLOBALS METHODS
 
 CURRENT_GRID=None
