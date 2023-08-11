@@ -31,17 +31,18 @@ Examples:
 	"protocols": ["udp", "tcp"]
     },
     "ssh ips": {
-    "mode": "SECURITY-RULES",
-    "ips": ["41.41.41.41", "43.43.43.43"],
-    "ports": [25565],
-    "protocols": ["udp", "tcp"]
+        "mode": "SECURITY-RULES",
+        "ips": ["41.41.41.41", "43.43.43.43"],
+        "ports": [25565],
+        "protocols": ["udp", "tcp"]
     }
 
 }
 ```
 
-Will add 2 options `Val de heim` and `Mie raft` to the SECURITY-RULES menu.
-when thoses menu are call, osc-tui will ask for an IP, and allow each protocols for each ports describe in "ports" and in "protocols"
+Will add 3 options `Val de heim`, `Mie raft` and `ssh ips` to the SECURITY-RULES menu.
+when `Val de heim` or `Mie raft` menu are click, osc-tui will ask for an IP, and allow each protocols for each ports describe in "ports" and in "protocols"
+with `ssh ips` is click osc-tui will automatically open the port 25565 for udp and tcp for "41.41.41.41" and "43.43.43.43" IPs. 
 
 # Installation
 
