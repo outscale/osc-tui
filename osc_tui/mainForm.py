@@ -355,12 +355,36 @@ class MainForm(oscscreen.FormBaseNew):
     def key_reload(form, _):
         form.reload()
 
+    def switch_to_volumes(form, _):
+        global MODE
+        MODE = "Volumes"
+        form.reload()
+
+    def switch_to_instances(form, _):
+        global MODE
+        MODE = "Vms"
+        form.reload()
+
+    def switch_to_images(form, _):
+        global MODE
+        MODE = "Images"
+        form.reload()
+
+    def switch_to_security_grid(form, _):
+        global MODE
+        MODE = "Security"
+        form.reload()
+
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})
         self.add_handlers({"/": popup.slashSearch})
+        self.add_handlers({"V": self.switch_to_volumes})
+        self.add_handlers({"I": self.switch_to_instances})
+        self.add_handlers({"M": self.switch_to_images})
+        self.add_handlers({"S": self.switch_to_security_grid})
         self.add_handlers({
             "r"             : self.key_reload,
             curses.KEY_F5   : self.key_reload
