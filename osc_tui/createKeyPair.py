@@ -34,9 +34,8 @@ class CreateKeyPair(oscscreen.FormBaseNew):
         self.inspector = None
 
         def write_key(path, private_key):
-            key_file = open(os.path.expanduser(path), 'w')
-            key_file.write(private_key)
-            key_file.close()
+            with open(os.path.expanduser(path), 'w') as key_file :
+                key_file.write(private_key)
 
         def create():
             if(NAME.get_value()):

@@ -368,7 +368,6 @@ def editInstanceInLBU(form, sg, form_color='STANDOUT'):
 
 
 def addSecurityGroupToVm(form, form_color='STANDOUT'):
-    main.SECURITY_GROUP
     F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)
     F.preserve_selected_widget = True
     groups = main.VM["SecurityGroups"]
