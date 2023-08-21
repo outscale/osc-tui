@@ -331,6 +331,36 @@ class MainForm(oscscreen.FormBaseNew):
             rely=2,
         )
 
+    def create_new(self, _):
+        global MODE
+        if MODE == "Vms":
+            self.parentApp.addForm("CREATE_VM", createVm.CreateVm, name="osc-tui")
+            self.parentApp.switchForm("CREATE_VM")
+        elif MODE == "Security":
+            popup.newSecurityGroup(self)
+        elif MODE == "Volumes":
+            self.parentApp.addForm("CREATE_VOLUME", createVolume.CreateVolume, name="osc-tui")
+            self.parentApp.switchForm("CREATE_VOLUME")
+        elif MODE == "Snapshots":
+            self.parentApp.addForm("CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
+            self.parentApp.switchForm("CREATE_SNAPSHOT")
+        elif MODE == "Keypairs":
+            self.parentApp.addForm("CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
+            self.parentApp.switchForm("CREATE_KEYPAIR")
+        elif MODE == "Images":
+            self.parentApp.addForm("CREATE_Images", createImage.CreateImage, name="osc-tui")
+            self.parentApp.switchForm("CREATE_Images")
+        elif MODE == "LoadBalancers":
+            self.parentApp.addForm("CREATE_LOADBALANCER", createLoadbalancer.CreateLoadbalancer, name="osc-tui")
+            self.parentApp.switchForm("CREATE_LOADBALANCER")
+        elif MODE == "Nets":
+            self.parentApp.addForm("CREATE_VPCS", createVpcs.CreateVpcs, name="osc-tui")
+            self.parentApp.switchForm("CREATE_VPCS")
+        elif MODE == "NetAccessPoints":
+            self.parentApp.addForm("CREATE_NET-ACCESS-POINT", createNetAccessPoint.CreateNetAccessPoint, name="osc-tui")
+            self.parentApp.switchForm("CREATE_NET-ACCESS-POINT")
+        
+    
     def on_screen(self):
         super().on_screen()
 
@@ -352,12 +382,37 @@ class MainForm(oscscreen.FormBaseNew):
     def key_reload(self, _):
         self.reload()
 
+    def switch_to_volumes(form, _):
+        global MODE
+        MODE = "Volumes"
+        form.reload()
+
+    def switch_to_instances(form, _):
+        global MODE
+        MODE = "Vms"
+        form.reload()
+
+    def switch_to_images(form, _):
+        global MODE
+        MODE = "Images"
+        form.reload()
+
+    def switch_to_security_grid(form, _):
+        global MODE
+        MODE = "Security"
+        form.reload()
+
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})
         self.add_handlers({"/": popup.slashSearch})
+        self.add_handlers({"C": self.create_new})
+        self.add_handlers({"V": self.switch_to_volumes})
+        self.add_handlers({"I": self.switch_to_instances})
+        self.add_handlers({"M": self.switch_to_images})
+        self.add_handlers({"S": self.switch_to_security_grid})
         self.add_handlers({
             "r"             : self.key_reload,
             curses.KEY_F5   : self.key_reload
