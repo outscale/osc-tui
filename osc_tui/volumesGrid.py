@@ -1,12 +1,8 @@
-
 import oscscreen
-import pyperclip
 
-from osc_tui import createVm
 from osc_tui import main
 from osc_tui import popup
 from osc_tui import selectableGrid
-from osc_tui import virtualMachine
 
 class VolumeGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
@@ -190,7 +186,6 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
 
 
     def refresh(self):
-        id = main.VM["VmId"]
         groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType',
                                                    'Size', 'SubregionName'])
         values = list()

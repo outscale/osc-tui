@@ -10,11 +10,9 @@ from requests import get
 
 from osc_sdk_python import authentication
 
-from osc_tui import inputForm
 from osc_tui import profileSelector
 from osc_tui import guiRules
 
-import time
 
 # GLOBALS ATTRIBUTES
 APP = None

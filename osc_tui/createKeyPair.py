@@ -1,6 +1,5 @@
 import oscscreen
 from osc_tui import main
-from osc_tui import popup
 import os
 
 from os.path import expanduser

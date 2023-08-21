@@ -1,11 +1,9 @@
 import curses
-import threading
 import time
 
 import oscscreen
 
 from osc_tui import main
-from osc_tui import popup
 from osc_tui import mainForm
 
 # Initially it was designed to have a thread that auto refresh... However, even if it worked fine, if too many people does it, it looks like a DDOS attack.

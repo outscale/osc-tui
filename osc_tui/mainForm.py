@@ -2,7 +2,6 @@ import curses
 import ipaddress
 
 import oscscreen
-import pyperclip
 
 import graphviz
 
@@ -27,10 +26,8 @@ from osc_tui import flexibleGPU
 from osc_tui import popup
 from osc_tui import securityGroupsGrid
 from osc_tui import securityRulesGrid
-from osc_tui import selectableGrid
 from osc_tui import snapshotGrid
 from osc_tui import loadbalancerGrid
-from osc_tui import virtualMachine
 from osc_tui import volumesGrid
 from osc_tui import guiRules
 

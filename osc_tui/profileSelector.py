@@ -3,7 +3,6 @@
 import json
 import os
 from pathlib import Path
-import threading
 from osc_tui import preloader
 
 import oscscreen
