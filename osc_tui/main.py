@@ -14,8 +14,6 @@ from osc_tui import inputForm
 from osc_tui import profileSelector
 from osc_tui import guiRules
 
-import time
-
 # GLOBALS ATTRIBUTES
 APP = None
 GATEWAY = None
