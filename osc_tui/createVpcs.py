@@ -52,7 +52,7 @@ class CreateVpcs(oscscreen.FormBaseNew):
         self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
 
 
-class createSubnet(oscscreen.FormBaseNew):
+class CreateSubnet(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -60,7 +60,7 @@ class createSubnet(oscscreen.FormBaseNew):
         main.kill_threads()
         self.parentApp.addForm(
             "CREATE_SUBNET",
-            createSubnet,
+            CreateSubnet,
             name="osc-tui")
         self.parentApp.switchForm("CREATE_SUBNET")
 

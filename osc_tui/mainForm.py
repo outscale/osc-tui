@@ -196,7 +196,7 @@ class mainMenu(oscscreen.MultiLineAction):
                     if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_SUBNET",
-                            createVpcs.createSubnet,
+                            createVpcs.CreateSubnet,
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_SUBNET")
                         return
