@@ -11,8 +11,6 @@ CIDRSUBNET = None
 # List of all Subregions
 SUBREGION = None
 
-import sys
-
 class CreateVpcs(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
@@ -31,12 +29,10 @@ class CreateVpcs(oscscreen.FormBaseNew):
             main.kill_threads()
             self.parentApp.switchForm("Cockpit")
 
-        self.inspector = None
-
         def create():
             cidr_value = CIDR.get_value()
             if cidr_value:
-                res = main.GATEWAY.CreateNet(
+                main.GATEWAY.CreateNet(
                     form=self,
                     IpRange=cidr_value,
                 )
@@ -74,13 +70,11 @@ class createSubnet(oscscreen.FormBaseNew):
             main.kill_threads()
             self.parentApp.switchForm("Cockpit")
 
-        self.inspector = None
-
         def create():
             cidr_value = CIDRSUBNET.get_value()
             subregion_value = SUBREGION.get_values()[SUBREGION.get_value()]
             if cidr_value and subregion_value:
-                res = main.GATEWAY.CreateSubnet(
+                main.GATEWAY.CreateSubnet(
                     form=self,
                     IpRange=cidr_value,
                     NetId=popup.SUBNETID,
