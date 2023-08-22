@@ -13,13 +13,7 @@ SUBREGION = None
 
 import sys
 
-def print_error(*args, **kwargs):
-    error_log_file = "error_log.txt"
-    with open(error_log_file, "a") as error_log:
-        print(*args, file=sys.stderr, **kwargs)
-        print(*args, file=error_log, **kwargs)
-
-class createVpcs(oscscreen.FormBaseNew):
+class CreateVpcs(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -47,7 +41,7 @@ class createVpcs(oscscreen.FormBaseNew):
                     IpRange=cidr_value,
                 )
             else:
-                print_error('CIDR value is missing')
+                popup.errorPopup("CIDR is missing.")
             back()
 
         global CIDR
@@ -70,7 +64,7 @@ class createSubnet(oscscreen.FormBaseNew):
         main.kill_threads()
         self.parentApp.addForm(
             "CREATE_SUBNET",
-            CreateSubnet,
+            createSubnet,
             name="osc-tui")
         self.parentApp.switchForm("CREATE_SUBNET")
 
@@ -93,7 +87,7 @@ class createSubnet(oscscreen.FormBaseNew):
                     SubregionName=subregion_value,
                 )
             else:
-                print_error('CIDR value or Subregion is missing')
+                popup.errorPopup("CIDR is missing.")
             back()
 
         global CIDR
