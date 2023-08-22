@@ -1,6 +1,7 @@
 import oscscreen
 from osc_tui import main
 from osc_tui import popup
+import os
 from osc_tui import preloader
 
 # CIDR input for vpcs
@@ -10,6 +11,13 @@ CIDRSUBNET = None
 # List of all Subregions
 SUBREGION = None
 
+import sys
+
+def print_error(*args, **kwargs):
+    error_log_file = "error_log.txt"
+    with open(error_log_file, "a") as error_log:
+        print(*args, file=sys.stderr, **kwargs)
+        print(*args, file=error_log, **kwargs)
 
 class createVpcs(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
@@ -32,11 +40,14 @@ class createVpcs(oscscreen.FormBaseNew):
         self.inspector = None
 
         def create():
-            cidr = CIDR.get_value()
-            res = main.GATEWAY.CreateNet(
-                form=self,
-                IpRange=cidr,
-            )
+            cidr_value = CIDR.get_value()
+            if cidr_value:
+                res = main.GATEWAY.CreateNet(
+                    form=self,
+                    IpRange=cidr_value,
+                )
+            else:
+                print_error('CIDR value is missing')
             back()
 
         global CIDR
@@ -72,13 +83,17 @@ class createSubnet(oscscreen.FormBaseNew):
         self.inspector = None
 
         def create():
-            cidr = CIDRSUBNET.get_value()
-            res = main.GATEWAY.CreateSubnet(
-                form=self,
-                IpRange=cidr,
-                NetId=popup.SUBNETID,
-                SubregionName=SUBREGION.get_values()[SUBREGION.get_value()],
-            )
+            cidr_value = CIDRSUBNET.get_value()
+            subregion_value = SUBREGION.get_values()[SUBREGION.get_value()]
+            if cidr_value and subregion_value:
+                res = main.GATEWAY.CreateSubnet(
+                    form=self,
+                    IpRange=cidr_value,
+                    NetId=popup.SUBNETID,
+                    SubregionName=subregion_value,
+                )
+            else:
+                print_error('CIDR value or Subregion is missing')
             back()
 
         global CIDR
