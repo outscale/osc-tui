@@ -1,6 +1,4 @@
-from time import sleep
 import oscscreen
-from osc_tui import createImage
 from osc_tui import main
 
 # All images combo box.

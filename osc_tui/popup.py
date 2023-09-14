@@ -368,7 +368,6 @@ def editInstanceInLBU(form, sg, form_color='STANDOUT'):
 
 
 def addSecurityGroupToVm(form, form_color='STANDOUT'):
-    main.SECURITY_GROUP
     F = ConfirmCancelPopup(name='Add New Security Group', color=form_color)
     F.preserve_selected_widget = True
     groups = main.VM["SecurityGroups"]
@@ -674,7 +673,6 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     )
 
     def delete_cb():
-        val = main.GATEWAY.DeleteLoadBalancer(LoadBalancerName=name)
         form.current_grid.h_refresh(None)
         exit()
 
@@ -778,7 +776,6 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         exit()
 
     def delete_cb():
-        val = main.GATEWAY.DeleteSubnet(SubnetId=name)
         form.current_grid.h_refresh(None)
         exit()
     delete.whenPressed = delete_cb

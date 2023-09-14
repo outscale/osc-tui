@@ -1,11 +1,6 @@
-
-from osc_tui import createVm
 from osc_tui import main
-import oscscreen
 from osc_tui import popup
-import pyperclip
 from osc_tui import selectableGrid
-from osc_tui import virtualMachine
 
 
 class SecurityRulesGrid(selectableGrid.SelectableGrid):

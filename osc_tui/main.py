@@ -14,8 +14,6 @@ from osc_tui import inputForm
 from osc_tui import profileSelector
 from osc_tui import guiRules
 
-import time
-
 # GLOBALS ATTRIBUTES
 APP = None
 GATEWAY = None
@@ -144,11 +142,11 @@ Images,NetAccessPoints,NetPeering,GPUs
                 i += 1
                 if i == argc:
                     if os.path.isfile(profileSelector.dst_file):
-                        configFile = open(profileSelector.dst_file)
-                        OAPI_CREDENTIALS = json.loads(configFile.read())
-                        print("Profiles:")
-                        for c in OAPI_CREDENTIALS:
-                            print(str(c))
+                        with open(profileSelector.dst_file, 'r') as configFile:
+                            OAPI_CREDENTIALS = json.loads(configFile.read())
+                            print("Profiles:")
+                            for c in OAPI_CREDENTIALS:
+                                print(str(c))
                     else:
                         print("{} not found, can't read profile !!!".
                               format(profileSelector.dst_file),

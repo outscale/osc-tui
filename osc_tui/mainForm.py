@@ -2,7 +2,6 @@ import curses
 import ipaddress
 
 import oscscreen
-import pyperclip
 
 import graphviz
 
@@ -27,10 +26,8 @@ from osc_tui import flexibleGPU
 from osc_tui import popup
 from osc_tui import securityGroupsGrid
 from osc_tui import securityRulesGrid
-from osc_tui import selectableGrid
 from osc_tui import snapshotGrid
 from osc_tui import loadbalancerGrid
-from osc_tui import virtualMachine
 from osc_tui import volumesGrid
 from osc_tui import guiRules
 
@@ -44,19 +41,19 @@ MENU_WIDTH = 16
 LINE_SEPARATOR_COL = MENU_WIDTH + 1
 GRID_START_COL = MENU_WIDTH +3
 
-def swicthToVolumeEdit(form, id, volume):
-    form.parentApp.addForm("Volume-Edit",
+def swicthToVolumeEdit(self, id, volume):
+    self.parentApp.addForm("Volume-Edit",
                            volumesGrid.VolumeEdit,
                            volume=volume,
                            name="osc-tui Volume-Edit {}".format(id))
-    form.parentApp.switchForm("Volume-Edit")
+    self.parentApp.switchForm("Volume-Edit")
 
-def swicthToVolumeLink(form, id, volume):
-    form.parentApp.addForm("Volume-Link",
+def swicthToVolumeLink(self, id, volume):
+    self.parentApp.addForm("Volume-Link",
                            volumesGrid.VolumeLink,
                            volume=volume,
                            name="osc-tui Volume-Link {}".format(id))
-    form.parentApp.switchForm("Volume-Link")
+    self.parentApp.switchForm("Volume-Link")
 
 
 class mainMenu(oscscreen.MultiLineAction):
@@ -199,7 +196,7 @@ class mainMenu(oscscreen.MultiLineAction):
                     if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
                             "CREATE_SUBNET",
-                            createVpcs.createSubnet,
+                            createVpcs.CreateSubnet,
                             name="osc-tui")
                         self.form.parentApp.switchForm("CREATE_SUBNET")
                         return
@@ -348,12 +345,12 @@ class MainForm(oscscreen.FormBaseNew):
         self.parentApp.addForm("Cockpit", MainForm, name="osc-tui")
         self.parentApp.switchForm("Cockpit")
 
-    def quit_key(form, key_val):
+    def quit_key(self, key_val):
         main.kill_threads()
-        form.parentApp.switchForm("MAIN")
+        self.parentApp.switchForm("MAIN")
         
-    def key_reload(form, _):
-        form.reload()
+    def key_reload(self, _):
+        self.reload()
 
     def set_up_handlers(self):
         super().set_up_handlers()

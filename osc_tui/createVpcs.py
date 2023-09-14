@@ -11,8 +11,7 @@ CIDRSUBNET = None
 # List of all Subregions
 SUBREGION = None
 
-
-class createVpcs(oscscreen.FormBaseNew):
+class CreateVpcs(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -30,14 +29,15 @@ class createVpcs(oscscreen.FormBaseNew):
             main.kill_threads()
             self.parentApp.switchForm("Cockpit")
 
-        self.inspector = None
-
         def create():
-            cidr = CIDR.get_value()
-            res = main.GATEWAY.CreateNet(
-                form=self,
-                IpRange=cidr,
-            )
+            cidr_value = CIDR.get_value()
+            if cidr_value:
+                main.GATEWAY.CreateNet(
+                    form=self,
+                    IpRange=cidr_value,
+                )
+            else:
+                popup.errorPopup("CIDR is missing.")
             back()
 
         global CIDR
@@ -52,7 +52,7 @@ class createVpcs(oscscreen.FormBaseNew):
         self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
 
 
-class createSubnet(oscscreen.FormBaseNew):
+class CreateSubnet(oscscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -70,16 +70,18 @@ class createSubnet(oscscreen.FormBaseNew):
             main.kill_threads()
             self.parentApp.switchForm("Cockpit")
 
-        self.inspector = None
-
         def create():
-            cidr = CIDRSUBNET.get_value()
-            res = main.GATEWAY.CreateSubnet(
-                form=self,
-                IpRange=cidr,
-                NetId=popup.SUBNETID,
-                SubregionName=SUBREGION.get_values()[SUBREGION.get_value()],
-            )
+            cidr_value = CIDRSUBNET.get_value()
+            subregion_value = SUBREGION.get_values()[SUBREGION.get_value()]
+            if cidr_value and subregion_value:
+                main.GATEWAY.CreateSubnet(
+                    form=self,
+                    IpRange=cidr_value,
+                    NetId=popup.SUBNETID,
+                    SubregionName=subregion_value,
+                )
+            else:
+                popup.errorPopup("CIDR is missing.")
             back()
 
         global CIDR

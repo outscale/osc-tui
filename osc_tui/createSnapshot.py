@@ -45,9 +45,6 @@ class CreateSnapshot(oscscreen.FormBaseNew):
                 return
             else:
                 id = ID_LIST[VOLUME_COMBO.get_value()]
-                volume = VOLUME_COMBO.get_values()[
-                    VOLUME_COMBO.get_value()
-                ]
                 res = main.GATEWAY.CreateSnapshot(
                     form=self,
                     VolumeId=id,

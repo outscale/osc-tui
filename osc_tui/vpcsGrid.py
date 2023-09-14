@@ -1,11 +1,6 @@
-import oscscreen
-import pyperclip
-
-from osc_tui import createVm
 from osc_tui import main
 from osc_tui import popup
 from osc_tui import selectableGrid
-from osc_tui import virtualMachine
 
 
 class vpcsGrid(selectableGrid.SelectableGrid):
