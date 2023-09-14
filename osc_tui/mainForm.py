@@ -382,49 +382,12 @@ class MainForm(oscscreen.FormBaseNew):
     def key_reload(self, _):
         self.reload()
 
-    def switch_to_volumes(self, _):
-        global MODE
-        MODE = "Volumes"
-        self.reload()
-
-    def switch_to_instances(self, _):
-        global MODE
-        MODE = "Vms"
-        self.reload()
-
-    def switch_to_images(self, _):
-        global MODE
-        MODE = "Images"
-        self.reload()
-
-    def switch_to_security_grid(self, _):
-        global MODE
-        MODE = "Security"
-        self.reload()
-
-    def switch_to_nets(self, _):
-        global MODE
-        MODE = "Nets"
-        self.reload()
-    
-    def switch_to_keypairs(self, _):
-        global MODE
-        MODE = "Keypairs"
-        self.reload()
-
     def set_up_handlers(self):
         super().set_up_handlers()
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})
         self.add_handlers({"/": popup.slashSearch})
-        self.add_handlers({"C": self.create_new})
-        self.add_handlers({"V": self.switch_to_volumes})
-        self.add_handlers({"I": self.switch_to_instances})
-        self.add_handlers({"M": self.switch_to_images})
-        self.add_handlers({"S": self.switch_to_security_grid})
-        self.add_handlers({"T": self.switch_to_nets})
-        self.add_handlers({"K": self.switch_to_keypairs})
         self.add_handlers({
             "r"             : self.key_reload,
             curses.KEY_F5   : self.key_reload

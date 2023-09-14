@@ -1062,18 +1062,12 @@ def showHelp(arg):
         oscscreen.Pager,
         )
     ft.values = [
-        "Return to profile  : q",
-        "Exit               : Ctrl+Q",
-        "Refresh            : F5 or r",
-        "Search in Fields   : /",
-        "search in Menu     : l",
-        "Help               : h",
-        "Switch to Vms      : I",
-        "Switch to Volumes  : V",
-        "Switch to Images   : M",
-        "Switch to Security : S",
-        "Switch to Nets     : T",
-        "Switch to Keypairs : K\n",
+        "Return to profile : q",
+        "Exit              : Ctrl+Q",
+        "Refresh           : F5 or r",
+        "Search in Fields  : /",
+        "search in Menu    : l",
+        "Help              : h\n",
     ]
     
     def ok():
