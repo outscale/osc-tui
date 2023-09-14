@@ -178,10 +178,10 @@ class mainMenu(oscscreen.MultiLineAction):
                 elif MODE == 'Nets':
                     if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
-                            "CREATE_VPCS",
-                            createVpcs.CreateVpcs,
+                            "CREATE_VPCs",
+                            createVpcs.createVpcs,
                             name="osc-tui")
-                        self.form.parentApp.switchForm("CREATE_VPCS")
+                        self.form.parentApp.switchForm("CREATE_VPCs")
                         return
                 elif MODE == 'Images':
                     if act_on_this == 'Filter':
@@ -331,36 +331,6 @@ class MainForm(oscscreen.FormBaseNew):
             rely=2,
         )
 
-    def create_new(self, _):
-        global MODE
-        if MODE == "Vms":
-            self.parentApp.addForm("CREATE_VM", createVm.CreateVm, name="osc-tui")
-            self.parentApp.switchForm("CREATE_VM")
-        elif MODE == "Security":
-            popup.newSecurityGroup(self)
-        elif MODE == "Volumes":
-            self.parentApp.addForm("CREATE_VOLUME", createVolume.CreateVolume, name="osc-tui")
-            self.parentApp.switchForm("CREATE_VOLUME")
-        elif MODE == "Snapshots":
-            self.parentApp.addForm("CREATE_SNAPSHOT", createSnapshot.CreateSnapshot, name="osc-tui")
-            self.parentApp.switchForm("CREATE_SNAPSHOT")
-        elif MODE == "Keypairs":
-            self.parentApp.addForm("CREATE_KEYPAIR", createKeyPair.CreateKeyPair, name="osc-tui")
-            self.parentApp.switchForm("CREATE_KEYPAIR")
-        elif MODE == "Images":
-            self.parentApp.addForm("CREATE_Images", createImage.CreateImage, name="osc-tui")
-            self.parentApp.switchForm("CREATE_Images")
-        elif MODE == "LoadBalancers":
-            self.parentApp.addForm("CREATE_LOADBALANCER", createLoadbalancer.CreateLoadbalancer, name="osc-tui")
-            self.parentApp.switchForm("CREATE_LOADBALANCER")
-        elif MODE == "Nets":
-            self.parentApp.addForm("CREATE_VPCS", createVpcs.CreateVpcs, name="osc-tui")
-            self.parentApp.switchForm("CREATE_VPCS")
-        elif MODE == "NetAccessPoints":
-            self.parentApp.addForm("CREATE_NET-ACCESS-POINT", createNetAccessPoint.CreateNetAccessPoint, name="osc-tui")
-            self.parentApp.switchForm("CREATE_NET-ACCESS-POINT")
-        
-    
     def on_screen(self):
         super().on_screen()
 

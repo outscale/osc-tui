@@ -819,7 +819,7 @@ def startLoading(form, refresh):
             "   |/\n" +
             "   +\n",
 
-            "  \|  \n" +
+            r"  \|  \n" +
             "   +\n",
 
             "  \\ \n" +
@@ -1069,21 +1069,6 @@ def showHelp(arg):
         "search in Menu    : l",
         "Help              : h\n",
     ]
-    
-    def ok():
-        exit()
-
-    F.on_ok = ok
-    F.edit()
-
-def errorPopup(message):
-    F = displayPopup(name = "Error")
-    F.preserve_selected_widget = True
-
-    ft = F.add_widget(
-        oscscreen.Pager,
-        )
-    ft.values = [message]
     
     def ok():
         exit()
