@@ -1068,6 +1068,7 @@ def showHelp(arg):
         "Search in Fields   : /",
         "search in Menu     : l",
         "Help               : h",
+        "Create New         : C",
         "Switch to Vms      : I",
         "Switch to Volumes  : V",
         "Switch to Images   : M",
