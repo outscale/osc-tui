@@ -1075,3 +1075,18 @@ def showHelp(arg):
 
     F.on_ok = ok
     F.edit()
+
+def errorPopup(message):
+    F = displayPopup(name = "Error")
+    F.preserve_selected_widget = True
+
+    ft = F.add_widget(
+        oscscreen.Pager,
+        )
+    ft.values = [message]
+    
+    def ok():
+        exit()
+
+    F.on_ok = ok
+    F.edit()

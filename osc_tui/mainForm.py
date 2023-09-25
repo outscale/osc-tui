@@ -178,10 +178,10 @@ class mainMenu(oscscreen.MultiLineAction):
                 elif MODE == 'Nets':
                     if act_on_this == 'Create new':
                         self.form.parentApp.addForm(
-                            "CREATE_VPCs",
-                            createVpcs.createVpcs,
+                            "CREATE_VPCS",
+                            createVpcs.CreateVpcs,
                             name="osc-tui")
-                        self.form.parentApp.switchForm("CREATE_VPCs")
+                        self.form.parentApp.switchForm("CREATE_VPCS")
                         return
                 elif MODE == 'Images':
                     if act_on_this == 'Filter':
