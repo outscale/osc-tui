@@ -534,9 +534,9 @@ def editVolume(form, volume, form_color='STANDOUT'):
     id = volume[0]
     type = volume[1]
     size = volume[2]
-    vm_id = volume[4]
-    #device_name = volume[5]
-    #iops = volume[6]
+    vm_id = volume[5]
+    #device_name = volume[6]
+    #iops = volume[7]
 
     F = displayPopup(
         name="{} ({}), {}gib, linked to: {}".format(id, type, size, vm_id))
@@ -557,17 +557,6 @@ def editVolume(form, volume, form_color='STANDOUT'):
         mainForm.swicthToVolumeEdit(form, id, volume)
         return
 
-    if vm_id == "Unlinked":
-        link = F.add_widget(
-            oscscreen.ButtonPress,
-            name="LINK",
-        )
-    else:
-        unlink = F.add_widget(
-            oscscreen.ButtonPress,
-            name="UNLINK",
-        )
-
     def link_cb():
         exit()
         mainForm.MODE = "Volume-Link"
@@ -578,6 +567,19 @@ def editVolume(form, volume, form_color='STANDOUT'):
         main.GATEWAY.UnlinkVolume(VolumeId=id)
         exit()
         return
+
+    if vm_id == "Unlinked":
+        link = F.add_widget(
+            oscscreen.ButtonPress,
+            name="LINK"
+        )
+        link.whenPressed = link_cb
+    else:
+        unlink = F.add_widget(
+            oscscreen.ButtonPress,
+            name="UNLINK",
+        )
+        unlink.whenPressed = unlink_cb
 
     delete = F.add_widget(
         oscscreen.ButtonPress,
@@ -592,10 +594,6 @@ def editVolume(form, volume, form_color='STANDOUT'):
         form.current_grid.h_refresh(None)
         exit()
 
-    if vm_id == "Unlinked":
-        link.whenPressed = link_cb
-    else:
-        unlink.whenPressed = unlink_cb
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
 
