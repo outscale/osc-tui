@@ -1,6 +1,3 @@
-import oscscreen
-import pyperclip
-
 from osc_tui import main
 from osc_tui import popup
 from osc_tui import selectableGrid

@@ -10,7 +10,8 @@ from requests import get
 
 from osc_sdk_python import authentication
 
-from osc_tui import inputForm
+from typing import List
+
 from osc_tui import profileSelector
 from osc_tui import guiRules
 
@@ -60,7 +61,7 @@ def exit():
     sys.exit(0)
 
 
-def do_search(array, lookup_list, name_as_tag=False, az=False, state_msg=False, accepted_net=False):
+def do_search(array, lookup_list: List[str], name_as_tag=False, az=False, state_msg=False, accepted_net=False):
     if len(SEARCH_FILTER) < 1:
         return array
     to_remove = []

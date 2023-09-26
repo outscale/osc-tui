@@ -586,7 +586,7 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
     def delete_cb():
         try:
-            val = main.GATEWAY.DeleteVolume(VolumeId=id)
+            main.GATEWAY.DeleteVolume(VolumeId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
@@ -634,7 +634,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
 
     def delete_cb():
         try:
-            val = main.GATEWAY.DeleteSnapshot(SnapshotId=id)
+            main.GATEWAY.DeleteSnapshot(SnapshotId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
@@ -703,7 +703,7 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
     )
 
     def delete_cb():
-        val = main.GATEWAY.DeleteNet(NetId=name)
+        main.GATEWAY.DeleteNet(NetId=name)
         form.current_grid.h_refresh(None)
         exit()
 
@@ -875,7 +875,7 @@ def editKeypair(form, line, form_color='STANDOUT'):
             "You will delete permanently the keypair named " + name, "Warning")
         if delete:
             try:
-                val = main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
+                main.GATEWAY.DeleteKeypair(form=form, KeypairName=name)
             except BaseException:
                 raise
             form.current_grid.h_refresh(None)
@@ -904,7 +904,7 @@ def editImage(form, image, form_color='STANDOUT'):
 
     def delete_cb():
         try:
-            val = main.GATEWAY.DeleteImage(ImageId=id)
+            main.GATEWAY.DeleteImage(ImageId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
@@ -942,7 +942,7 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
 
     def delete_cb():
         try:
-            val = main.GATEWAY.DeleteNetAccessPoint(NetAccessPointId=id)
+            main.GATEWAY.DeleteNetAccessPoint(NetAccessPointId=id)
         except BaseException:
             raise
         form.current_grid.h_refresh(None)
