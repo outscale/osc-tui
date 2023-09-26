@@ -37,7 +37,7 @@ class SelectableGrid(oscscreen.GridColTitles):
         if skip_call == False:
             tries = 0
             data = self.refresh_call(name_filter=name_filter)
-            while data == None and tries < 10:
+            while data is None and tries < 10:
                 time.sleep(0.5)
                 data = self.refresh_call(name_filter=name_filter)
                 tries += 1

@@ -37,7 +37,7 @@ class CreateLoadbalancer(oscscreen.FormBaseNew):
         def create():
             name = NAME.get_value()
             protocol = PROTOCOL.get_values()[PROTOCOL.get_value()]
-            res = main.GATEWAY.CreateLoadBalancer(
+            main.GATEWAY.CreateLoadBalancer(
                 form=self,
                 SubregionNames=[SUBREGION.get_values()[SUBREGION.get_value()]],
                 Listeners=[{

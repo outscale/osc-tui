@@ -603,7 +603,7 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
 def editSnapshot(form, snapshot, form_color='STANDOUT'):
     id = snapshot[0]
-    description = snapshot[1]
+    # description = snapshot[1]
     size = snapshot[2]
     volume_id = snapshot[3]
 
@@ -798,7 +798,6 @@ def startLoading(form, refresh):
         F = PendingPopup(name=title, color=form_color)
         F.preserve_selected_widget = True
         mlw = F.add(wgmultiline.Pager,)
-        mlw_width = mlw.width - 1
         message = message.split('\n')
         mlw.values = message
         F.display()
@@ -854,7 +853,7 @@ def startLoading(form, refresh):
 
 def editKeypair(form, line, form_color='STANDOUT'):
     name = line[0]
-    fingerprint = line[1]
+    #fingerprint = line[1]
 
     F = displayPopup(name="Keypair: {}".format(name))
     F.preserve_selected_widget = True

@@ -41,7 +41,7 @@ SEARCH_FILTER=""
 
 def readVms():
     reply = GATEWAY.ReadVms()
-    if reply == None:
+    if reply is None:
         return None
     return reply["Vms"]
 

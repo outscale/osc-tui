@@ -1,7 +1,6 @@
 import oscscreen
 from osc_tui import main
 from osc_tui import popup
-import os
 from osc_tui import preloader
 
 # CIDR input for vpcs
