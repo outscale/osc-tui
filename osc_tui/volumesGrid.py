@@ -10,6 +10,7 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         self.col_titles = [
             "Id",
             "Type",
+            "State",
             'Size (Gb)',
             'Subregion',
             'Linked To',
@@ -28,14 +29,14 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         return groups['Volumes']
 
     def refresh(self):
-        groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType',
+        groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType', 'State'
                                                    'Size', 'SubregionName', 'Iops'])
         values = list()
         for g in groups:
             VolLink = g["LinkedVolumes"]
             VmId = VolLink[0]["VmId"] if VolLink else "Unlinked"
             DName = VolLink[0]["DeviceName"] if VolLink else "No Dev Today"
-            values.append([g["VolumeId"], g["VolumeType"],
+            values.append([g["VolumeId"], g["VolumeType"], g["State"],
                            g["Size"], g['SubregionName'], VmId, DName, g['Iops'] if 'Iops' in g else '??'])
         self.values = values
 
