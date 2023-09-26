@@ -29,7 +29,7 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         return groups['Volumes']
 
     def refresh(self):
-        groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType', 'State'
+        groups = main.do_search(self.data.copy(), ['VolumeId', 'VolumeType', 'State',
                                                    'Size', 'SubregionName', 'Iops'])
         values = list()
         for g in groups:
