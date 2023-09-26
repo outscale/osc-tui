@@ -673,6 +673,7 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     )
 
     def delete_cb():
+        main.GATEWAY.DeleteLoadBalancer(LoadBalancerName=name)
         form.current_grid.h_refresh(None)
         exit()
 
