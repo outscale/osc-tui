@@ -105,7 +105,7 @@ class CallbackFactory:
             # now let's check if the profile worked:
             try:
                 res = main.GATEWAY.ReadClientGateways(form=self.form)
-                if "Errors" not in res:
+                if res is not None and "Errors" not in res:
                     preloader.Preloader.load_async()
                     mainForm.MODE = MODE
                     self.form.parentApp.addForm(
