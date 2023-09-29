@@ -775,6 +775,7 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         exit()
 
     def delete_cb():
+        main.GATEWAY.DeleteSubnet(SubnetId=name)
         form.current_grid.h_refresh(None)
         exit()
     delete.whenPressed = delete_cb
