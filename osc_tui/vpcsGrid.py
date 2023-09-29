@@ -6,7 +6,7 @@ from osc_tui import selectableGrid
 class vpcsGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["Id", "CIDR", "DHCP Options Id"]
+        self.col_titles = ["Id", "CIDR", "DHCP Options Id", "State"]
 
         def on_selection(line):
             popup.editVpcs(self.form, line)
@@ -19,11 +19,11 @@ class vpcsGrid(selectableGrid.SelectableGrid):
 
     def refresh(self):
         groups = main.do_search(self.data.copy(), ["NetId", "IpRange",
-                                                   "DhcpOptionsSetId"])
+                                                   "DhcpOptionsSetId", "State"])
         values = list()
         for g in groups:
-            values.append([g['NetId'],
-                           g['IpRange'], g['DhcpOptionsSetId']])
+            values.append([g['NetId'], g['IpRange'], g['DhcpOptionsSetId'],
+                           g["State"]])
         self.values = values
 
 
