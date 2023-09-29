@@ -30,6 +30,7 @@ from osc_tui import snapshotGrid
 from osc_tui import loadbalancerGrid
 from osc_tui import volumesGrid
 from osc_tui import guiRules
+from osc_tui import nicsGrid
 
 from osc_diagram import osc_diagram
 
@@ -252,7 +253,7 @@ class MainForm(oscscreen.FormBaseNew):
                 out = out + '‎'
             return out
         menu_desc = (
-            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets NetAccessPoints NetPeering GPUs " + build_line(15) + " Refresh Quit").split()
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Nics NetAccessPoints NetPeering GPUs " + build_line(15) + " Refresh Quit").split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = MENU_WIDTH
@@ -304,6 +305,8 @@ class MainForm(oscscreen.FormBaseNew):
         elif MODE == 'Subnets':
             CURRENT_GRID_CLASS = vpcsGrid.subnetGrid
             menu_desc.append('Create new')
+        elif MODE == 'Nics':
+            CURRENT_GRID_CLASS = nicsGrid.nicsGrid
         elif MODE == 'Keypairs':
             CURRENT_GRID_CLASS = keyPairsGrid.KeyPairsGrid
             menu_desc.append('Create new')
