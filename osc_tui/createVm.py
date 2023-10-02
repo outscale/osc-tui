@@ -209,7 +209,7 @@ class CreateVm(oscscreen.FormBaseNew):
                 value=SG.get_value() if SG else 0,
             )
             global CPU
-            cpu_vals = "GEN 2|GEN 3|GEN 4|GEN 5".split("|")
+            cpu_vals = "GEN 3|GEN 4|GEN 5|GEN 6".split("|")
             CPU = self.add_widget(
                 OscCombo,
                 name="Cpu",
