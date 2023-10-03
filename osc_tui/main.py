@@ -28,7 +28,7 @@ SECURITY_GROUP = None
 SECURITY_RULE = None
 try:
     IP = get("https://api.ipify.org").text
-except BaseException:
+except (Exception,KeyboardInterrupt):
     IP="UNKNOW"
 # Because it's cool but also a DDOS attack :)
 # So let's be cool with the API --> No auto refresh!
