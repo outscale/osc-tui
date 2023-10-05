@@ -58,7 +58,7 @@ def swicthToVolumeLink(self, id, volume):
 
 
 class mainMenu(oscscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=11, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=12, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
