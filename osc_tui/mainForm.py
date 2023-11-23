@@ -58,7 +58,7 @@ def swicthToVolumeLink(self, id, volume):
 
 
 class mainMenu(oscscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=12, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=13, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -253,7 +253,7 @@ class MainForm(oscscreen.FormBaseNew):
                 out = out + '‎'
             return out
         menu_desc = (
-            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Nics NetAccessPoints NetPeering GPUs " + build_line(15) + " Refresh Quit").split()
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Subnets Nics NetAccessPoints NetPeering GPUs " + build_line(15) + " Refresh Quit").split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = MENU_WIDTH
