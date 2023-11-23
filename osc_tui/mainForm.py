@@ -32,6 +32,7 @@ from osc_tui import volumesGrid
 from osc_tui import guiRules
 from osc_tui import nicsGrid
 from osc_tui import publicIps
+from osc_tui import internetServices
 
 from osc_diagram import osc_diagram
 
@@ -58,8 +59,9 @@ def swicthToVolumeLink(self, id, volume):
     self.parentApp.switchForm("Volume-Link")
 
 
+# update draw_line_at when adding a new resource
 class mainMenu(oscscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=14, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=15, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -254,7 +256,7 @@ class MainForm(oscscreen.FormBaseNew):
                 out = out + '‎'
             return out
         menu_desc = (
-            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Subnets PublicIps Nics NetAccessPoints NetPeering GPUs " + build_line(15) + " Refresh Quit").split()
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Subnets PublicIps Nics NetAccessPoints NetPeering InternetServices GPUs " + build_line(15) + " Refresh Quit").split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = MENU_WIDTH
@@ -308,6 +310,8 @@ class MainForm(oscscreen.FormBaseNew):
             menu_desc.append('Create new')
         elif MODE == 'Nics':
             CURRENT_GRID_CLASS = nicsGrid.nicsGrid
+        elif MODE == 'InternetServices':
+            CURRENT_GRID_CLASS = internetServices.internetServicesGrid
         elif MODE == 'PublicIps':
             CURRENT_GRID_CLASS = publicIps.publicIpsGrid
         elif MODE == 'Keypairs':
