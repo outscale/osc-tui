@@ -34,6 +34,7 @@ from osc_tui import nicsGrid
 from osc_tui import publicIps
 from osc_tui import internetServices
 from osc_tui import routeTables
+from osc_tui import dhcpOptions
 
 from osc_diagram import osc_diagram
 
@@ -62,7 +63,7 @@ def swicthToVolumeLink(self, id, volume):
 
 # update draw_line_at when adding a new resource
 class mainMenu(oscscreen.MultiLineAction):
-    def __init__(self, screen, form=None, draw_line_at=16, *args, **keywords):
+    def __init__(self, screen, form=None, draw_line_at=17, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
         self.cursor_line = SELECTED_BUTTON
@@ -257,7 +258,7 @@ class MainForm(oscscreen.FormBaseNew):
                 out = out + '‎'
             return out
         menu_desc = (
-            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Subnets PublicIps Nics NetAccessPoints NetPeering InternetServices RouteTables GPUs " + build_line(15) + " Refresh Quit").split()
+            "Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Subnets PublicIps Nics NetAccessPoints NetPeering InternetServices RouteTables DhcpOptions GPUs " + build_line(15) + " Refresh Quit").split()
         global CURRENT_GRID_CLASS
         y, _ = self.useable_space()
         self.rowOffset = MENU_WIDTH
@@ -315,6 +316,8 @@ class MainForm(oscscreen.FormBaseNew):
             CURRENT_GRID_CLASS = internetServices.internetServicesGrid
         elif MODE == 'RouteTables':
             CURRENT_GRID_CLASS = routeTables.routeTablesGrid
+        elif MODE == 'DhcpOptions':
+            CURRENT_GRID_CLASS = dhcpOptions.dhcpOptionsGrid
         elif MODE == 'PublicIps':
             CURRENT_GRID_CLASS = publicIps.publicIpsGrid
         elif MODE == 'Keypairs':
