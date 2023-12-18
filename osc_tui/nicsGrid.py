@@ -20,5 +20,5 @@ class nicsGrid(selectableGrid.SelectableGrid):
             description = n["Description"] if "Description" in n else "???"
             mac_address = n["MacAddress"] if "MacAddress" in n else "???"
             
-            values.append([n['NicId'], n["State"]], subnet_id, net_id, description, mac_address)
+            values.append([n['NicId'], n["State"], subnet_id, net_id, description, mac_address])
         self.values = values
