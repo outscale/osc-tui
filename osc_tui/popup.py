@@ -1,6 +1,7 @@
 import curses
 from threading import Thread
 import os
+import json
 
 import oscscreen
 import oscscreen.fmPopup
@@ -34,6 +35,20 @@ class displayPopup(oscscreen.fmPopup.Popup):
     DEFAULT_COLUMNS = 100
     OK_BUTTON_TEXT = 'BACK'
     SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
+    def __init__(self, *args, **keywords):
+        if "lines" in keywords:
+            self.DEFAULT_LINES = keywords["lines"]
+        super().__init__(*args, **keywords)
+
+    def on_ok(self):
+        self.editing = False
+        self.value = True
+
+class displayPopupWide(oscscreen.fmPopup.PopupWide):
+    term_size = os.get_terminal_size()
+    OK_BUTTON_TEXT = 'BACK'
+    DEFAULT_LINES = term_size.lines - 2
+
     def on_ok(self):
         self.editing = False
         self.value = True
@@ -127,13 +142,17 @@ def editInstance(form, instance, form_color='STANDOUT'):
     status = instance[0]
     id = instance[2]
     name = instance[1]
-    F = displayPopup(name=name + ' (' + id + ')', color=form_color)
+    F = displayPopup(name=name + ' (' + id + ')', color=form_color, lines=20)
     F.preserve_selected_widget = True
 
     def exit():
         F.editing = False
     F.on_ok = exit
     # Buttons about VMs
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
     run_stop = F.add_widget(
         oscscreen.ButtonPress,
         name="RUN",
@@ -186,6 +205,25 @@ def editInstance(form, instance, form_color='STANDOUT'):
     run_stop.update()
 
     # Operations availables:
+    def info_vm():
+        exit()
+        F = displayPopupWide(name = "Vm Info " + name + ", id: " + id)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        vm = main.GATEWAY.ReadVms(form=form, Filters={"VmIds": [id]})
+        vm = vm["Vms"][0]
+        
+        ft.values = json.dumps(vm, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
     def start_vm():
         main.GATEWAY.StartVms(form=form, VmIds=[id])
         form.current_grid.h_refresh(None)
@@ -236,6 +274,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
     def add_to_lbu():
         oscscreen.notify_confirm("Not implemented yet :/")
 
+    info.whenPressed = info_vm
     copy_ip.whenPressed = copy_ip
     run_stop.whenPressed = start_vm if status == "stopped" else stop_vm
     force_stop.whenPressed = force_stop_vm
