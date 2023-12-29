@@ -781,6 +781,30 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
+
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+    def info_net():
+        exit()
+        F = displayPopupWide(name = "Net Info Id: " + name)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        sg = main.GATEWAY.ReadNets(form=form, Filters={"NetIds": [name]})
+        sg = sg["Nets"][0]
+        
+        ft.values = json.dumps(sg, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
     delete = F.add_widget(
         oscscreen.ButtonPress,
         name="DELETE",
@@ -800,6 +824,7 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
         mainForm.MODE = 'Subnets'
         form.reload()
 
+    info.whenPressed = info_net
     delete.whenPressed = delete_cb
     read_subnet.whenPressed = subnetRead
     F.edit()
@@ -849,6 +874,31 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
+
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+    def info_subnet():
+        exit()
+        F = displayPopupWide(name = "Subnet Info Id: " + name)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        sg = main.GATEWAY.ReadSubnets(form=form, Filters={"SubnetIds": [name]})
+        sg = sg["Subnets"][0]
+        
+        ft.values = json.dumps(sg, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
+
     test = F.add_widget(
         oscscreen.ButtonPress,
         name="ASSOCIATE ROUTE TABLE"
@@ -867,6 +917,8 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         main.GATEWAY.DeleteSubnet(SubnetId=name)
         form.current_grid.h_refresh(None)
         exit()
+
+    info.whenPressed = info_subnet
     delete.whenPressed = delete_cb
     test.whenPressed = associateRoutetable
     F.edit()
