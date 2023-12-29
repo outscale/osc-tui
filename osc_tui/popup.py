@@ -298,6 +298,30 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+    def info_sg():
+        exit()
+        F = displayPopupWide(name = "SG Info " + name + ", id: " + id)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        sg = main.GATEWAY.ReadSecurityGroups(form=form, Filters={"SecurityGroupIds": [id]})
+        sg = sg["SecurityGroups"][0]
+        
+        ft.values = json.dumps(sg, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
+
     edit = F.add_widget(
         oscscreen.ButtonPress,
         name="EDIT",
@@ -320,6 +344,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
             raise
         form.current_grid.h_refresh(None)
         exit()
+    info.whenPressed = info_sg
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
     F.edit()
@@ -653,6 +678,30 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
+
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+    def info_snap():
+        exit()
+        F = displayPopupWide(name = "Snapshot Info id: " + id)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        sg = main.GATEWAY.ReadSnapshots(form=form, Filters={"SnapshotIds": [id]})
+        sg = sg["Snapshots"][0]
+        
+        ft.values = json.dumps(sg, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
     edit = F.add_widget(
         oscscreen.ButtonPress,
         name="EDIT",
@@ -677,6 +726,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
         form.current_grid.h_refresh(None)
         exit()
 
+    info.whenPressed = info_snap
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
     F.edit()
