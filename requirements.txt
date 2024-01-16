@@ -1,5 +1,5 @@
 diagrams==0.23.3
-osc-sdk-python==0.26.0
+osc-sdk-python==0.27.0
 pyperclip==1.8.2
 requests==2.31.0
 ruamel.yaml==0.17.33
