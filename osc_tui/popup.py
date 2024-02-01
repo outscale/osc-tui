@@ -287,6 +287,44 @@ def editInstance(form, instance, form_color='STANDOUT'):
     F.edit()
 
 
+def selectRouteTable(form, rt, form_color='STANDOUT'):
+    id = rt[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_rt():
+        exit()
+        F = displayPopupWide(name = "Route Table Info id: " + id)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        sg = main.GATEWAY.ReadRouteTables(form=form, Filters={"RouteTableIds": [id]})
+        sg = sg["RouteTables"][0]
+        
+        ft.values = json.dumps(sg, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
+    info.whenPressed = info_rt
+    F.edit()
+    form.current_grid.display()
+
+
 def editSecurityGroup(form, sg, form_color='STANDOUT'):
     name = sg[1]
     id = sg[0]
