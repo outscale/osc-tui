@@ -134,8 +134,9 @@ def main():
                     print(
 """
 --mode require an argument !!!, mode list:
-Vms,Volumes,Snapshots,Keypairs,LoadBalancers,Nets,Security
-Images,NetAccessPoints,NetPeering,GPUs
+Vms Security Volumes Snapshots Keypairs Images LoadBalancers Nets Subnets
+PublicIps Nics NetAccessPoints NetPeering InternetServices NatServices
+RouteTables DhcpOptions GPUs
 """)
                     return 1
                 profileSelector.MODE = argv[i]
