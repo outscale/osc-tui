@@ -29,6 +29,10 @@ REGION = None
 AOS_COMBO = None
 # security groups
 SG = None
+# Subnet
+SUBNET = None
+
+SUBNETS_IDS = []
 
 SELECTED_SG = []
 
@@ -127,6 +131,9 @@ class CreateVm(oscscreen.FormBaseNew):
                                 }
                             }
                         ]
+                    subnet = None
+                    if SUBNET.get_value() > 0:
+                        subnet=SUBNETS_IDS[SUBNET.get_value() - 1]
 
                     res = main.GATEWAY.CreateVms(
                         form=self, ImageId=id, KeypairName=keypair, VmType=vmtype, Placement={
@@ -134,6 +141,7 @@ class CreateVm(oscscreen.FormBaseNew):
                         },
                         SecurityGroups=sg,
                         BlockDeviceMappings=bdm,
+                        SubnetId=subnet,
                         VmInitiatedShutdownBehavior=AOS_COMBO.get_values()[AOS_COMBO.get_value()],
                     )
                 else:
@@ -274,6 +282,25 @@ class CreateVm(oscscreen.FormBaseNew):
                 values=cpu_vals,
                 value=CPU.get_value() if CPU else 3,
             )
+            global SUBNET
+            global SUBNETS_IDS
+            SUBNETS_IDS = []
+            subnet_read = main.GATEWAY.ReadSubnets(form=self)["Subnets"]
+            subnet_vals = ["Default"]
+            for sn in subnet_read:
+                sn_id = sn["SubnetId"]
+                name = sn_id
+                if "Tags" in sn and len(sn["Tags"]) > 0 and sn["Tags"][0]["Key"] == "Name":
+                    name = sn["Tags"][0]["Value"] + "(id :" + sn_id + ")"
+                subnet_vals.append(name)
+                SUBNETS_IDS.append(sn_id)
+            SUBNET = self.add_widget(
+                OscCombo,
+                name="Subnet",
+                values=subnet_vals,
+                value=SUBNET.get_value() if SUBNET else 0,
+            )
+
             global PERFORMANCE
             perf_vals = "MEDIUM HIGH HIGHEST".split(" ")
             PERFORMANCE = self.add_widget(
