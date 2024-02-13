@@ -77,7 +77,8 @@ class CallbackFactory:
                                 "Error while submitting the request:\n{}\nCode: {}\nReason: {}".
                                 format(main.GATEWAY.log.str(),
                                        e.response.status_code,
-                                       e.response.reason), title="ERROR")
+                                       e.response.reason),
+                                title="ERROR", wide=True)
                     if form:
                         kwargs.pop('form')
                         popup.startLoading(form, cb)
