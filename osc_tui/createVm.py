@@ -2,9 +2,10 @@ import oscscreen
 from osc_tui import main
 from osc_tui import preloader
 import os
+import time
 
 # If advanced VM creation enabled.
-ADVANCED_MODE = False
+ADVANCED_MODE = True
 # All images combo box.
 IMG_COMBO = None
 # List of all IDs
@@ -30,6 +31,8 @@ AOS_COMBO = None
 # security groups
 SG = None
 
+SELECTED_SG = []
+
 LIST_THRESHOLD = 6
 POPUP_COLUMNS = 90
 
@@ -40,6 +43,14 @@ class OscCombo(oscscreen.TitleCombo):
         keywords["popup_lines"] = 40
         keywords["popup_atx"] = int(term_size.columns / 2 - POPUP_COLUMNS /2)
         keywords["relx"] = LIST_THRESHOLD
+        super().__init__(*args, **keywords)
+
+class OscButtonPress(oscscreen.ButtonPress):
+    def __init__(self, *args, **keywords):
+        term_size = os.get_terminal_size()
+        keywords["popup_columns"] = POPUP_COLUMNS
+        keywords["popup_lines"] = 40
+        keywords["relx"] = LIST_THRESHOLD - 2
         super().__init__(*args, **keywords)
 
 class CreateVm(oscscreen.FormBaseNew):
@@ -104,8 +115,8 @@ class CreateVm(oscscreen.FormBaseNew):
                 if ADVANCED_MODE:
                     vmtype = create_vmtype()
                     sg = None
-                    if SG.get_value() > 0:
-                        sg = [SG.get_values()[SG.get_value()]]
+                    if len(SELECTED_SG) > 0:
+                        sg = SELECTED_SG
                     disk_size = DISK_SIZE.get_value()
                     bdm = None
                     if disk_size != "Default":
@@ -197,17 +208,67 @@ class CreateVm(oscscreen.FormBaseNew):
         )
         if ADVANCED_MODE:
             global SG
-            sg_vals = ["default"]
-            sgs = main.GATEWAY.ReadSecurityGroups(form=self)["SecurityGroups"]
-            for s in sgs:
-                if s["SecurityGroupName"] != "default":
-                    sg_vals.append(s["SecurityGroupName"])
-            SG = self.add_widget(
-                OscCombo,
-                name="SG",
-                values=sg_vals,
-                value=SG.get_value() if SG else 0,
+
+            def sgs_select_name():
+                sg_select_name = "SGs("
+                if len(SELECTED_SG) > 0:
+                    for idx, sg in enumerate(SELECTED_SG):
+                        if idx > 0:
+                            sg_select_name += " "
+                        sg_select_name += sg
+                else:
+                    sg_select_name += "default"
+                # the space is because name isn't recalclate
+                sg_select_name += ")                                                "
+                return sg_select_name
+
+            SGs_select = self.add_widget(
+                OscButtonPress,
+                name=sgs_select_name(),
             )
+            def select_sgs():
+                sgs = main.GATEWAY.ReadSecurityGroups(form=self)["SecurityGroups"]
+                sg_vals = ["default"]
+                for s in sgs:
+                    if s["SecurityGroupName"] != "default":
+                        sg_vals.append(s["SecurityGroupName"])
+                class ConfirmCancelPopup(oscscreen.fmPopup.ActionPopup):
+                    term_size = os.get_terminal_size()
+                    DEFAULT_COLUMNS = 100
+                    DEFAULT_LINES = len(sg_vals) + 5
+                    SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
+                    def on_ok(self):
+                        self.value = True
+
+                    def on_cancel(self):
+                        self.value = False
+
+                popup = ConfirmCancelPopup(name="Select SGs")
+                SG = popup.add_widget(
+                    oscscreen.MultiSelect,
+                    name="SG",
+                    values=sg_vals,
+                    max_height=len(sg_vals) + 1,
+                    scroll_exit=True,
+                    width=30,
+                    value=[0,],
+                )
+                def exit():
+                    global SELECTED_SG
+                    SELECTED_SG = []
+                    for v_idx in SG.value:
+                        SELECTED_SG.append(SG.values[v_idx])
+                    print(SELECTED_SG)
+                    time.sleep(1)
+                    popup.editing = False
+                    SGs_select.name = sgs_select_name()
+
+                popup.on_ok = exit
+                popup.edit()
+                self.display()
+
+            SGs_select.whenPressed = select_sgs
+
             global CPU
             cpu_vals = "GEN 3|GEN 4|GEN 5|GEN 6".split("|")
             CPU = self.add_widget(
@@ -229,7 +290,7 @@ class CreateVm(oscscreen.FormBaseNew):
                 oscscreen.TitleText,
                 relx=LIST_THRESHOLD,
                 name="Ram(Gb)",
-                value=RAM_SIZE.get_value() if RAM_SIZE else "10"
+                value=RAM_SIZE.get_value() if RAM_SIZE else "2"
             )
             global DISK_SIZE
             DISK_SIZE = self.add_widget(
