@@ -10,6 +10,19 @@ class nicsGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadNics(form=self.form)['Nics']
         return groups
 
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            state = self.values[y][1]
+            cell.highlight_whole_widget = True
+            if state == "in-use":
+                cell.color = "GOODHL"
+            elif state == "available":
+                cell.color = "CURSOR"
+            else:
+                cell.color = "RED_BLACK"
+
     def refresh(self):
         nics = main.do_search(self.data.copy(), ["NicId", "State", "SubnetId", "NetId", "Description", "MacAddress"])
         values = list()

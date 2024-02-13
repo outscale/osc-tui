@@ -22,6 +22,18 @@ class VolumeGrid(selectableGrid.SelectableGrid):
 
         self.on_selection = on_selection
 
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            linkto = self.values[y][5]
+            cell.highlight_whole_widget = True
+            if linkto == "Unlinked":
+                cell.color = "CURSOR"
+            else:
+                cell.color = "GOODHL"
+
+
     def refresh_call(self, name_filter=None):
         groups = main.GATEWAY.ReadVolumes(form=self.form)
         if groups is None:

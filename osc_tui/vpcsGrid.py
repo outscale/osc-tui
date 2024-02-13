@@ -17,6 +17,20 @@ class vpcsGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadNets(form=self.form)['Nets']
         return groups
 
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            state = self.values[y][3]
+            # states: pending | available | deleted
+            cell.highlight_whole_widget = True
+            if state == "available":
+                cell.color = "GOODHL"
+            elif state == "deleted":
+                cell.color = "DANGER"
+            else:
+                cell.color = "RED_BLACK"
+
     def refresh(self):
         groups = main.do_search(self.data.copy(), ["NetId", "IpRange",
                                                    "DhcpOptionsSetId", "State"])
@@ -41,6 +55,20 @@ class subnetGrid(selectableGrid.SelectableGrid):
         groups = main.GATEWAY.ReadSubnets(
             Filters={"NetIds": [popup.SUBNETID]})['Subnets']
         return groups
+
+    def custom_print_cell(self, cell, cell_value):
+        # Checking if we are in the table and not in the title's row.
+        if not isinstance(cell.grid_current_value_index, int):
+            y, _ = cell.grid_current_value_index
+            state = self.values[y][4]
+            # states: pending | available | deleted
+            cell.highlight_whole_widget = True
+            if state == "available":
+                cell.color = "GOODHL"
+            elif state == "deleted":
+                cell.color = "DANGER"
+            else:
+                cell.color = "RED_BLACK"
 
     def refresh(self):
         groups = main.do_search(self.data.copy(), ["SubnetId", "IpRange", "NetId", "State"],
