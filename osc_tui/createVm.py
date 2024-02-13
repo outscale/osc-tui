@@ -2,7 +2,6 @@ import oscscreen
 from osc_tui import main
 from osc_tui import preloader
 import os
-import time
 
 # If advanced VM creation enabled.
 ADVANCED_MODE = True
@@ -258,8 +257,6 @@ class CreateVm(oscscreen.FormBaseNew):
                     SELECTED_SG = []
                     for v_idx in SG.value:
                         SELECTED_SG.append(SG.values[v_idx])
-                    print(SELECTED_SG)
-                    time.sleep(1)
                     popup.editing = False
                     SGs_select.name = sgs_select_name()
 
