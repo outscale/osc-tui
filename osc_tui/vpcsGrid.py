@@ -30,7 +30,7 @@ class vpcsGrid(selectableGrid.SelectableGrid):
 class subnetGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
-        self.col_titles = ["ID", "CIDR", "Net ID", "State"]
+        self.col_titles = ["ID", "Name", "CIDR", "Net ID", "State"]
 
         def on_selection(line):
             popup.editSubnet(self.form, line)
@@ -43,9 +43,14 @@ class subnetGrid(selectableGrid.SelectableGrid):
         return groups
 
     def refresh(self):
-        groups = main.do_search(self.data.copy(), ["SubnetId", "IpRange", "NetId", "State"])
+        groups = main.do_search(self.data.copy(), ["SubnetId", "IpRange", "NetId", "State"],
+                                name_as_tag=True)
         values = list()
         for g in groups:
-            values.append([g['SubnetId'],
+            name="No Name"
+            if "Tags" in g and len(g["Tags"]) > 0 and g["Tags"][0]["Key"] == "Name":
+                name = g["Tags"][0]["Value"]
+
+            values.append([g['SubnetId'], name,
                            g['IpRange'], g['NetId'], g['State']])
         self.values = values
