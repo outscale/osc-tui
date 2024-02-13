@@ -50,7 +50,6 @@ class OscCombo(oscscreen.TitleCombo):
 
 class OscButtonPress(oscscreen.ButtonPress):
     def __init__(self, *args, **keywords):
-        term_size = os.get_terminal_size()
         keywords["popup_columns"] = POPUP_COLUMNS
         keywords["popup_lines"] = 40
         keywords["relx"] = LIST_THRESHOLD - 2
