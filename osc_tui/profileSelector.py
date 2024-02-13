@@ -72,6 +72,7 @@ class CallbackFactory:
                         try:
                             result = func(*args, **kwargs)
                         except requests.exceptions.HTTPError as e:
+                            popup.pauseLoader()
                             oscscreen.notify_confirm(
                                 "Error while submitting the request:\n{}\nCode: {}\nReason: {}".
                                 format(main.GATEWAY.log.str(),

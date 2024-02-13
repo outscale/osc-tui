@@ -964,6 +964,12 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
     form.current_grid.refresh()
 
 
+loaderPause = False
+
+def pauseLoader():
+    global loaderPause
+    loaderPause = True
+
 def startLoading(form, refresh):
     term_size = os.get_terminal_size()
     class PendingPopup(fmForm.Form):
@@ -991,6 +997,7 @@ def startLoading(form, refresh):
 
     thread = Thread(target=capsule)
     thread.start()
+    global loaderPause
     i = 0
     while waiting:
         frames = [
@@ -1022,12 +1029,14 @@ def startLoading(form, refresh):
             "    /\n" +
             "   +-- \n"
         ]
-        notify(frames[i], wide=True)
+        if loaderPause is False:
+            notify(frames[i], wide=True)
         i = i + 1
         if(i >= len(frames)):
             i = 0
         curses.napms(150)
         curses.flushinp()
+    loaderPause = False
     thread.join()
 
 
