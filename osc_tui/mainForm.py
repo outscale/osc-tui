@@ -405,6 +405,11 @@ class MainForm(oscscreen.FormBaseNew):
         MODE = "Volumes"
         self.reload()
 
+    def switch_to_public_ips(self, _):
+        global MODE
+        MODE = "PublicIps"
+        self.reload()
+
     def switch_to_instances(self, _):
         global MODE
         MODE = "Vms"
@@ -440,6 +445,7 @@ class MainForm(oscscreen.FormBaseNew):
         self.add_handlers({"V": self.switch_to_volumes})
         self.add_handlers({"I": self.switch_to_instances})
         self.add_handlers({"M": self.switch_to_images})
+        self.add_handlers({"P": self.switch_to_public_ips})
         self.add_handlers({"S": self.switch_to_security_grid})
         self.add_handlers({"T": self.switch_to_nets})
         self.add_handlers({"K": self.switch_to_keypairs})

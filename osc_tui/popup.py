@@ -324,6 +324,43 @@ def selectRouteTable(form, rt, form_color='STANDOUT'):
     F.edit()
     form.current_grid.display()
 
+def selectPublicIp(form, pip, form_color='STANDOUT'):
+    id = pip[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_pip():
+        exit()
+        F = displayPopupWide(name = "Public Ip Info id: " + id)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        ips = main.GATEWAY.ReadPublicIps(form=form, Filters={"PublicIpIds": [id]})
+        ips = ips["PublicIps"][0]
+        
+        ft.values = json.dumps(ips, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
+    info.whenPressed = info_pip
+    F.edit()
+    form.current_grid.display()
+
 
 def editSecurityGroup(form, sg, form_color='STANDOUT'):
     name = sg[1]
@@ -1286,6 +1323,7 @@ def showHelp(arg):
         "Switch to Vms      : I",
         "Switch to Volumes  : V",
         "Switch to Images   : M",
+        "Switch to PublicIps: P",
         "Switch to Security : S",
         "Switch to Nets     : T",
         "Switch to Keypairs : K\n",
