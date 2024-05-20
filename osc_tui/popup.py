@@ -1084,10 +1084,37 @@ def editImage(form, image, form_color='STANDOUT'):
         F.editing = False
     F.on_ok = exit
 
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
     delete = F.add_widget(
         oscscreen.ButtonPress,
         name="DELETE",
     )
+
+    def info_img():
+        exit()
+        F = displayPopupWide(name = "Image Info id: " + id)
+        F.preserve_selected_widget = True
+
+        ft = F.add_widget(
+            oscscreen.Pager,
+        )
+        sg = main.GATEWAY.ReadImages(form=form, Filters={"ImageIds": [id]})
+        sg = sg["Images"][0]
+        
+        ft.values = json.dumps(sg, indent=2).split("\n")
+
+        def ok():
+            exit()
+
+        F.on_ok = ok
+        F.edit()
+
+    info.whenPressed = info_img
+
 
     def delete_cb():
         try:
