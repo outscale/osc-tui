@@ -137,6 +137,21 @@ def readAKSK(form_color='STANDOUT'):
         else:
             return None
 
+def displayInfoPopup(popupName, cb):
+    F = displayPopupWide(popupName)
+    F.preserve_selected_widget = True
+        
+    ft = F.add_widget(
+        oscscreen.Pager,
+    )
+    ft.values = json.dumps(cb, indent=2).split("\n")
+        
+    def ok():
+        exit()
+
+    F.on_ok = ok
+    F.edit()
+
 
 def editInstance(form, instance, form_color='STANDOUT'):
     status = instance[0]
@@ -207,23 +222,11 @@ def editInstance(form, instance, form_color='STANDOUT'):
     # Operations availables:
     def info_vm():
         exit()
-        F = displayPopupWide(name = "Vm Info " + name + ", id: " + id)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Vm Info " + name + ", id: " + id
         vm = main.GATEWAY.ReadVms(form=form, Filters={"VmIds": [id]})
         vm = vm["Vms"][0]
-        
-        ft.values = json.dumps(vm, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
-
+        displayInfoPopup(popupName, vm)
+       
     def start_vm():
         main.GATEWAY.StartVms(form=form, VmIds=[id])
         form.current_grid.h_refresh(None)
@@ -303,22 +306,10 @@ def selectRouteTable(form, rt, form_color='STANDOUT'):
 
     def info_rt():
         exit()
-        F = displayPopupWide(name = "Route Table Info id: " + id)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Route Table Info id: " + id
         sg = main.GATEWAY.ReadRouteTables(form=form, Filters={"RouteTableIds": [id]})
         sg = sg["RouteTables"][0]
-        
-        ft.values = json.dumps(sg, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
+        displayInfoPopup(popupName, sg)
 
     info.whenPressed = info_rt
     F.edit()
@@ -340,27 +331,114 @@ def selectPublicIp(form, pip, form_color='STANDOUT'):
 
     def info_pip():
         exit()
-        F = displayPopupWide(name = "Public Ip Info id: " + id)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Public Ip Info id: " + id
         ips = main.GATEWAY.ReadPublicIps(form=form, Filters={"PublicIpIds": [id]})
         ips = ips["PublicIps"][0]
-        
-        ft.values = json.dumps(ips, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
+        displayInfoPopup(popupName, ips) 
 
     info.whenPressed = info_pip
     F.edit()
     form.current_grid.display()
 
+def selectNic(form, nic, form_color='STANDOUT'):
+    id = nic[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_nic():
+        exit()
+        popupName = "Nic Info id: " + id
+        nic = main.GATEWAY.ReadNics(form=form, Filters={"NicIds": [id]})
+        nic = nic["Nics"][0]
+        displayInfoPopup(popupName, nic) 
+        
+    info.whenPressed = info_nic
+    F.edit()
+    form.current_grid.display()
+
+def selectInternetService(form, iserv, form_color='STANDOUT'):
+    id = iserv[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_is():
+        exit()
+        popupName = "Internet Service Info id: " + id
+        iserv = main.GATEWAY.ReadInternetServices(form=form, Filters={"InternetServiceIds": [id]})
+        iserv = iserv["InternetServices"][0]
+        displayInfoPopup(popupName, iserv)
+
+    info.whenPressed = info_is
+    F.edit()
+    form.current_grid.display()
+
+def selectNatService(form, nat, form_color='STANDOUT'):
+    id = nat[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_nat():
+        exit()
+        popupName = "Nat Service Info id: " + id
+        nat = main.GATEWAY.ReadNatServices(form=form, Filters={"NatServiceIds": [id]})
+        nat = nat["NatServices"][0]
+        displayInfoPopup(popupName, nat)        
+
+    info.whenPressed = info_nat
+    F.edit()
+    form.current_grid.display()
+
+def editDhcpOptions(form, dopt, form_color='STANDOUT'):
+    id = dopt[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_dopt():
+        exit()
+        popupName = "DHCP Options Info id: " + id
+        dopt = main.GATEWAY.ReadDhcpOptions(form=form, Filters={"DhcpOptionsSetIds": [id]})
+        dopt = dopt["DhcpOptionsSets"][0]
+        displayInfoPopup(popupName, dopt)
+
+    info.whenPressed = info_dopt
+    F.edit()
+    form.current_grid.display()
 
 def editSecurityGroup(form, sg, form_color='STANDOUT'):
     name = sg[1]
@@ -379,23 +457,10 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
     )
     def info_sg():
         exit()
-        F = displayPopupWide(name = "SG Info " + name + ", id: " + id)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "SG Info " + name + ", id: " + id
         sg = main.GATEWAY.ReadSecurityGroups(form=form, Filters={"SecurityGroupIds": [id]})
         sg = sg["SecurityGroups"][0]
-        
-        ft.values = json.dumps(sg, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
-
+        displayInfoPopup(popupName, sg)
 
     edit = F.add_widget(
         oscscreen.ButtonPress,
@@ -419,6 +484,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
             raise
         form.current_grid.h_refresh(None)
         exit()
+
     info.whenPressed = info_sg
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
@@ -685,11 +751,15 @@ def editVolume(form, volume, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
     edit = F.add_widget(
         oscscreen.ButtonPress,
         name="EDIT",
     )
-
+    
     def edit_cb():
         exit()
         mainForm.MODE = "Volume-Edit"
@@ -725,6 +795,13 @@ def editVolume(form, volume, form_color='STANDOUT'):
         name="DELETE",
     )
 
+    def info_cb():
+        exit()
+        popupName = "Volume Info " + id
+        cb = main.GATEWAY.ReadVolumes(form=form, Filters={"VolumeIds": [id]})
+        cb = cb["Volumes"][0]
+        displayInfoPopup(popupName, cb) 
+        
     def delete_cb():
         try:
             main.GATEWAY.DeleteVolume(VolumeId=id)
@@ -733,6 +810,7 @@ def editVolume(form, volume, form_color='STANDOUT'):
         form.current_grid.h_refresh(None)
         exit()
 
+    info.whenPressed = info_cb
     edit.whenPressed = edit_cb
     delete.whenPressed = delete_cb
 
@@ -758,24 +836,13 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
         oscscreen.ButtonPress,
         name="INFO",
     )
+
     def info_snap():
         exit()
-        F = displayPopupWide(name = "Snapshot Info id: " + id)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Snapshot Info id: " + id
         sg = main.GATEWAY.ReadSnapshots(form=form, Filters={"SnapshotIds": [id]})
         sg = sg["Snapshots"][0]
-        
-        ft.values = json.dumps(sg, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
+        displayInfoPopup(popupName, sg)
 
     edit = F.add_widget(
         oscscreen.ButtonPress,
@@ -823,22 +890,33 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
 
     F.on_ok = exit
 
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
     reg = F.add_widget(
         oscscreen.ButtonPress,
         name="REGISTERED VMs",
     )
     reg.whenPressed = instances_registered
-
     delete = F.add_widget(
         oscscreen.ButtonPress,
         name="DELETE",
     )
 
+    def info_cb():
+        exit()
+        popupName = "LoadBalancer Info " + name
+        cb = main.GATEWAY.ReadLoadBalancers(form=form, Filters={"LoadBalancerNames": [name]})
+        cb = cb["LoadBalancers"][0]
+        displayInfoPopup(popupName, cb) 
+        
     def delete_cb():
         main.GATEWAY.DeleteLoadBalancer(LoadBalancerName=name)
         form.current_grid.h_refresh(None)
         exit()
 
+    info.whenPressed = info_cb
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
@@ -863,22 +941,10 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
     )
     def info_net():
         exit()
-        F = displayPopupWide(name = "Net Info Id: " + name)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Net Info Id: " + name
         sg = main.GATEWAY.ReadNets(form=form, Filters={"NetIds": [name]})
         sg = sg["Nets"][0]
-        
-        ft.values = json.dumps(sg, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
+        displayInfoPopup(popupName, sg)
 
     delete = F.add_widget(
         oscscreen.ButtonPress,
@@ -956,23 +1022,10 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
     )
     def info_subnet():
         exit()
-        F = displayPopupWide(name = "Subnet Info Id: " + name)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Subnet Info Id: " + name
         sg = main.GATEWAY.ReadSubnets(form=form, Filters={"SubnetIds": [name]})
         sg = sg["Subnets"][0]
-        
-        ft.values = json.dumps(sg, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
-
+        displayInfoPopup(popupName, sg)
 
     test = F.add_widget(
         oscscreen.ButtonPress,
@@ -1089,11 +1142,22 @@ def editKeypair(form, line, form_color='STANDOUT'):
 
     F.on_ok = exit
 
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
     delete = F.add_widget(
         oscscreen.ButtonPress,
         name="DELETE",
     )
 
+    def info_cb():
+        exit()
+        popupName = "Keypair Info " + name
+        cb = main.GATEWAY.ReadKeypairs(form=form, Filters={"KeypairNames": [name]})
+        cb = cb["Keypairs"][0]
+        displayInfoPopup(popupName, cb)
+       
     def delete_cb():
         delete = oscscreen.notify_ok_cancel(
             "You will delete permanently the keypair named " + name, "Warning")
@@ -1105,6 +1169,7 @@ def editKeypair(form, line, form_color='STANDOUT'):
             form.current_grid.h_refresh(None)
             exit()
 
+    info.whenPressed = info_cb
     delete.whenPressed = delete_cb
     F.edit()
     form.current_grid.display()
@@ -1133,22 +1198,10 @@ def editImage(form, image, form_color='STANDOUT'):
 
     def info_img():
         exit()
-        F = displayPopupWide(name = "Image Info id: " + id)
-        F.preserve_selected_widget = True
-
-        ft = F.add_widget(
-            oscscreen.Pager,
-        )
+        popupName = "Image Info id: " + id
         sg = main.GATEWAY.ReadImages(form=form, Filters={"ImageIds": [id]})
         sg = sg["Images"][0]
-        
-        ft.values = json.dumps(sg, indent=2).split("\n")
-
-        def ok():
-            exit()
-
-        F.on_ok = ok
-        F.edit()
+        displayInfoPopup(popupName, sg)
 
     info.whenPressed = info_img
 
@@ -1176,6 +1229,11 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
 
     F.on_ok = exit
 
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+        
     edit = F.add_widget(
         oscscreen.ButtonPress,
         name="EDIT"
@@ -1186,6 +1244,13 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
         name="DELETE"
     )
 
+    def info_cb():
+        exit()
+        popupName = "NetAccessPoint Info id: " + id
+        cb = main.GATEWAY.ReadNetAccessPoints(form=form, Filters={"NetAccessPointIds": [id]})
+        cb = cb["NetAccessPoints"][0]
+        displayInfoPopup(popupName, cb)
+       
     def edit_cb():
         form.current_grid.h_refresh(None)
         exit()
@@ -1199,8 +1264,34 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
         form.current_grid.h_refresh(None)
         exit()
 
+    info.whenPressed = info_cb
     edit.whenPressed = edit_cb 
     delete.whenPressed = delete_cb
+    F.edit()
+    form.current_grid.display()
+
+def editNetPeering(form, netp, form_color='STANDOUT'):
+    id = netp[0]
+    F = displayPopup(id, color=form_color)
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+
+    def info_netp():
+        exit()
+        popupName = "Net Peering Info id: " + id
+        netp = main.GATEWAY.ReadNetPeerings(form=form, Filters={"NetPeeringIds": [id]})
+        netp = netp["NetPeerings"][0]
+        displayInfoPopup(popupName, netp)
+
+    info.whenPressed = info_netp
     F.edit()
     form.current_grid.display()
 

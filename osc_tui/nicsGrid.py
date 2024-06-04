@@ -1,10 +1,16 @@
 from osc_tui import main
+from osc_tui import popup 
 from osc_tui import selectableGrid
 
 class nicsGrid(selectableGrid.SelectableGrid):
     def __init__(self, screen, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.col_titles = ["Id", "State", "SubnetId", "NetId", "Description", "MacAddress"]
+
+        def on_selection(line):
+            popup.selectNic(self.form, line)
+
+        self.on_selection = on_selection
 
     def refresh_call(self, name_filter=None):
         groups = main.GATEWAY.ReadNics(form=self.form)['Nics']
