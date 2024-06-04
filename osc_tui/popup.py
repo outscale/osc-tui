@@ -672,13 +672,13 @@ def addFilter(form, form_color='STANDOUT'):
 def editVolume(form, volume, form_color='STANDOUT'):
     id = volume[0]
     type = volume[1]
-    size = volume[2]
+    size = volume[3]
     vm_id = volume[5]
     #device_name = volume[6]
     #iops = volume[7]
 
     F = displayPopup(
-        name="{} ({}), {}gib, linked to: {}".format(id, type, size, vm_id))
+        name="{} ({}), {} gib, linked to: {}".format(id, type, size, vm_id))
     F.preserve_selected_widget = True
 
     def exit():
@@ -746,7 +746,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     size = snapshot[2]
     volume_id = snapshot[3]
 
-    F = displayPopup(name="{} ({}gib), volume: {}".format(id, size, volume_id))
+    F = displayPopup(name="{} ({} gib), volume: {}".format(id, size, volume_id))
     F.preserve_selected_widget = True
 
     def exit():
