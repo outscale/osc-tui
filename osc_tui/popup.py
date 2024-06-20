@@ -875,6 +875,44 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     form.current_grid.display()
 
 
+def editFlexibleGpu(form, flexibleGpu, form_color='STANDOUT'):
+    name = flexibleGpu[0]
+    F = displayPopup(name="{}".format(name))
+    F.preserve_selected_widget = True
+
+    def exit():
+        F.editing = False
+
+
+    F.on_ok = exit
+    info = F.add_widget(
+        oscscreen.ButtonPress,
+        name="INFO",
+    )
+    delete = F.add_widget(
+        oscscreen.ButtonPress,
+        name="DELETE",
+    )
+
+    def info_cb():
+        exit()
+        popupName = "FlexibleGpu Info " + name
+        cb = main.GATEWAY.ReadFlexibleGpus(form=form, Filters={"FlexibleGpuIds": [name]})
+        cb = cb["FlexibleGpus"][0]
+        displayInfoPopup(popupName, cb) 
+        
+    def delete_cb():
+        main.GATEWAY.DeleteFlexibleGpu(FlexibleGpuId=name)
+        form.current_grid.h_refresh(None)
+        exit()
+
+    info.whenPressed = info_cb
+    delete.whenPressed = delete_cb
+    F.edit()
+    form.current_grid.display()
+    form.current_grid.refresh()
+
+
 def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     name = loadbalancer[0]
     F = displayPopup(name="{}".format(name))
