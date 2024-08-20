@@ -129,7 +129,6 @@ class mainMenu(osc_npyscreen.MultiLineAction):
                             if act_on_this == name:
                                 rule=guiRules.RULES[MODE][name]
                                 ips=[]
-                                print(rule)
                                 if "ips" in rule:
                                     ips=rule["ips"]
                                 else:
