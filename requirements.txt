@@ -4,6 +4,6 @@ pyperclip==1.8.2
 requests==2.32.2
 ruamel.yaml>=0.17.6
 typed-ast==1.5.5
-urllib3==2.2.1
+urllib3==2.2.2
 osc-npyscreen==4.9.1
 osc-diagram==0.0.1
