@@ -10,7 +10,7 @@ def get_long_description():
 
 setup(
     name='osc-tui',
-    version="24.06.0",
+    version="24.06.1",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     packages=find_packages(),
@@ -26,6 +26,7 @@ setup(
         "pyperclip>=1.8.0",
         'osc_diagram',
         'osc_npyscreen',
+        "graphviz",
         'requests'
     ],
 )
