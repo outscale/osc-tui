@@ -3,11 +3,11 @@ from threading import Thread
 import os
 import json
 
-import oscscreen
-import oscscreen.fmPopup
-import oscscreen.wgmultiline
+import osc_npyscreen
+import osc_npyscreen.fmPopup
+import osc_npyscreen.wgmultiline
 import pyperclip
-from oscscreen import *
+from osc_npyscreen import *
 
 import requests
 from osc_tui import main
@@ -19,7 +19,7 @@ SUBNETID = None
 ROUTE = None
 
 
-class ConfirmCancelPopup(oscscreen.fmPopup.ActionPopup):
+class ConfirmCancelPopup(osc_npyscreen.fmPopup.ActionPopup):
     term_size = os.get_terminal_size()
     DEFAULT_COLUMNS = 100
     SHOW_ATX = int(term_size.columns / 2 - DEFAULT_COLUMNS /2)
@@ -30,7 +30,7 @@ class ConfirmCancelPopup(oscscreen.fmPopup.ActionPopup):
         self.value = False
 
 
-class displayPopup(oscscreen.fmPopup.Popup):
+class displayPopup(osc_npyscreen.fmPopup.Popup):
     term_size = os.get_terminal_size()
     DEFAULT_COLUMNS = 100
     OK_BUTTON_TEXT = 'BACK'
@@ -44,7 +44,7 @@ class displayPopup(oscscreen.fmPopup.Popup):
         self.editing = False
         self.value = True
 
-class displayPopupWide(oscscreen.fmPopup.PopupWide):
+class displayPopupWide(osc_npyscreen.fmPopup.PopupWide):
     term_size = os.get_terminal_size()
     OK_BUTTON_TEXT = 'BACK'
     DEFAULT_LINES = term_size.lines - 2
@@ -57,7 +57,7 @@ class displayPopupWide(oscscreen.fmPopup.PopupWide):
 def readString(name='', form_color='STANDOUT'):
     F = ConfirmCancelPopup(name=name, color=form_color)
     F.preserve_selected_widget = True
-    tf = F.add(oscscreen.Textfield)
+    tf = F.add(osc_npyscreen.Textfield)
     tf.width = tf.width - 1
     tf.value = ""
     F.edit()
@@ -71,9 +71,9 @@ def readAKSK(form_color='STANDOUT'):
     while True:
         F = ConfirmCancelPopup(name='New profile', color=form_color)
         F.preserve_selected_widget = True
-        name = F.add(oscscreen.TitleText, name="NAME:")
-        ak = F.add(oscscreen.TitleText, name="ACCESS KEY:")
-        sk = F.add(oscscreen.TitlePassword, name="SECRET KEY:")
+        name = F.add(osc_npyscreen.TitleText, name="NAME:")
+        ak = F.add(osc_npyscreen.TitleText, name="ACCESS KEY:")
+        sk = F.add(osc_npyscreen.TitlePassword, name="SECRET KEY:")
         regions = requests.post(
             "https://api.eu-west-2.outscale.com/api/latest/ReadRegions")
         regions_list = []
@@ -85,21 +85,21 @@ def readAKSK(form_color='STANDOUT'):
             regions_list = "eu-west-2", "us-east-2", "us-west-1", "cn-southeast-1"
         global REGION
         REGION = F.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             name="REGION:",
             values=regions_list,
             value=0,
         )
         
         retriver = F.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="Fill Using Loggin/Password",
         )
         def retriver_cb():
             F = ConfirmCancelPopup(name="Login/password", color=form_color)
             F.preserve_selected_widget = True
-            log = F.add(oscscreen.TitleText, name="login")
-            passwd = F.add(oscscreen.TitlePassword, name="password")
+            log = F.add(osc_npyscreen.TitleText, name="login")
+            passwd = F.add(osc_npyscreen.TitlePassword, name="password")
             F.edit()
             if F.value is True:
                 gw = Gateway(email=log.value, password=passwd.value,
@@ -114,7 +114,7 @@ def readAKSK(form_color='STANDOUT'):
                         name.value=log.value
 
                 except requests.exceptions.HTTPError as e:
-                    oscscreen.notify_confirm(
+                    osc_npyscreen.notify_confirm(
                         "Error while submitting the request, authentification fail ?")
             else:
                 return None
@@ -132,7 +132,7 @@ def readAKSK(form_color='STANDOUT'):
                     }
                 }
             else:
-                oscscreen.notify_confirm(
+                osc_npyscreen.notify_confirm(
                     "Please check that you filled all fields.", "ERROR")
         else:
             return None
@@ -142,7 +142,7 @@ def displayInfoPopup(popupName, cb):
     F.preserve_selected_widget = True
         
     ft = F.add_widget(
-        oscscreen.Pager,
+        osc_npyscreen.Pager,
     )
     ft.values = json.dumps(cb, indent=2).split("\n")
         
@@ -165,39 +165,39 @@ def editInstance(form, instance, form_color='STANDOUT'):
     F.on_ok = exit
     # Buttons about VMs
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     run_stop = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="RUN",
     )
     restart = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="RESTART",
     )
     force_stop = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="FORCE STOP",
     )
     terminate = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="TERMINATE",
     )
     copy_ip = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="COPY IP",
     )
     security = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="SECURITY",
     )
     volumes = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="VOLUMES",
     )
     lbu = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="ADD TO LBU",
     )
     # Now managing actions and wich buttons to hide or not.
@@ -234,7 +234,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
 
     def terminate_vm():
         main.kill_threads()
-        if oscscreen.notify_ok_cancel(
+        if osc_npyscreen.notify_ok_cancel(
                 "Do you really want to terminate this vm:\nName: " + name +
                 "\nID: " + id,
                 "VM Termination",
@@ -275,7 +275,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
         form.reload()
 
     def add_to_lbu():
-        oscscreen.notify_confirm("Not implemented yet :/")
+        osc_npyscreen.notify_confirm("Not implemented yet :/")
 
     info.whenPressed = info_vm
     copy_ip.whenPressed = copy_ip
@@ -300,7 +300,7 @@ def selectRouteTable(form, rt, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -325,7 +325,7 @@ def selectPublicIp(form, pip, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -350,7 +350,7 @@ def selectNic(form, nic, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -375,7 +375,7 @@ def selectInternetService(form, iserv, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -400,7 +400,7 @@ def selectNatService(form, nat, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -425,7 +425,7 @@ def editDhcpOptions(form, dopt, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -452,7 +452,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     def info_sg():
@@ -463,7 +463,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
         displayInfoPopup(popupName, sg)
 
     edit = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="EDIT",
     )
 
@@ -473,7 +473,7 @@ def editSecurityGroup(form, sg, form_color='STANDOUT'):
         form.reload()
 
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -504,7 +504,7 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
 
     F.on_ok = exit
     edit = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="EDIT",
     )
 
@@ -514,7 +514,7 @@ def manageSecurityGroup(form, sg, form_color='STANDOUT'):
         form.reload()
 
     remove = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="REMOVE FROM INSTANCE",
     )
 
@@ -547,7 +547,7 @@ def editInstanceInLBU(form, sg, form_color='STANDOUT'):
 
     F.on_ok = exit
     edit = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="EDIT",
     )
 
@@ -557,7 +557,7 @@ def editInstanceInLBU(form, sg, form_color='STANDOUT'):
         form.reload()
 
     remove = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="REMOVE FROM LBU",
     )
 
@@ -585,7 +585,7 @@ def addSecurityGroupToVm(form, form_color='STANDOUT'):
         if not g["SecurityGroupId"] in vm_sg:
             values.append(g["SecurityGroupId"])
     new_sg = F.add_widget(
-        oscscreen.TitleCombo,
+        osc_npyscreen.TitleCombo,
         name="CHOOSE SECURITY GROUP",
         values=values,
         value=0,
@@ -625,7 +625,7 @@ def editSecurityGroupRule(form, rule, form_color='STANDOUT'):
         F.editing = False
 
     F.on_ok = exit
-    btn_delete = F.add_widget(oscscreen.ButtonPress, name="DELETE")
+    btn_delete = F.add_widget(osc_npyscreen.ButtonPress, name="DELETE")
 
     def delete():
         if from_port and to_port:
@@ -655,25 +655,25 @@ def editSecurityGroupRule(form, rule, form_color='STANDOUT'):
 
 
 def newSecurityGroupRule(form, form_color='STANDOUT'):
-    oscscreen.ActionPopup.DEFAULT_LINES = 15
+    osc_npyscreen.ActionPopup.DEFAULT_LINES = 15
     F = ConfirmCancelPopup(name='New Security Rule', color=form_color)
 
     F.preserve_selected_widget = True
-    F.add_widget(oscscreen.Textfield, value="From PORT:", editable=False)
-    from_port = F.add_widget(oscscreen.Textfield, value="22", editable=True)
-    F.add_widget(oscscreen.Textfield, value="To PORT:", editable=False)
-    to_port = F.add_widget(oscscreen.Textfield, value="22", editable=True)
+    F.add_widget(osc_npyscreen.Textfield, value="From PORT:", editable=False)
+    from_port = F.add_widget(osc_npyscreen.Textfield, value="22", editable=True)
+    F.add_widget(osc_npyscreen.Textfield, value="To PORT:", editable=False)
+    to_port = F.add_widget(osc_npyscreen.Textfield, value="22", editable=True)
     protocole = F.add(
-        oscscreen.TitleSelectOne,
+        osc_npyscreen.TitleSelectOne,
         max_height=4,
         value=[0, ],
         name="Protocol",
         values=["tcp", "udp", "icmp", "all"],
         scroll_exit=True,
     )
-    F.add_widget(oscscreen.Textfield, value="IP:", editable=False)
+    F.add_widget(osc_npyscreen.Textfield, value="IP:", editable=False)
     ip = F.add_widget(
-        oscscreen.Textfield, value=main.IP + "/32", editable=True
+        osc_npyscreen.Textfield, value=main.IP + "/32", editable=True
     )
 
     def exit():
@@ -690,7 +690,7 @@ def newSecurityGroupRule(form, form_color='STANDOUT'):
         except BaseException:
             raise
         F.editing = False
-        oscscreen.ActionPopup.DEFAULT_LINES = 12
+        osc_npyscreen.ActionPopup.DEFAULT_LINES = 12
 
     F.on_ok = exit
     F.edit()
@@ -702,8 +702,8 @@ def newSecurityGroup(form, form_color='STANDOUT'):
     F = ConfirmCancelPopup(name='New Security Group', color=form_color)
 
     F.preserve_selected_widget = True
-    F.add_widget(oscscreen.Textfield, value="Name", editable=False)
-    name = F.add_widget(oscscreen.Textfield, value="NewName", editable=True)
+    F.add_widget(osc_npyscreen.Textfield, value="Name", editable=False)
+    name = F.add_widget(osc_npyscreen.Textfield, value="NewName", editable=True)
 
     def exit():
         try:
@@ -723,8 +723,8 @@ def newSecurityGroup(form, form_color='STANDOUT'):
 def addFilter(form, form_color='STANDOUT'):
     F = ConfirmCancelPopup(name='Filter', color=form_color)
     F.preserve_selected_widget = True
-    F.add_widget(oscscreen.Textfield, value="Name Filter (exemple: 'Arch *'):", editable=False)
-    name = F.add_widget(oscscreen.Textfield, value="*", editable=True)
+    F.add_widget(osc_npyscreen.Textfield, value="Name Filter (exemple: 'Arch *'):", editable=False)
+    name = F.add_widget(osc_npyscreen.Textfield, value="*", editable=True)
 
     def exit():
         form.current_grid.h_refresh(None, name_filter=name.value)
@@ -752,11 +752,11 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     edit = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="EDIT",
     )
     
@@ -779,19 +779,19 @@ def editVolume(form, volume, form_color='STANDOUT'):
 
     if vm_id == "Unlinked":
         link = F.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="LINK"
         )
         link.whenPressed = link_cb
     else:
         unlink = F.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="UNLINK",
         )
         unlink.whenPressed = unlink_cb
 
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -833,7 +833,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -845,7 +845,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
         displayInfoPopup(popupName, sg)
 
     edit = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="EDIT",
     )
 
@@ -856,7 +856,7 @@ def editSnapshot(form, snapshot, form_color='STANDOUT'):
         exit()
 
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -886,11 +886,11 @@ def editFlexibleGpu(form, flexibleGpu, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -929,16 +929,16 @@ def editLoadbalancer(form, loadbalancer, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     reg = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="REGISTERED VMs",
     )
     reg.whenPressed = instances_registered
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -974,7 +974,7 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     def info_net():
@@ -985,11 +985,11 @@ def editVpcs(form, vpcs, form_color='STANDOUT'):
         displayInfoPopup(popupName, sg)
 
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
     read_subnet = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="READ SUBNET",
     )
 
@@ -1023,13 +1023,13 @@ def associateRouteTable(form, subnet):
     for route_table in route_tables:
         route_tables_vals.append(route_table["RouteTableId"])
     ROUTE = F.add_widget(
-        oscscreen.TitleCombo,
+        osc_npyscreen.TitleCombo,
         name="CHOOSE A ROUTE TABLE",
         values=route_tables_vals,
         value=ROUTE.get_value() if ROUTE else 0,
     )
     associate_button = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="ASSOCIATE",
     )
 
@@ -1055,7 +1055,7 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     def info_subnet():
@@ -1066,11 +1066,11 @@ def editSubnet(form, subnet, form_color='STANDOUT'):
         displayInfoPopup(popupName, sg)
 
     test = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="ASSOCIATE ROUTE TABLE"
     )
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -1181,11 +1181,11 @@ def editKeypair(form, line, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -1197,7 +1197,7 @@ def editKeypair(form, line, form_color='STANDOUT'):
         displayInfoPopup(popupName, cb)
        
     def delete_cb():
-        delete = oscscreen.notify_ok_cancel(
+        delete = osc_npyscreen.notify_ok_cancel(
             "You will delete permanently the keypair named " + name, "Warning")
         if delete:
             try:
@@ -1225,12 +1225,12 @@ def editImage(form, image, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE",
     )
 
@@ -1268,17 +1268,17 @@ def editNetAccessPoint(form, line, form_color='STANDOUT'):
     F.on_ok = exit
 
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
         
     edit = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="EDIT"
     )
     
     delete = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="DELETE"
     )
 
@@ -1318,7 +1318,7 @@ def editNetPeering(form, netp, form_color='STANDOUT'):
 
     F.on_ok = exit
     info = F.add_widget(
-        oscscreen.ButtonPress,
+        osc_npyscreen.ButtonPress,
         name="INFO",
     )
 
@@ -1366,7 +1366,7 @@ def editRouteTable(form, point_id, form_color='STANDOUT'):
                     deleted_route.append(route)
 
         if not deleted_route and not added_route:
-            oscscreen.notify_confirm("Nothing as changed")
+            osc_npyscreen.notify_confirm("Nothing as changed")
         else:
             res = main.GATEWAY.UpdateNetAccessPoint(
                 NetAccessPointId=id,
@@ -1375,9 +1375,9 @@ def editRouteTable(form, point_id, form_color='STANDOUT'):
             )
 
             if "Error" in res:
-                oscscreen.notify_confirm(str(res["Errors"]))
+                osc_npyscreen.notify_confirm(str(res["Errors"]))
             else:
-                oscscreen.notify_confirm(
+                osc_npyscreen.notify_confirm(
                     "Route table(s) changed succesfully"
                 )
                 
@@ -1404,7 +1404,7 @@ def editRouteTable(form, point_id, form_color='STANDOUT'):
                 selected_routes.append(index)
 
     ROUTE_MULTISELECT = F.add_widget(
-        oscscreen.TitleMultiSelect,
+        osc_npyscreen.TitleMultiSelect,
         name="SELECT ROUTE TABLE(S)",
         value=selected_routes,
         values=all_route_tables,
@@ -1419,9 +1419,9 @@ def slashSearch(arg):
     form_color='STANDOUT'
     F = ConfirmCancelPopup(name='Search', color=form_color)
     F.preserve_selected_widget = True
-    F.add_widget(oscscreen.Textfield, value="Search:", editable=False)
-    F.add_widget(oscscreen.Textfield, value="(Empty string to reset)", editable=False)
-    name = F.add_widget(oscscreen.Textfield, value="", editable=True)
+    F.add_widget(osc_npyscreen.Textfield, value="Search:", editable=False)
+    F.add_widget(osc_npyscreen.Textfield, value="(Empty string to reset)", editable=False)
+    name = F.add_widget(osc_npyscreen.Textfield, value="", editable=True)
 
     def exit():
         main.SEARCH_FILTER=name.value
@@ -1439,7 +1439,7 @@ def showHelp(arg):
     F.preserve_selected_widget = True
 
     ft = F.add_widget(
-        oscscreen.Pager,
+        osc_npyscreen.Pager,
         )
     ft.values = [
         "Return to profile  : q",
@@ -1469,7 +1469,7 @@ def errorPopup(message):
     F.preserve_selected_widget = True
 
     ft = F.add_widget(
-        oscscreen.Pager,
+        osc_npyscreen.Pager,
         )
     ft.values = [message]
     

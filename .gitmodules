@@ -1,9 +1,3 @@
-[submodule "npyscreen"]
-	path = npyscreen
-	url = https://github.com/outscale-dev/npyscreen.git
 [submodule "appimage-bld"]
 	path = appimage-bld
 	url = https://github.com/outscale-dev/osc-tui-appimage-builder.git
-[submodule "osc-diagram"]
-	path = osc-diagram
-	url = https://github.com/outscale-mgo/osc-diagram.git

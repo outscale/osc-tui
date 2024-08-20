@@ -1,7 +1,7 @@
 import curses
 import ipaddress
 
-import oscscreen
+import osc_npyscreen
 
 import graphviz
 
@@ -63,7 +63,7 @@ def swicthToVolumeLink(self, id, volume):
 
 
 # update draw_line_at when adding a new resource
-class mainMenu(oscscreen.MultiLineAction):
+class mainMenu(osc_npyscreen.MultiLineAction):
     def __init__(self, screen, form=None, draw_line_at=18, *args, **keywords):
         super().__init__(screen, *args, **keywords)
         self.form = form
@@ -79,7 +79,7 @@ class mainMenu(oscscreen.MultiLineAction):
                 global MODE
                 if MODE == 'INSTANCES-LBU':
                     if act_on_this == "Create new":
-                        oscscreen.notify_confirm("Not implemented yet :/")
+                        osc_npyscreen.notify_confirm("Not implemented yet :/")
                         return
                 elif MODE == 'Vms':
                     if act_on_this == "Create new":
@@ -93,11 +93,11 @@ class mainMenu(oscscreen.MultiLineAction):
                             osc_diagram(ak=main.GATEWAY.access_key(), sk=main.GATEWAY.secret_key(),
                                         format=["png"])
                         except graphviz.backend.ExecutableNotFound:
-                            oscscreen.notify_confirm("Fail to generate graph, did you install graphviz ?")
+                            osc_npyscreen.notify_confirm("Fail to generate graph, did you install graphviz ?")
                         except osc_sdk_python.outscale_gateway.ActionNotExists:
-                            oscscreen.notify_confirm("osc-sdk-python is too old for this feature")
+                            osc_npyscreen.notify_confirm("osc-sdk-python is too old for this feature")
                         except Exception:
-                            oscscreen.notify_confirm("osc-diagram fail for an unknow reason...(the lib is very young)")
+                            osc_npyscreen.notify_confirm("osc-diagram fail for an unknow reason...(the lib is very young)")
                         return
 
                 elif MODE == 'Security':
@@ -152,7 +152,7 @@ class mainMenu(oscscreen.MultiLineAction):
                                                 self.form.current_grid.h_refresh(None)
                                                 self.form.current_grid.display()
                                 except ValueError:
-                                    oscscreen.notify_confirm("{} is not an IP :/".format(ipstr))
+                                    osc_npyscreen.notify_confirm("{} is not an IP :/".format(ipstr))
                                 return
 
                 elif MODE == 'Volumes':
@@ -248,7 +248,7 @@ class mainMenu(oscscreen.MultiLineAction):
             super().h_cursor_line_up(input)
 
 
-class MainForm(oscscreen.FormBaseNew):
+class MainForm(osc_npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 

@@ -1,4 +1,4 @@
-import oscscreen
+import osc_npyscreen
 from osc_tui import main
 
 QUESTION = 'Please, say something :)'
@@ -19,12 +19,12 @@ def ask(form, question=None, default_answer=None, cb=None):
     form.parentApp.switchForm('InputForm')
 
 
-class InputForm(oscscreen.ActionFormV2):
+class InputForm(osc_npyscreen.ActionFormV2):
     def create(self):
-        self.how_exited_handers[oscscreen.wgwidget.EXITED_ESCAPE] = main.exit
-        self.add_widget(oscscreen.Textfield, value=QUESTION,
+        self.how_exited_handers[osc_npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
+        self.add_widget(osc_npyscreen.Textfield, value=QUESTION,
                         editable=False)
-        self.input = self.add_widget(oscscreen.Textfield, value=DEFAULT_ANSWER,
+        self.input = self.add_widget(osc_npyscreen.Textfield, value=DEFAULT_ANSWER,
                                      editable=True)
 
     def on_cancel(self):
@@ -38,7 +38,7 @@ class InputForm(oscscreen.ActionFormV2):
 
 
 if __name__ == '__main__':
-    class MyTestApp(oscscreen.NPSAppManaged):
+    class MyTestApp(osc_npyscreen.NPSAppManaged):
         def onStart(self):
             self.registerForm("MAIN", InputForm())
     MyTestApp().run()

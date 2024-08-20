@@ -1,4 +1,4 @@
-import oscscreen
+import osc_npyscreen
 
 from osc_tui import main
 from osc_tui import popup
@@ -53,7 +53,7 @@ class VolumeGrid(selectableGrid.SelectableGrid):
         self.values = values
 
 
-class VolumeLink(oscscreen.FormBaseNew):
+class VolumeLink(osc_npyscreen.FormBaseNew):
     LIST_THRESHOLD=4
     volume=None
     def __init__(self, *args, **keywords):
@@ -84,25 +84,25 @@ class VolumeLink(oscscreen.FormBaseNew):
             vms_lst.append([vm["VmId"], name])
 
         self.alias_wid = self.add_widget(
-            oscscreen.TitleText,
+            osc_npyscreen.TitleText,
             name="Alias(xvdX):",
             relx=self.LIST_THRESHOLD,
             value="xvd")
 
         self.link_to_wid = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             relx=self.LIST_THRESHOLD,
             name="target vm",
             value=0,
             values=vms_lst
         )
 
-        self.add_widget(oscscreen.ButtonPress,
+        self.add_widget(osc_npyscreen.ButtonPress,
                         name="LINK").whenPressed = self.update
-        self.add_widget(oscscreen.ButtonPress,
+        self.add_widget(osc_npyscreen.ButtonPress,
                         name="EXIT").whenPressed = self.back
 
-class VolumeEdit(oscscreen.FormBaseNew):
+class VolumeEdit(osc_npyscreen.FormBaseNew):
     volume=None
     size=10
     size_wid=None
@@ -142,14 +142,14 @@ class VolumeEdit(oscscreen.FormBaseNew):
     def create(self):
 
         self.size_wid = self.add_widget(
-            oscscreen.TitleText,
+            osc_npyscreen.TitleText,
             relx=self.LIST_THRESHOLD,
             name="size",
             value=str(self.size)
         )
 
         self.iops_wid = self.add_widget(
-            oscscreen.TitleText,
+            osc_npyscreen.TitleText,
             relx=self.LIST_THRESHOLD,
             name="iops",
             value=str(self.iops)
@@ -164,16 +164,16 @@ class VolumeEdit(oscscreen.FormBaseNew):
             i += 1
 
         self.type_wid = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             relx=self.LIST_THRESHOLD,
             name="type",
             value=tval,
             values=type_values
         )
 
-        self.add_widget(oscscreen.ButtonPress,
+        self.add_widget(osc_npyscreen.ButtonPress,
                         name="UPDATE").whenPressed = self.update
-        self.add_widget(oscscreen.ButtonPress,
+        self.add_widget(osc_npyscreen.ButtonPress,
                         name="EXIT").whenPressed = self.back
 
 

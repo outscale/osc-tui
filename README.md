@@ -56,8 +56,6 @@ You can either use pip on macos/windows/linux, the appimage in release, or the A
 
 ## If not installed (for devs):
 
-oscscreen is a submodule of this project, and need to be installed with it.
-
 Move to the osc-tui folder, then run:
 
 * `python3 -m venv env`

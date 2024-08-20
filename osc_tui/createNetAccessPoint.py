@@ -1,4 +1,4 @@
-import oscscreen
+import osc_npyscreen
 
 from osc_tui import main
 
@@ -11,7 +11,7 @@ SERVICE_COMBO = None
 # Multiline selection
 ROUTES_MULTISELECT = None
 
-class CreateNetAccessPoint(oscscreen.FormBaseNew):
+class CreateNetAccessPoint(osc_npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -37,7 +37,7 @@ class CreateNetAccessPoint(oscscreen.FormBaseNew):
             if (not ROUTES_MULTISELECT.get_value()
                 or VPC_COMBO.get_value() is None
                 or SERVICE_COMBO.get_value() is None):
-                oscscreen.notify_confirm(
+                osc_npyscreen.notify_confirm(
                     "No vcp/service or routes selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -64,7 +64,7 @@ class CreateNetAccessPoint(oscscreen.FormBaseNew):
                     ServiceName=service
                 )
                 if "Errors" in res:
-                    oscscreen.notify_confirm(str(res["Errors"]))
+                    osc_npyscreen.notify_confirm(str(res["Errors"]))
                 back()
                 
 
@@ -85,31 +85,31 @@ class CreateNetAccessPoint(oscscreen.FormBaseNew):
         
         global VPC_COMBO
         VPC_COMBO = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             name="CHOOSE A VPC",
             values=vpcs_vals,
             value=VPC_COMBO.get_value() if VPC_COMBO else 0
         )
         global SERVICE_COMBO
         SERVICE_COMBO = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             name="CHOOSE A SERVICE",
             values=services_vals,
             value=SERVICE_COMBO.get_value() if SERVICE_COMBO else 0
         )
         global ROUTES_MULTISELECT
         ROUTES_MULTISELECT  = self.add_widget(
-            oscscreen.TitleMultiSelect,
+            osc_npyscreen.TitleMultiSelect,
             name="SELECT ROUTE TABLE(S)",
             values=routes_vals,
             max_height=6,
             scroll_exit=True
         )
         self.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="CREATE"
             ).whenPressed = create
         self.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="EXIT"
             ).whenPressed = back

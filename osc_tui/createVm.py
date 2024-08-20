@@ -1,4 +1,4 @@
-import oscscreen
+import osc_npyscreen
 from osc_tui import main
 from osc_tui import preloader
 import os
@@ -39,7 +39,7 @@ SELECTED_SG = []
 LIST_THRESHOLD = 6
 POPUP_COLUMNS = 90
 
-class OscCombo(oscscreen.TitleCombo):
+class OscCombo(osc_npyscreen.TitleCombo):
     def __init__(self, *args, **keywords):
         term_size = os.get_terminal_size()
         keywords["popup_columns"] = POPUP_COLUMNS
@@ -48,14 +48,14 @@ class OscCombo(oscscreen.TitleCombo):
         keywords["relx"] = LIST_THRESHOLD
         super().__init__(*args, **keywords)
 
-class OscButtonPress(oscscreen.ButtonPress):
+class OscButtonPress(osc_npyscreen.ButtonPress):
     def __init__(self, *args, **keywords):
         keywords["popup_columns"] = POPUP_COLUMNS
         keywords["popup_lines"] = 40
         keywords["relx"] = LIST_THRESHOLD - 2
         super().__init__(*args, **keywords)
 
-class CreateVm(oscscreen.FormBaseNew):
+class CreateVm(osc_npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -72,7 +72,7 @@ class CreateVm(oscscreen.FormBaseNew):
             ADVANCED_MODE = not ADVANCED_MODE
             self.reload()
 
-        self.add_widget(oscscreen.ButtonPress, name="SHOW " +
+        self.add_widget(osc_npyscreen.ButtonPress, name="SHOW " +
                         ("ADVANCED" if not ADVANCED_MODE else "BASIC") +
                         " SETTINGS", ).whenPressed = switchMode
 
@@ -100,7 +100,7 @@ class CreateVm(oscscreen.FormBaseNew):
         def create():
 
             if IMG_COMBO.get_value() is None or KEYPAIRS_COMBO.get_value() is None:
-                oscscreen.notify_confirm(
+                osc_npyscreen.notify_confirm(
                     "No image/keypair selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -154,7 +154,7 @@ class CreateVm(oscscreen.FormBaseNew):
                 if res is None:
                     return
                 elif "Errors" in res:
-                    oscscreen.notify_confirm(str(res["Errors"]))
+                    osc_npyscreen.notify_confirm(str(res["Errors"]))
                 else:
                     vmId = res["Vms"][0]["VmId"]
                     main.GATEWAY.CreateTags(
@@ -183,7 +183,7 @@ class CreateVm(oscscreen.FormBaseNew):
             keyPairsNames.append(keyPair["KeypairName"])
         global NAME
         NAME = self.add_widget(
-            oscscreen.TitleText,
+            osc_npyscreen.TitleText,
             name="VM name:",
             relx=LIST_THRESHOLD,
             value=NAME.get_value() if NAME else "")
@@ -238,7 +238,7 @@ class CreateVm(oscscreen.FormBaseNew):
                 for s in sgs:
                     if s["SecurityGroupName"] != "default":
                         sg_vals.append(s["SecurityGroupName"])
-                class ConfirmCancelPopup(oscscreen.fmPopup.ActionPopup):
+                class ConfirmCancelPopup(osc_npyscreen.fmPopup.ActionPopup):
                     term_size = os.get_terminal_size()
                     DEFAULT_COLUMNS = 100
                     DEFAULT_LINES = len(sg_vals) + 5
@@ -251,7 +251,7 @@ class CreateVm(oscscreen.FormBaseNew):
 
                 popup = ConfirmCancelPopup(name="Select SGs")
                 SG = popup.add_widget(
-                    oscscreen.MultiSelect,
+                    osc_npyscreen.MultiSelect,
                     name="SG",
                     values=sg_vals,
                     max_height=len(sg_vals) + 1,
@@ -310,21 +310,21 @@ class CreateVm(oscscreen.FormBaseNew):
             )
             global RAM_SIZE
             RAM_SIZE = self.add_widget(
-                oscscreen.TitleText,
+                osc_npyscreen.TitleText,
                 relx=LIST_THRESHOLD,
                 name="Ram(Gb)",
                 value=RAM_SIZE.get_value() if RAM_SIZE else "2"
             )
             global DISK_SIZE
             DISK_SIZE = self.add_widget(
-                oscscreen.TitleText,
+                osc_npyscreen.TitleText,
                 relx=LIST_THRESHOLD,
                 name="Disk(Gib)",
                 value=DISK_SIZE.get_value() if DISK_SIZE else "Default"
             )
             global CORE
             CORE = self.add_widget(
-                oscscreen.TitleText,
+                osc_npyscreen.TitleText,
                 relx=LIST_THRESHOLD,
                 name="number cores",
                 value=CORE.get_value() if CORE else "1"
@@ -342,6 +342,6 @@ class CreateVm(oscscreen.FormBaseNew):
             create()
             back()
         self.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="CREATE").whenPressed = creation
-        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(osc_npyscreen.ButtonPress, name="EXIT").whenPressed = back

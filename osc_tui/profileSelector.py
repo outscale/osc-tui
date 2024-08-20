@@ -5,7 +5,7 @@ import os
 from pathlib import Path
 from osc_tui import preloader
 
-import oscscreen
+import osc_npyscreen
 import requests
 from osc_sdk_python import *
 
@@ -73,7 +73,7 @@ class CallbackFactory:
                             result = func(*args, **kwargs)
                         except requests.exceptions.HTTPError as e:
                             popup.pauseLoader()
-                            oscscreen.notify_confirm(
+                            osc_npyscreen.notify_confirm(
                                 "Error while submitting the request:\n{}\nCode: {}\nReason: {}".
                                 format(main.GATEWAY.log.str(),
                                        e.response.status_code,
@@ -114,27 +114,27 @@ class CallbackFactory:
                         "Cockpit", mainForm.MainForm, name="osc-tui")
                     self.form.parentApp.switchForm("Cockpit")
                 else:
-                    should_destroy_profile = oscscreen.notify_yes_no(
+                    should_destroy_profile = osc_npyscreen.notify_yes_no(
                         "Credentials are not valids.\nDo you want do delete this profile?", "ERROR", )
                     if should_destroy_profile:
                         global OAPI_CREDENTIALS
                         del OAPI_CREDENTIALS[self.name]
                         save_credentials(self.form)
             except Exception as e:
-                oscscreen.notify_confirm("Exeption trow: \"{}\"\nLog in ./osc-tui.log".format(str(e)))
+                osc_npyscreen.notify_confirm("Exeption trow: \"{}\"\nLog in ./osc-tui.log".format(str(e)))
                 traceback.print_exc(file=open("osc-tui.log", "w"))
                 main.kill_threads()
                 exit(1)
         except requests.ConnectionError:
-            oscscreen.notify_confirm(
+            osc_npyscreen.notify_confirm(
                 "Please check your internet connection.", "ERROR")
 
 
-class ProfileSelector(oscscreen.ActionFormV2):
+class ProfileSelector(osc_npyscreen.ActionFormV2):
     to_call=None
     def create(self):
         preloader.Preloader.init()
-        self.how_exited_handers[oscscreen.wgwidget.EXITED_ESCAPE] = main.exit
+        self.how_exited_handers[osc_npyscreen.wgwidget.EXITED_ESCAPE] = main.exit
         global OAPI_CREDENTIALS
         global dst_file
         OAPI_CREDENTIALS = dict()
@@ -151,16 +151,16 @@ class ProfileSelector(oscscreen.ActionFormV2):
                 OAPI_CREDENTIALS = json.loads(configFile.read())
                 configFile.close()
             except json.decoder.JSONDecodeError:
-                oscscreen.notify_confirm("Fail to decode '{}', json most-likely broken".format(dst_file))
+                osc_npyscreen.notify_confirm("Fail to decode '{}', json most-likely broken".format(dst_file))
                 exit(1)
             self.add_widget(
-                oscscreen.Textfield,
+                osc_npyscreen.Textfield,
                 value="Please select a cockpit profile:",
                 editable=False,
             )
             btns = list()
             for c in OAPI_CREDENTIALS:
-                bt = self.add_widget(oscscreen.ButtonPress, name="->" + str(c))
+                bt = self.add_widget(osc_npyscreen.ButtonPress, name="->" + str(c))
                 btns.append(bt)
                 bt.whenPressed = CallbackFactory(self, str(c))
                 if str(c) == PROFILE:
@@ -173,7 +173,7 @@ class ProfileSelector(oscscreen.ActionFormV2):
                 for c in aksk:
                     if c in OAPI_CREDENTIALS:
                         ok = False
-                        if oscscreen.notify_yes_no(
+                        if osc_npyscreen.notify_yes_no(
                                 "An existing profile has the same name.\nContinue and overwrite it?", ""):
                             ok = True
                         break
@@ -181,7 +181,7 @@ class ProfileSelector(oscscreen.ActionFormV2):
                 OAPI_CREDENTIALS.update(aksk)
                 save_credentials(self)
 
-        bt = self.add_widget(oscscreen.ButtonPress, name="NEW PROFILE")
+        bt = self.add_widget(osc_npyscreen.ButtonPress, name="NEW PROFILE")
         bt.whenPressed = new
         logo_complex = """
 
@@ -201,7 +201,7 @@ class ProfileSelector(oscscreen.ActionFormV2):
 """
 
         logo = logo_complex if not ASCII_LOGO else logo_simple
-        self.add_widget(oscscreen.MultiLineEdit, value=logo,
+        self.add_widget(osc_npyscreen.MultiLineEdit, value=logo,
                         editable=False, multiline=True)
 
     def create_control_buttons(self):

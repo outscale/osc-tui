@@ -1,4 +1,4 @@
-import oscscreen
+import osc_npyscreen
 
 from osc_tui import main
 
@@ -16,7 +16,7 @@ SUBREGION = None
 SIZE = None
 
 
-class CreateVolume(oscscreen.FormBaseNew):
+class CreateVolume(osc_npyscreen.FormBaseNew):
     def __init__(self, *args, **keywords):
         super().__init__(*args, **keywords)
 
@@ -36,7 +36,7 @@ class CreateVolume(oscscreen.FormBaseNew):
         def create():
 
             if SNAPSHOT_COMBO.get_value() is None or SUBREGION.get_value() is None:
-                oscscreen.notify_confirm(
+                osc_npyscreen.notify_confirm(
                     "No snapshot/subregion selected, please select one.",
                     title="Argument Missing",
                     form_color="STANDOUT",
@@ -61,7 +61,7 @@ class CreateVolume(oscscreen.FormBaseNew):
                     VolumeType=volumeType
                 )
                 if "Errors" in res:
-                    oscscreen.notify_confirm(str(res["Errors"]))
+                    osc_npyscreen.notify_confirm(str(res["Errors"]))
                 else:
                     volumeId = res["Volume"]["VolumeId"]
                     main.GATEWAY.CreateTags(
@@ -83,19 +83,19 @@ class CreateVolume(oscscreen.FormBaseNew):
 
         global NAME
         NAME = self.add_widget(
-            oscscreen.TitleText,
+            osc_npyscreen.TitleText,
             name="Volume name:",
             value=NAME.get_value() if NAME else "")
         global SNAPSHOT_COMBO
         SNAPSHOT_COMBO = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             name="CHOOSE SNAPSHOT",
             values=snapshots_vals,
             value=SNAPSHOT_COMBO.get_value() if SNAPSHOT_COMBO else 0,
         )
         global TYPE
         TYPE = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             name="CHOOSE A TYPE",
             values=["standard", "io1", "gp2"],
             value=TYPE.get_value() if TYPE else 0,
@@ -106,19 +106,19 @@ class CreateVolume(oscscreen.FormBaseNew):
         for subregion in subregions:
             subregions_vals.append(subregion["SubregionName"])
         SUBREGION = self.add_widget(
-            oscscreen.TitleCombo,
+            osc_npyscreen.TitleCombo,
             name="CHOOSE A SUBREGION",
             values=subregions_vals,
             value=SUBREGION.get_value() if SUBREGION else 0
         )
         global SIZE
         SIZE = self.add_widget(
-            oscscreen.TitleText,
+            osc_npyscreen.TitleText,
             name="CHOOSE A SIZE (gib)",
             value=SIZE.get_value() if SIZE else "10"
         )
 
         self.add_widget(
-            oscscreen.ButtonPress,
+            osc_npyscreen.ButtonPress,
             name="CREATE").whenPressed = create
-        self.add_widget(oscscreen.ButtonPress, name="EXIT").whenPressed = back
+        self.add_widget(osc_npyscreen.ButtonPress, name="EXIT").whenPressed = back

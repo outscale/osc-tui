@@ -5,7 +5,7 @@ import sys
 import os
 import json
 
-import oscscreen
+import osc_npyscreen
 from requests import get
 
 from osc_sdk_python import authentication
@@ -96,9 +96,9 @@ def do_search(array, lookup_list: List[str], name_as_tag=False, az=False, state_
 # APPLICATION CLASS
 
 
-class App(oscscreen.NPSAppManaged):
+class App(osc_npyscreen.NPSAppManaged):
     def onStart(self):
-        oscscreen.setTheme(oscscreen.Themes.DefaultTheme)
+        osc_npyscreen.setTheme(osc_npyscreen.Themes.DefaultTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
                      name="osc-tui")
 

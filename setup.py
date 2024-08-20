@@ -15,8 +15,8 @@ setup(
         "requests>=2.28.1",
         "osc-sdk-python>=0.26.0",
         "pyperclip>=1.8.0",
-        'osc_diagram @ git+https://github.com/outscale-mgo/osc-diagram@master#egg=osc_diagram',
-        'oscscreen @ git+https://github.com/outscale/npyscreen.git@master',
+        'osc_diagram',
+        'osc_npyscreen',
         'requests'
     ],
 )
