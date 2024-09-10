@@ -439,6 +439,7 @@ class MainForm(osc_npyscreen.FormBaseNew):
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})
+        self.add_handlers({"?": popup.showHelp})
         self.add_handlers({"/": popup.slashSearch})
         self.add_handlers({"C": self.create_new})
         self.add_handlers({"V": self.switch_to_volumes})
