@@ -28,10 +28,10 @@ jobs:
       run: |
         python -m venv env
         . .venv/bin/activate
-	python -m pip install -e .
+        python -m pip install -e .
         python -m pip install --upgrade build
         python -m pip install --upgrade twine
-	python -m build
+        python -m build
         twine upload --verbose  dist/*
       env:
         TWINE_USERNAME: "__token__"
