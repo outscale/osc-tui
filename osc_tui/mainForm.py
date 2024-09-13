@@ -7,6 +7,8 @@ import graphviz
 
 import osc_sdk_python
 
+import time
+
 from osc_tui import createImage
 from osc_tui import createKeyPair
 from osc_tui import createSnapshot
@@ -231,6 +233,7 @@ class mainMenu(osc_npyscreen.MultiLineAction):
         super().set_up_handlers()
         self.add_handlers({curses.KEY_RIGHT: self.h_exit_down})
         self.add_handlers({curses.KEY_LEFT: self.h_exit_up})
+        #self.add_handlers({curses.ascii.TAB: self.h_exit_up})
 
     def h_cursor_line_up(self, input):
         super().h_cursor_line_up(input)
@@ -436,6 +439,7 @@ class MainForm(osc_npyscreen.FormBaseNew):
 
     def set_up_handlers(self):
         super().set_up_handlers()
+        
         self.add_handlers({"q": self.quit_key})
         self.add_handlers({"^Q": quit})
         self.add_handlers({"h": popup.showHelp})

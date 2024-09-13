@@ -16,7 +16,7 @@ jobs:
     - name: install fuse
       run: |
         sudo apt-get update --fix-missing
-        sudo apt-get install -y -f -o Acquire::Retries=3 fuse
+        sudo apt-get install -y -f -o Acquire::Retries=3 fuse python
 
     - name: configure
       run: ./configure.sh --release
@@ -24,6 +24,20 @@ jobs:
     - name: make
       run: make appimage-bld/osc-tui-x86_64.AppImage
       
+    - name: twine
+      run: |
+        python -m venv env
+        . .venv/bin/activate
+	python -m pip install -e .
+        python -m pip install --upgrade build
+        python -m pip install --upgrade twine
+	python -m build
+        twine upload --verbose  dist/*
+      env:
+        TWINE_USERNAME: "__token__"
+        TWINE_PASSWORD: ${{ secrets.PIP_TOKEN }}
+
+
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.TOKEN }}"
