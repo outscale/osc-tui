@@ -24,7 +24,7 @@ jobs:
     - name: make
       run: make appimage-bld/osc-tui-x86_64.AppImage
       
-    - uses: "actions/upload-artifact@v2"
+    - uses: "actions/upload-artifact@v4"
       with:
           name: build
           path: appimage-bld/osc-tui-x86_64.AppImage
