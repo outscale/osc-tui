@@ -19,3 +19,21 @@ class userGrid(selectableGrid.SelectableGrid):
             values.append([g['UserId'], g['UserName'], g['UserEmail'],
                            g["CreationDate"]])
         self.values = values
+
+class userGroupGrid(selectableGrid.SelectableGrid):
+    def __init__(self, screen, *args, **keywords):
+        super().__init__(screen, *args, **keywords)
+        self.col_titles = ["Id", "Name", "Path", "Orn", "CreationDate"]
+
+    def refresh_call(self, name_filter=None):
+        groups = main.GATEWAY.ReadUserGroups(form=self.form)['UserGroups']
+        return groups
+
+    def refresh(self):
+        groups = main.do_search(self.data.copy(), ["UserGroupId", "Name",
+                                                   "Path", "Orn", "CreationDate"])
+        values = list()
+        for g in groups:
+            values.append([g['UserGroupId'], g['Name'], g['Path'], g["Orn"],
+                           g["CreationDate"]])
+        self.values = values
