@@ -97,8 +97,27 @@ def do_search(array, lookup_list: List[str], name_as_tag=False, az=False, state_
 
 
 class App(osc_npyscreen.NPSAppManaged):
+    def txtColotToTheme(self, color):
+        if color == "Default":
+            return osc_npyscreen.Themes.DefaultTheme
+        elif color == "Elegant":
+            return osc_npyscreen.Themes.ElegantTheme
+        elif color == "Colorful":
+            return osc_npyscreen.Themes.ColorfulTheme
+        elif color == "BlackOnWhite":
+            return osc_npyscreen.Themes.BlackOnWhiteTheme
+        elif color == "TransparentDark":
+            return osc_npyscreen.Themes.TransparentThemeDarkText
+        elif color == "TransparentLight":
+            return osc_npyscreen.Themes.TransparentThemeLightText
+        return osc_npyscreen.Themes.DefaultTheme
+
+    def __init__(self, color):
+        self.colorTheme = self.txtColotToTheme(color)
+        super().__init__()
+
     def onStart(self):
-        osc_npyscreen.setTheme(osc_npyscreen.Themes.DefaultTheme)
+        osc_npyscreen.setTheme(self.colorTheme)
         self.addForm("MAIN", profileSelector.ProfileSelector,
                      name="osc-tui")
 
@@ -109,12 +128,14 @@ def help():
 -v, --version:          print version
 -h, --help:             print this help
     --profile [PROFILE] select default profile, list all profiles if PROFILE not found
+    --color-theme [THEME]         select default color theme
     --mode MODE         select default mode
     --ascii-logo        use ascii for logo
 """
     )
 
 def main():
+    color=None
     argc = len(sys.argv)
     argv = sys.argv
 
@@ -140,6 +161,12 @@ RouteTables DhcpOptions GPUs
 """)
                     return 1
                 profileSelector.MODE = argv[i]
+            elif a == "--color-theme":
+                i += 1
+                if i == argc:
+                    print("--color-theme require one of those theme: Default, Elegant, Colorful, BlackOnWhite, TransparentDark, TransparentLight")
+                    return 0;
+                color=argv[i]
             elif a == "--profile":
                 i += 1
                 if i == argc:
@@ -165,7 +192,7 @@ RouteTables DhcpOptions GPUs
 
     try:
         guiRules.parse()
-        APP = App()
+        APP = App(color)
         APP.run()
     except KeyboardInterrupt:
         kill_threads()
