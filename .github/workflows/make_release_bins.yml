@@ -27,7 +27,7 @@ jobs:
     - uses: "marvinpinto/action-automatic-releases@latest"
       with:
           repo_token: "${{ secrets.TOKEN }}"
-          automatic_release_tag: "v24.09.0"
+          automatic_release_tag: "v24.12.0"
           prerelease: true
           title: "Fix Release"
           files: |

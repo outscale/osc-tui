@@ -33,7 +33,7 @@ except (Exception,KeyboardInterrupt):
 # Because it's cool but also a DDOS attack :)
 # So let's be cool with the API --> No auto refresh!
 POLL_ENABLED = False
-VERSION = 240900
+VERSION = 241200
 # GLOBALS METHODS
 
 CURRENT_GRID=None

@@ -10,7 +10,7 @@ def get_long_description():
 
 setup(
     name='osc-tui',
-    version="24.09.0",
+    version="24.12.0",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
     packages=find_packages(),
