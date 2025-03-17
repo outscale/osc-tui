@@ -2,6 +2,7 @@ import curses
 from threading import Thread
 import os
 import json
+import datetime
 
 import osc_npyscreen
 import osc_npyscreen.fmPopup
@@ -170,6 +171,10 @@ def editInstance(form, instance, form_color='STANDOUT'):
         osc_npyscreen.ButtonPress,
         name="ADD TO LBU",
     )
+    image_from = F.add_widget(
+        osc_npyscreen.ButtonPress,
+        name="CREATE IMAGE FROM VM",
+    )
     # Now managing actions and wich buttons to hide or not.
     force_stop.hidden = (True if status == "stopped"
                          or status == "terminated" else False)
@@ -244,6 +249,14 @@ def editInstance(form, instance, form_color='STANDOUT'):
         exit()
         form.reload()
 
+    def image_from_cb():
+        this_name = name
+        this_name = this_name + " " + datetime.datetime.today().strftime('%Y-%m-%d')
+        mainForm.MODE = 'Images'
+        main.GATEWAY.CreateImage(VmId=id, NoReboot=True, ImageName=this_name)
+        exit()
+        form.reload()
+
     def add_to_lbu():
         osc_npyscreen.notify_confirm("Not implemented yet :/")
 
@@ -256,6 +269,7 @@ def editInstance(form, instance, form_color='STANDOUT'):
     terminate.whenPressed = terminate_vm
     copy_ip.whenPressed = _copy_ip
     volumes.whenPressed = volumes_cb
+    image_from.whenPressed = image_from_cb
     lbu.whenPressed = add_to_lbu
     F.edit()
 
