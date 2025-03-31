@@ -189,6 +189,7 @@ class VolumeGridForOneInstance(selectableGrid.SelectableGrid):
         self.on_selection = on_selection
 
     def refresh_call(self, name_filter=None):
+        id = main.VM["VmId"]
         groups = main.GATEWAY.ReadVolumes(
             form=self.form, Filters={
                 'LinkVolumeVmIds': [id]})
